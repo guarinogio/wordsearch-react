@@ -12,6 +12,7 @@ type Props = {
 export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
   const [startCell, setStartCell] = useState<Cell | null>(null);
   const [hoverCell, setHoverCell] = useState<Cell | null>(null);
+  const [pressedCell, setPressedCell] = useState<Cell | null>(null);
 
   const currentPath = useMemo(() => {
     if (!startCell || !hoverCell) return [];
@@ -35,6 +36,7 @@ export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
     if (placement && !foundValues.has(placement.value)) onFound(placement.value);
     setStartCell(null);
     setHoverCell(null);
+    setPressedCell(null);
   };
 
   const startSelection = (cell: Cell) => {
@@ -49,12 +51,16 @@ export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
       onPointerMove={(event) => {
         if (mode !== "select" || !startCell) return;
         const nextCell = getCellFromPoint(event.clientX, event.clientY);
-        if (nextCell) setHoverCell(nextCell);
+        if (nextCell) {
+          setHoverCell(nextCell);
+          setPressedCell(nextCell);
+        }
       }}
       onPointerUp={finishSelection}
       onPointerCancel={() => {
         setStartCell(null);
         setHoverCell(null);
+        setPressedCell(null);
       }}
       style={{ gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))` }}
     >
@@ -63,6 +69,7 @@ export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
           const key = `${rowIndex}:${colIndex}`;
           const isSelected = selectedCells.has(key);
           const isFound = foundCells.has(key);
+          const isPressed = pressedCell?.row === rowIndex && pressedCell?.col === colIndex;
           return (
             <button
               key={key}
@@ -70,14 +77,17 @@ export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
               data-cell="true"
               data-row={rowIndex}
               data-col={colIndex}
-              className={["cell", isSelected ? "selected" : "", isFound ? "found" : ""].join(" ")}
+              className={["cell", isSelected ? "selected" : "", isFound ? "found" : "", isPressed ? "pressed" : ""].join(" ")}
               onPointerDown={(event) => {
                 if (mode !== "select") return;
                 event.preventDefault();
                 event.currentTarget.setPointerCapture(event.pointerId);
-                startSelection({ row: rowIndex, col: colIndex });
+                const cell = { row: rowIndex, col: colIndex };
+                setPressedCell(cell);
+                startSelection(cell);
               }}
             >
+              <span className="cellPop" aria-hidden="true">{letter}</span>
               {letter}
             </button>
           );

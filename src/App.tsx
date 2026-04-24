@@ -56,38 +56,38 @@ function PuzzleBoard({
       </div>
 
       <div className="boardCard">
-        <TransformWrapper
-          minScale={0.25}
-          maxScale={5}
-          initialScale={1}
-          centerOnInit
-          doubleClick={{ disabled: true }}
-          panning={{ disabled: !moveEnabled }}
-          pinch={{ disabled: false }}
-          wheel={{ disabled: false }}
-        >
-          {({ zoomIn, zoomOut, resetTransform }) => (
-            <>
-              <div className="zoomControls">
-                <button type="button" onClick={() => zoomOut()}>−</button>
-                <button type="button" onClick={() => resetTransform()}>Reset</button>
-                <button type="button" onClick={() => zoomIn()}>+</button>
-              </div>
+        
+<div className="boardControls">
+  <div className="zoomControls">
+    <button type="button" onClick={() => zoomOut()}>−</button>
+    <button type="button" onClick={() => resetTransform()}>Reset</button>
+    <button type="button" onClick={() => zoomIn()}>+</button>
+  </div>
 
-              <button
-                type="button"
-                className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
-                onClick={() => setMoveEnabled((value) => !value)}
-              >
-                {moveEnabled ? "Mover ON" : "Mover OFF"}
-              </button>
+  <button
+    type="button"
+    className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
+    onClick={() => setMoveEnabled((value) => !value)}
+  >
+    {moveEnabled ? "Mover ON" : "Mover OFF"}
+  </button>
+</div>
 
-              <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
-                <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
-              </TransformComponent>
-            </>
-          )}
-        </TransformWrapper>
+<TransformWrapper
+  minScale={0.25}
+  maxScale={5}
+  initialScale={1}
+  centerOnInit
+  doubleClick={{ disabled: true }}
+  panning={{ disabled: !moveEnabled }}
+>
+  {({ zoomIn, zoomOut, resetTransform }) => (
+    <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
+      <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
+    </TransformComponent>
+  )}
+</TransformWrapper>
+
       </div>
 
       <div className="words">
@@ -205,7 +205,10 @@ function DailyPage() {
 }
 
 export default function App() {
-  const nearestDate = getNearestDate();
+  
+const [menuOpen, setMenuOpen] = useState(false);
+
+const nearestDate = getNearestDate();
 
   return (
     <Routes>

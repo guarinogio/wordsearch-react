@@ -112,13 +112,6 @@ h2 {
 
 .zoomControls button,
 .moveToggle,
-.floatingClear {
-  border: 0;
-  border-radius: 999px;
-  font-weight: 900;
-  box-shadow: 0 8px 22px rgba(15,23,42,.12);
-}
-
 .zoomControls button {
   background: #f1f5f9;
   color: #475569;
@@ -158,23 +151,9 @@ h2 {
   width: max-content;
 }
 
-.floatingClear {
-  position: absolute;
-  z-index: 30;
-  right: 0;
-  top: -54px;
-  background: #172033;
-  color: white;
   padding: 9px 14px;
 }
 
-.floatingClear:disabled {
-  opacity: .42;
-}
-
-.gridShell {
-  display: grid;
-  gap: max(1px, calc(var(--cell-size) * .12));
   padding: max(4px, calc(var(--cell-size) * .3));
   border-radius: max(10px, calc(var(--cell-size) * .6));
   background: #e2e8f0;
@@ -291,13 +270,6 @@ h2 {
     top: 64px;
   }
 
-  .floatingClear {
-    top: -50px;
-  }
-}
-
-/* Fix mobile controls layout */
-.boardCard {
   overflow: hidden;
 }
 
@@ -326,4 +298,69 @@ h2 {
     right: auto;
     top: 70px;
   }
+}
+
+.boardControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.zoomControls {
+  display: flex;
+  gap: 6px;
+}
+
+.zoomControls button {
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: none;
+}
+
+.moveToggle {
+  background: #f1f5f9;
+  padding: 8px 12px;
+  border-radius: 999px;
+}
+
+.moveToggle.active {
+  background: #172033;
+  color: white;
+}
+
+.hamburger {
+  background: #172033;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+.menu {
+  position: absolute;
+  top: 70px;
+  right: 12px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  padding: 10px;
+  z-index: 100;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.menuItem {
+  display: block;
+  padding: 8px 12px;
+  color: #172033;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.menuItem:hover {
+  background: #f1f5f9;
 }

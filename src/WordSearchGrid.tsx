@@ -68,7 +68,7 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
     <div className="wordSearchGrid">
       <button
         type="button"
-        className="floatingClear"
+        className="__deleted__"
         onClick={() => setManualPath([])}
         disabled={manualPath.length === 0}
       >

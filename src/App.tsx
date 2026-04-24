@@ -80,7 +80,7 @@ function PuzzleBoard({
                 className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
                 onClick={() => setMoveEnabled((value) => !value)}
               >
-                {moveEnabled ? "Mover ON" : "Mover OFF"}
+                {moveEnabled ? "Move ON" : "Move OFF"}
               </button>
             </div>
 
@@ -95,7 +95,7 @@ function PuzzleBoard({
 
       <div className="words">
         <div className="wordsHeader">
-          <h2>Palabras</h2>
+          <h2>Words</h2>
           <span>{foundPercent}%</span>
         </div>
 
@@ -154,8 +154,8 @@ function DailyPage() {
   if (notFound) {
     return (
       <main className="app">
-        <h1>Puzzle no encontrado</h1>
-        <p className="hint">No existe data para {selectedDate}.</p>
+        <h1>Puzzle not found</h1>
+        <p className="hint">No puzzle data found for {selectedDate}.</p>
       </main>
     );
   }
@@ -163,7 +163,7 @@ function DailyPage() {
   if (!data) {
     return (
       <main className="app">
-        <h1>Cargando…</h1>
+        <h1>Loading…</h1>
       </main>
     );
   }
@@ -183,7 +183,7 @@ function DailyPage() {
             type="button"
             className="hamburger"
             onClick={() => setMenuOpen((value) => !value)}
-            aria-label="Abrir menú de fechas"
+            aria-label="Open dates menu"
           >
             ☰
           </button>
@@ -196,12 +196,12 @@ function DailyPage() {
         <div className="sidebarOverlay" onClick={() => setMenuOpen(false)}>
           <aside className="sidebar" onClick={(event) => event.stopPropagation()}>
             <div className="sidebarHeader">
-              <strong>Fechas</strong>
+              <strong>Dates</strong>
               <button
                 type="button"
                 className="sidebarClose"
                 onClick={() => setMenuOpen(false)}
-                aria-label="Cerrar menú"
+                aria-label="Close menu"
               >
                 ×
               </button>
@@ -225,7 +225,7 @@ function DailyPage() {
 
       <section className="toolbar" aria-label="Controles">
         <span className="hint">
-          Toca letras para seleccionar · activa Mover para arrastrar · pinch para zoom
+          Tap letters to select · enable Move to pan · pinch to zoom
         </span>
       </section>
 
@@ -248,7 +248,7 @@ function DailyPage() {
       })}
 
       {totals.total > 0 && totals.found === totals.total && (
-        <div className="complete">Completaste todos los puzzles 🎉</div>
+        <div className="complete">You completed all puzzles 🎉</div>
       )}
     </main>
   );

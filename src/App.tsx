@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { WordSearchGrid } from "./WordSearchGrid";
+import { InstallPrompt } from "./InstallPrompt";
 import type { DailyPuzzle, DailyPuzzlesData } from "./types";
 
 const puzzleModules = import.meta.glob("./data/daily-puzzles-*.ts");
@@ -169,6 +170,8 @@ function DailyPage() {
 
   return (
     <main className="app">
+      <InstallPrompt />
+
       <header className="header">
         <div>
           <p className="eyebrow">{data.date}</p>

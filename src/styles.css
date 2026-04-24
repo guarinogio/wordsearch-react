@@ -1958,3 +1958,59 @@ html[data-theme="glinda"] .puzzleTab.active strong {
   background: rgba(255,255,255,.22);
   color: white;
 }
+
+/* Rectangular puzzle support: let 10x16 grow vertically */
+.boardCard {
+  height: auto;
+  min-height: 0;
+}
+
+.transformWrapper {
+  height: auto !important;
+}
+
+.transformContent {
+  height: max-content;
+}
+
+/* Rectangular board: fit grid width, grow downward */
+.boardCard {
+  width: fit-content;
+  max-width: 100%;
+  height: auto;
+  min-height: 0;
+  margin-inline: auto;
+  padding: 10px;
+  overflow: visible;
+}
+
+.transformWrapper {
+  width: fit-content !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.transformContent {
+  width: max-content;
+  height: max-content;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.wordSearchGrid {
+  width: max-content;
+  max-width: 100%;
+}
+
+.gridShell {
+  width: var(--board-width);
+  max-width: 100%;
+}
+
+@media (max-width: 520px) {
+  .boardCard {
+    padding: 8px;
+  }
+}

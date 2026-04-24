@@ -24,6 +24,8 @@ export type Placement = {
 export type DailyPuzzle = {
   id: number;
   size: number;
+  rows: number;
+  cols: number;
   topic: string;
   words: DailyWord[];
   grid: string[][];
@@ -42,11 +44,13 @@ export const dailyPuzzles: DailyPuzzlesData = {
   "id": "2026-04-24",
   "date": "2026-04-24",
   "topic": "Manual",
-  "hash": "b5c6191e4d10125dad7b1255972c16b80c3e177f1bbe9d43964ad46da6850253",
+  "hash": "855da81f44e17ab512fd736f6eb82e6b3a8fad0060319e09bf123c4e7b1ec4fc",
   "puzzles": [
     {
       "id": 1,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "Hamilton Musical",
       "words": [
         {
@@ -80,128 +84,216 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "Yorktown",
           "value": "YORKTOWN"
+        },
+        {
+          "label": "Schuyler",
+          "value": "SCHUYLER"
+        },
+        {
+          "label": "Treasury",
+          "value": "TREASURY"
+        },
+        {
+          "label": "Congress",
+          "value": "CONGRESS"
+        },
+        {
+          "label": "Federal",
+          "value": "FEDERAL"
         }
       ],
       "grid": [
         [
-          "F",
-          "Z",
-          "Y",
-          "B",
-          "U",
-          "R",
-          "R",
-          "N",
-          "J",
-          "N"
-        ],
-        [
-          "H",
-          "L",
-          "J",
-          "L",
-          "D",
-          "G",
-          "O",
-          "F",
-          "W",
-          "U"
-        ],
-        [
-          "K",
-          "E",
-          "I",
-          "T",
-          "Z",
-          "T",
-          "N",
-          "O",
-          "M",
-          "A"
-        ],
-        [
-          "O",
-          "U",
-          "J",
+          "S",
+          "S",
           "C",
+          "H",
+          "U",
+          "Y",
           "L",
           "E",
-          "T",
-          "D",
-          "N",
-          "K"
+          "R",
+          "C"
         ],
         [
-          "Q",
-          "D",
           "N",
-          "I",
-          "A",
-          "K",
+          "C",
+          "N",
+          "O",
+          "T",
           "L",
+          "I",
+          "M",
+          "A",
+          "H"
+        ],
+        [
+          "Y",
+          "C",
+          "A",
           "G",
-          "Z",
+          "E",
+          "L",
+          "A",
+          "U",
+          "Y",
           "Y"
         ],
         [
+          "A",
+          "N",
           "G",
-          "Y",
-          "M",
-          "X",
-          "R",
-          "B",
           "E",
+          "L",
           "I",
           "C",
-          "J"
+          "A",
+          "J",
+          "P"
         ],
         [
-          "O",
-          "A",
-          "L",
-          "O",
-          "I",
-          "L",
-          "I",
-          "A",
-          "Z",
-          "G"
-        ],
-        [
-          "H",
-          "R",
-          "Y",
-          "T",
-          "I",
-          "E",
-          "G",
-          "N",
+          "F",
           "S",
+          "G",
+          "F",
+          "V",
+          "Z",
+          "H",
+          "Z",
+          "W",
+          "T"
+        ],
+        [
+          "K",
+          "C",
+          "G",
+          "W",
+          "J",
+          "C",
+          "L",
+          "J",
+          "E",
+          "N"
+        ],
+        [
+          "T",
+          "A",
+          "O",
+          "U",
+          "F",
+          "A",
+          "U",
+          "N",
+          "W",
+          "K"
+        ],
+        [
+          "B",
+          "U",
+          "R",
+          "R",
+          "R",
+          "J",
+          "I",
+          "O",
+          "W",
+          "Y"
+        ],
+        [
+          "D",
+          "L",
+          "C",
+          "E",
+          "O",
+          "B",
+          "T",
+          "S",
+          "P",
+          "R"
+        ],
+        [
+          "C",
+          "V",
+          "D",
+          "M",
+          "A",
+          "K",
+          "K",
+          "S",
+          "Q",
+          "U"
+        ],
+        [
+          "T",
+          "E",
+          "U",
+          "C",
+          "R",
+          "T",
+          "C",
+          "E",
+          "E",
+          "S"
+        ],
+        [
+          "F",
+          "N",
+          "X",
+          "O",
+          "Y",
+          "W",
+          "P",
+          "R",
+          "L",
           "A"
         ],
         [
-          "T",
-          "P",
-          "G",
-          "C",
+          "O",
           "X",
-          "E",
-          "R",
+          "Y",
+          "L",
+          "L",
+          "Y",
+          "B",
           "G",
-          "E",
-          "B"
+          "I",
+          "E"
         ],
         [
-          "B",
-          "D",
+          "Z",
+          "T",
+          "L",
+          "L",
+          "E",
+          "X",
           "A",
-          "D",
+          "N",
+          "Z",
+          "R"
+        ],
+        [
+          "W",
           "L",
-          "M",
-          "R",
-          "L",
-          "G",
+          "K",
+          "N",
+          "U",
+          "C",
+          "O",
+          "O",
+          "A",
           "T"
+        ],
+        [
+          "S",
+          "E",
+          "R",
+          "O",
+          "D",
+          "V",
+          "A",
+          "C",
+          "B",
+          "P"
         ]
       ],
       "placements": [
@@ -211,46 +303,46 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "ANGELICA",
           "clean": "ANGELICA",
           "start": {
-            "row": 2,
-            "col": 9
+            "row": 3,
+            "col": 0
           },
           "end": {
-            "row": 9,
-            "col": 2
+            "row": 3,
+            "col": 7
           },
-          "direction": "SW",
+          "direction": "E",
           "path": [
             {
-              "row": 2,
-              "col": 9
+              "row": 3,
+              "col": 0
             },
             {
               "row": 3,
-              "col": 8
+              "col": 1
             },
             {
-              "row": 4,
-              "col": 7
+              "row": 3,
+              "col": 2
             },
             {
-              "row": 5,
-              "col": 6
-            },
-            {
-              "row": 6,
-              "col": 5
-            },
-            {
-              "row": 7,
-              "col": 4
-            },
-            {
-              "row": 8,
+              "row": 3,
               "col": 3
             },
             {
-              "row": 9,
-              "col": 2
+              "row": 3,
+              "col": 4
+            },
+            {
+              "row": 3,
+              "col": 5
+            },
+            {
+              "row": 3,
+              "col": 6
+            },
+            {
+              "row": 3,
+              "col": 7
             }
           ]
         },
@@ -260,30 +352,30 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "BURR",
           "clean": "BURR",
           "start": {
-            "row": 0,
-            "col": 3
+            "row": 7,
+            "col": 0
           },
           "end": {
-            "row": 0,
-            "col": 6
+            "row": 7,
+            "col": 3
           },
           "direction": "E",
           "path": [
             {
-              "row": 0,
+              "row": 7,
+              "col": 0
+            },
+            {
+              "row": 7,
+              "col": 1
+            },
+            {
+              "row": 7,
+              "col": 2
+            },
+            {
+              "row": 7,
               "col": 3
-            },
-            {
-              "row": 0,
-              "col": 4
-            },
-            {
-              "row": 0,
-              "col": 5
-            },
-            {
-              "row": 0,
-              "col": 6
             }
           ]
         },
@@ -293,42 +385,91 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "CABINET",
           "clean": "CABINET",
           "start": {
-            "row": 3,
+            "row": 10,
             "col": 3
           },
           "end": {
-            "row": 9,
+            "row": 4,
             "col": 9
           },
-          "direction": "SE",
+          "direction": "NE",
           "path": [
             {
-              "row": 3,
+              "row": 10,
               "col": 3
             },
             {
-              "row": 4,
+              "row": 9,
               "col": 4
             },
             {
-              "row": 5,
+              "row": 8,
               "col": 5
             },
             {
-              "row": 6,
+              "row": 7,
               "col": 6
             },
             {
-              "row": 7,
+              "row": 6,
+              "col": 7
+            },
+            {
+              "row": 5,
+              "col": 8
+            },
+            {
+              "row": 4,
+              "col": 9
+            }
+          ]
+        },
+        {
+          "label": "Congress",
+          "value": "CONGRESS",
+          "word": "CONGRESS",
+          "clean": "CONGRESS",
+          "start": {
+            "row": 15,
+            "col": 7
+          },
+          "end": {
+            "row": 8,
+            "col": 7
+          },
+          "direction": "N",
+          "path": [
+            {
+              "row": 15,
+              "col": 7
+            },
+            {
+              "row": 14,
+              "col": 7
+            },
+            {
+              "row": 13,
+              "col": 7
+            },
+            {
+              "row": 12,
+              "col": 7
+            },
+            {
+              "row": 11,
+              "col": 7
+            },
+            {
+              "row": 10,
+              "col": 7
+            },
+            {
+              "row": 9,
               "col": 7
             },
             {
               "row": 8,
-              "col": 8
-            },
-            {
-              "row": 9,
-              "col": 9
+              "col": 7
             }
           ]
         },
@@ -338,30 +479,30 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "DUEL",
           "clean": "DUEL",
           "start": {
-            "row": 4,
-            "col": 1
+            "row": 15,
+            "col": 4
           },
           "end": {
-            "row": 1,
-            "col": 1
+            "row": 12,
+            "col": 4
           },
           "direction": "N",
           "path": [
             {
-              "row": 4,
-              "col": 1
+              "row": 15,
+              "col": 4
             },
             {
-              "row": 3,
-              "col": 1
+              "row": 14,
+              "col": 4
             },
             {
-              "row": 2,
-              "col": 1
+              "row": 13,
+              "col": 4
             },
             {
-              "row": 1,
-              "col": 1
+              "row": 12,
+              "col": 4
             }
           ]
         },
@@ -371,34 +512,79 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "ELIZA",
           "clean": "ELIZA",
           "start": {
-            "row": 3,
-            "col": 5
+            "row": 10,
+            "col": 8
           },
           "end": {
-            "row": 7,
-            "col": 9
+            "row": 14,
+            "col": 8
           },
-          "direction": "SE",
+          "direction": "S",
           "path": [
             {
-              "row": 3,
-              "col": 5
-            },
-            {
-              "row": 4,
-              "col": 6
-            },
-            {
-              "row": 5,
-              "col": 7
-            },
-            {
-              "row": 6,
+              "row": 10,
               "col": 8
             },
             {
+              "row": 11,
+              "col": 8
+            },
+            {
+              "row": 12,
+              "col": 8
+            },
+            {
+              "row": 13,
+              "col": 8
+            },
+            {
+              "row": 14,
+              "col": 8
+            }
+          ]
+        },
+        {
+          "label": "Federal",
+          "value": "FEDERAL",
+          "word": "FEDERAL",
+          "clean": "FEDERAL",
+          "start": {
+            "row": 11,
+            "col": 0
+          },
+          "end": {
+            "row": 5,
+            "col": 6
+          },
+          "direction": "NE",
+          "path": [
+            {
+              "row": 11,
+              "col": 0
+            },
+            {
+              "row": 10,
+              "col": 1
+            },
+            {
+              "row": 9,
+              "col": 2
+            },
+            {
+              "row": 8,
+              "col": 3
+            },
+            {
               "row": 7,
-              "col": 9
+              "col": 4
+            },
+            {
+              "row": 6,
+              "col": 5
+            },
+            {
+              "row": 5,
+              "col": 6
             }
           ]
         },
@@ -408,46 +594,46 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "HAMILTON",
           "clean": "HAMILTON",
           "start": {
-            "row": 7,
-            "col": 0
+            "row": 1,
+            "col": 9
           },
           "end": {
-            "row": 0,
-            "col": 7
+            "row": 1,
+            "col": 2
           },
-          "direction": "NE",
+          "direction": "W",
           "path": [
             {
-              "row": 7,
-              "col": 0
+              "row": 1,
+              "col": 9
             },
             {
-              "row": 6,
-              "col": 1
+              "row": 1,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 2
-            },
-            {
-              "row": 4,
-              "col": 3
-            },
-            {
-              "row": 3,
-              "col": 4
-            },
-            {
-              "row": 2,
-              "col": 5
+              "row": 1,
+              "col": 7
             },
             {
               "row": 1,
               "col": 6
             },
             {
-              "row": 0,
-              "col": 7
+              "row": 1,
+              "col": 5
+            },
+            {
+              "row": 1,
+              "col": 4
+            },
+            {
+              "row": 1,
+              "col": 3
+            },
+            {
+              "row": 1,
+              "col": 2
             }
           ]
         },
@@ -457,37 +643,135 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "LEGACY",
           "clean": "LEGACY",
           "start": {
-            "row": 9,
-            "col": 4
+            "row": 2,
+            "col": 5
           },
           "end": {
-            "row": 4,
-            "col": 9
+            "row": 2,
+            "col": 0
           },
-          "direction": "NE",
+          "direction": "W",
           "path": [
             {
-              "row": 9,
-              "col": 4
-            },
-            {
-              "row": 8,
+              "row": 2,
               "col": 5
             },
             {
-              "row": 7,
+              "row": 2,
+              "col": 4
+            },
+            {
+              "row": 2,
+              "col": 3
+            },
+            {
+              "row": 2,
+              "col": 2
+            },
+            {
+              "row": 2,
+              "col": 1
+            },
+            {
+              "row": 2,
+              "col": 0
+            }
+          ]
+        },
+        {
+          "label": "Schuyler",
+          "value": "SCHUYLER",
+          "word": "SCHUYLER",
+          "clean": "SCHUYLER",
+          "start": {
+            "row": 0,
+            "col": 1
+          },
+          "end": {
+            "row": 0,
+            "col": 8
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 0,
+              "col": 1
+            },
+            {
+              "row": 0,
+              "col": 2
+            },
+            {
+              "row": 0,
+              "col": 3
+            },
+            {
+              "row": 0,
+              "col": 4
+            },
+            {
+              "row": 0,
+              "col": 5
+            },
+            {
+              "row": 0,
               "col": 6
             },
             {
-              "row": 6,
+              "row": 0,
               "col": 7
             },
             {
-              "row": 5,
+              "row": 0,
               "col": 8
+            }
+          ]
+        },
+        {
+          "label": "Treasury",
+          "value": "TREASURY",
+          "word": "TREASURY",
+          "clean": "TREASURY",
+          "start": {
+            "row": 14,
+            "col": 9
+          },
+          "end": {
+            "row": 7,
+            "col": 9
+          },
+          "direction": "N",
+          "path": [
+            {
+              "row": 14,
+              "col": 9
             },
             {
-              "row": 4,
+              "row": 13,
+              "col": 9
+            },
+            {
+              "row": 12,
+              "col": 9
+            },
+            {
+              "row": 11,
+              "col": 9
+            },
+            {
+              "row": 10,
+              "col": 9
+            },
+            {
+              "row": 9,
+              "col": 9
+            },
+            {
+              "row": 8,
+              "col": 9
+            },
+            {
+              "row": 7,
               "col": 9
             }
           ]
@@ -498,45 +782,45 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "YORKTOWN",
           "clean": "YORKTOWN",
           "start": {
-            "row": 7,
+            "row": 12,
             "col": 2
           },
           "end": {
-            "row": 0,
+            "row": 5,
             "col": 9
           },
           "direction": "NE",
           "path": [
             {
-              "row": 7,
+              "row": 12,
               "col": 2
             },
             {
-              "row": 6,
+              "row": 11,
               "col": 3
             },
             {
-              "row": 5,
+              "row": 10,
               "col": 4
             },
             {
-              "row": 4,
+              "row": 9,
               "col": 5
             },
             {
-              "row": 3,
+              "row": 8,
               "col": 6
             },
             {
-              "row": 2,
+              "row": 7,
               "col": 7
             },
             {
-              "row": 1,
+              "row": 6,
               "col": 8
             },
             {
-              "row": 0,
+              "row": 5,
               "col": 9
             }
           ]
@@ -545,7 +829,9 @@ export const dailyPuzzles: DailyPuzzlesData = {
     },
     {
       "id": 2,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "The Lion King Musical",
       "words": [
         {
@@ -579,169 +865,409 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "Pride",
           "value": "PRIDE"
+        },
+        {
+          "label": "Hyena",
+          "value": "HYENA"
+        },
+        {
+          "label": "Jungle",
+          "value": "JUNGLE"
+        },
+        {
+          "label": "Circle",
+          "value": "CIRCLE"
+        },
+        {
+          "label": "King",
+          "value": "KING"
         }
       ],
       "grid": [
         [
-          "Q",
-          "Y",
-          "H",
-          "K",
-          "A",
-          "S",
+          "R",
+          "R",
           "A",
           "F",
+          "I",
+          "K",
+          "I",
+          "N",
+          "R",
+          "A"
+        ],
+        [
+          "L",
+          "A",
+          "F",
+          "M",
+          "H",
+          "E",
+          "S",
+          "Z",
+          "L",
+          "Q"
+        ],
+        [
+          "Q",
+          "X",
+          "C",
+          "E",
+          "R",
+          "A",
+          "Q",
+          "A",
+          "B",
+          "T"
+        ],
+        [
+          "M",
+          "K",
+          "Q",
+          "S",
+          "J",
+          "J",
+          "N",
+          "B",
+          "Y",
+          "C"
+        ],
+        [
+          "A",
+          "E",
+          "L",
+          "C",
+          "R",
+          "I",
+          "C",
+          "A",
+          "A",
+          "C"
+        ],
+        [
+          "V",
+          "S",
+          "K",
+          "I",
+          "N",
+          "G",
+          "A",
+          "X",
+          "M",
+          "T"
+        ],
+        [
+          "B",
+          "H",
+          "A",
+          "S",
+          "U",
+          "B",
+          "Z",
+          "E",
+          "M",
+          "I"
+        ],
+        [
+          "W",
+          "F",
+          "D",
+          "F",
+          "M",
+          "G",
+          "C",
+          "V",
           "U",
           "M"
         ],
         [
-          "O",
-          "F",
+          "U",
+          "R",
+          "Z",
+          "U",
+          "U",
+          "H",
+          "U",
+          "X",
+          "M",
+          "O"
+        ],
+        [
+          "S",
           "N",
-          "A",
+          "P",
+          "K",
+          "S",
+          "M",
+          "Y",
           "L",
-          "A",
-          "A",
+          "C",
+          "N"
+        ],
+        [
           "E",
+          "O",
+          "K",
+          "R",
           "I",
+          "O",
+          "B",
+          "E",
+          "J",
           "P"
         ],
         [
-          "D",
-          "N",
-          "M",
           "L",
-          "P",
+          "L",
           "A",
-          "P",
-          "T",
-          "K",
-          "V"
-        ],
-        [
-          "T",
+          "F",
+          "M",
+          "H",
+          "O",
+          "C",
           "N",
-          "L",
-          "S",
-          "B",
-          "Z",
-          "Q",
-          "K",
-          "I",
-          "C"
+          "X"
         ],
         [
           "G",
-          "R",
-          "O",
-          "M",
-          "T",
-          "T",
-          "R",
-          "S",
-          "F",
-          "Q"
+          "D",
+          "G",
+          "K",
+          "B",
+          "H",
+          "D",
+          "A",
+          "Y",
+          "A"
         ],
         [
-          "C",
+          "H",
+          "E",
           "P",
-          "U",
+          "N",
+          "A",
+          "P",
+          "R",
+          "I",
+          "D",
+          "E"
+        ],
+        [
           "M",
           "L",
+          "N",
+          "Q",
+          "U",
+          "C",
+          "X",
+          "M",
+          "K",
+          "M"
+        ],
+        [
           "W",
           "X",
-          "B",
-          "A",
-          "J"
-        ],
-        [
+          "D",
+          "Q",
+          "H",
           "J",
-          "P",
           "R",
-          "S",
-          "I",
-          "V",
-          "G",
-          "L",
-          "R",
-          "S"
-        ],
-        [
-          "B",
-          "G",
-          "T",
-          "I",
-          "C",
-          "T",
-          "D",
-          "E",
-          "K",
-          "H"
-        ],
-        [
-          "M",
-          "P",
-          "R",
-          "L",
-          "D",
           "A",
-          "I",
-          "D",
-          "K",
-          "B"
-        ],
-        [
-          "S",
-          "I",
-          "M",
-          "B",
-          "A",
-          "E",
-          "R",
-          "J",
-          "Z",
-          "Y"
+          "O",
+          "E"
         ]
       ],
       "placements": [
+        {
+          "label": "Circle",
+          "value": "CIRCLE",
+          "word": "CIRCLE",
+          "clean": "CIRCLE",
+          "start": {
+            "row": 4,
+            "col": 6
+          },
+          "end": {
+            "row": 4,
+            "col": 1
+          },
+          "direction": "W",
+          "path": [
+            {
+              "row": 4,
+              "col": 6
+            },
+            {
+              "row": 4,
+              "col": 5
+            },
+            {
+              "row": 4,
+              "col": 4
+            },
+            {
+              "row": 4,
+              "col": 3
+            },
+            {
+              "row": 4,
+              "col": 2
+            },
+            {
+              "row": 4,
+              "col": 1
+            }
+          ]
+        },
+        {
+          "label": "Hyena",
+          "value": "HYENA",
+          "word": "HYENA",
+          "clean": "HYENA",
+          "start": {
+            "row": 8,
+            "col": 5
+          },
+          "end": {
+            "row": 12,
+            "col": 9
+          },
+          "direction": "SE",
+          "path": [
+            {
+              "row": 8,
+              "col": 5
+            },
+            {
+              "row": 9,
+              "col": 6
+            },
+            {
+              "row": 10,
+              "col": 7
+            },
+            {
+              "row": 11,
+              "col": 8
+            },
+            {
+              "row": 12,
+              "col": 9
+            }
+          ]
+        },
+        {
+          "label": "Jungle",
+          "value": "JUNGLE",
+          "word": "JUNGLE",
+          "clean": "JUNGLE",
+          "start": {
+            "row": 15,
+            "col": 5
+          },
+          "end": {
+            "row": 10,
+            "col": 0
+          },
+          "direction": "NW",
+          "path": [
+            {
+              "row": 15,
+              "col": 5
+            },
+            {
+              "row": 14,
+              "col": 4
+            },
+            {
+              "row": 13,
+              "col": 3
+            },
+            {
+              "row": 12,
+              "col": 2
+            },
+            {
+              "row": 11,
+              "col": 1
+            },
+            {
+              "row": 10,
+              "col": 0
+            }
+          ]
+        },
+        {
+          "label": "King",
+          "value": "KING",
+          "word": "KING",
+          "clean": "KING",
+          "start": {
+            "row": 5,
+            "col": 2
+          },
+          "end": {
+            "row": 5,
+            "col": 5
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 5,
+              "col": 2
+            },
+            {
+              "row": 5,
+              "col": 3
+            },
+            {
+              "row": 5,
+              "col": 4
+            },
+            {
+              "row": 5,
+              "col": 5
+            }
+          ]
+        },
         {
           "label": "Mufasa",
           "value": "MUFASA",
           "word": "MUFASA",
           "clean": "MUFASA",
           "start": {
-            "row": 0,
-            "col": 9
+            "row": 9,
+            "col": 5
           },
           "end": {
-            "row": 0,
-            "col": 4
+            "row": 4,
+            "col": 0
           },
-          "direction": "W",
+          "direction": "NW",
           "path": [
             {
-              "row": 0,
-              "col": 9
-            },
-            {
-              "row": 0,
-              "col": 8
-            },
-            {
-              "row": 0,
-              "col": 7
-            },
-            {
-              "row": 0,
-              "col": 6
-            },
-            {
-              "row": 0,
+              "row": 9,
               "col": 5
             },
             {
-              "row": 0,
+              "row": 8,
               "col": 4
+            },
+            {
+              "row": 7,
+              "col": 3
+            },
+            {
+              "row": 6,
+              "col": 2
+            },
+            {
+              "row": 5,
+              "col": 1
+            },
+            {
+              "row": 4,
+              "col": 0
             }
           ]
         },
@@ -751,30 +1277,30 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "NALA",
           "clean": "NALA",
           "start": {
-            "row": 1,
-            "col": 2
+            "row": 3,
+            "col": 6
           },
           "end": {
-            "row": 1,
-            "col": 5
+            "row": 0,
+            "col": 9
           },
-          "direction": "E",
+          "direction": "NE",
           "path": [
             {
-              "row": 1,
-              "col": 2
+              "row": 3,
+              "col": 6
+            },
+            {
+              "row": 2,
+              "col": 7
             },
             {
               "row": 1,
-              "col": 3
+              "col": 8
             },
             {
-              "row": 1,
-              "col": 4
-            },
-            {
-              "row": 1,
-              "col": 5
+              "row": 0,
+              "col": 9
             }
           ]
         },
@@ -784,34 +1310,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "PRIDE",
           "clean": "PRIDE",
           "start": {
-            "row": 5,
-            "col": 1
-          },
-          "end": {
-            "row": 9,
+            "row": 13,
             "col": 5
           },
-          "direction": "SE",
+          "end": {
+            "row": 13,
+            "col": 9
+          },
+          "direction": "E",
           "path": [
             {
-              "row": 5,
-              "col": 1
-            },
-            {
-              "row": 6,
-              "col": 2
-            },
-            {
-              "row": 7,
-              "col": 3
-            },
-            {
-              "row": 8,
-              "col": 4
-            },
-            {
-              "row": 9,
+              "row": 13,
               "col": 5
+            },
+            {
+              "row": 13,
+              "col": 6
+            },
+            {
+              "row": 13,
+              "col": 7
+            },
+            {
+              "row": 13,
+              "col": 8
+            },
+            {
+              "row": 13,
+              "col": 9
             }
           ]
         },
@@ -821,38 +1347,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "PUMBAA",
           "clean": "PUMBAA",
           "start": {
-            "row": 6,
-            "col": 1
+            "row": 9,
+            "col": 2
           },
           "end": {
-            "row": 1,
-            "col": 6
+            "row": 4,
+            "col": 7
           },
           "direction": "NE",
           "path": [
             {
-              "row": 6,
-              "col": 1
-            },
-            {
-              "row": 5,
+              "row": 9,
               "col": 2
             },
             {
-              "row": 4,
+              "row": 8,
               "col": 3
             },
             {
-              "row": 3,
+              "row": 7,
               "col": 4
             },
             {
-              "row": 2,
+              "row": 6,
               "col": 5
             },
             {
-              "row": 1,
+              "row": 5,
               "col": 6
+            },
+            {
+              "row": 4,
+              "col": 7
             }
           ]
         },
@@ -862,38 +1388,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "RAFIKI",
           "clean": "RAFIKI",
           "start": {
-            "row": 6,
-            "col": 8
+            "row": 0,
+            "col": 1
           },
           "end": {
-            "row": 1,
-            "col": 8
+            "row": 0,
+            "col": 6
           },
-          "direction": "N",
+          "direction": "E",
           "path": [
             {
-              "row": 6,
-              "col": 8
+              "row": 0,
+              "col": 1
             },
             {
-              "row": 5,
-              "col": 8
+              "row": 0,
+              "col": 2
             },
             {
-              "row": 4,
-              "col": 8
+              "row": 0,
+              "col": 3
             },
             {
-              "row": 3,
-              "col": 8
+              "row": 0,
+              "col": 4
             },
             {
-              "row": 2,
-              "col": 8
+              "row": 0,
+              "col": 5
             },
             {
-              "row": 1,
-              "col": 8
+              "row": 0,
+              "col": 6
             }
           ]
         },
@@ -903,30 +1429,30 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "SCAR",
           "clean": "SCAR",
           "start": {
-            "row": 6,
+            "row": 3,
             "col": 3
           },
           "end": {
-            "row": 9,
-            "col": 6
+            "row": 0,
+            "col": 0
           },
-          "direction": "SE",
+          "direction": "NW",
           "path": [
             {
-              "row": 6,
+              "row": 3,
               "col": 3
             },
             {
-              "row": 7,
-              "col": 4
+              "row": 2,
+              "col": 2
             },
             {
-              "row": 8,
-              "col": 5
+              "row": 1,
+              "col": 1
             },
             {
-              "row": 9,
-              "col": 6
+              "row": 0,
+              "col": 0
             }
           ]
         },
@@ -937,32 +1463,32 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "clean": "SIMBA",
           "start": {
             "row": 9,
-            "col": 0
-          },
-          "end": {
-            "row": 9,
             "col": 4
           },
-          "direction": "E",
+          "end": {
+            "row": 13,
+            "col": 4
+          },
+          "direction": "S",
           "path": [
             {
               "row": 9,
-              "col": 0
+              "col": 4
             },
             {
-              "row": 9,
-              "col": 1
+              "row": 10,
+              "col": 4
             },
             {
-              "row": 9,
-              "col": 2
+              "row": 11,
+              "col": 4
             },
             {
-              "row": 9,
-              "col": 3
+              "row": 12,
+              "col": 4
             },
             {
-              "row": 9,
+              "row": 13,
               "col": 4
             }
           ]
@@ -973,34 +1499,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "TIMON",
           "clean": "TIMON",
           "start": {
-            "row": 7,
-            "col": 5
+            "row": 5,
+            "col": 9
           },
           "end": {
-            "row": 3,
-            "col": 1
+            "row": 9,
+            "col": 9
           },
-          "direction": "NW",
+          "direction": "S",
           "path": [
             {
-              "row": 7,
-              "col": 5
+              "row": 5,
+              "col": 9
             },
             {
               "row": 6,
-              "col": 4
+              "col": 9
             },
             {
-              "row": 5,
-              "col": 3
+              "row": 7,
+              "col": 9
             },
             {
-              "row": 4,
-              "col": 2
+              "row": 8,
+              "col": 9
             },
             {
-              "row": 3,
-              "col": 1
+              "row": 9,
+              "col": 9
             }
           ]
         }
@@ -1008,7 +1534,9 @@ export const dailyPuzzles: DailyPuzzlesData = {
     },
     {
       "id": 3,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "Les Miserables Musical",
       "words": [
         {
@@ -1042,173 +1570,314 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "Paris",
           "value": "PARIS"
+        },
+        {
+          "label": "Revolt",
+          "value": "REVOLT"
+        },
+        {
+          "label": "Barricade",
+          "value": "BARRICADE"
+        },
+        {
+          "label": "Justice",
+          "value": "JUSTICE"
+        },
+        {
+          "label": "Prison",
+          "value": "PRISON"
         }
       ],
       "grid": [
         [
-          "S",
-          "B",
-          "L",
-          "E",
-          "P",
-          "O",
-          "N",
-          "I",
-          "N",
-          "E"
-        ],
-        [
-          "U",
-          "Z",
-          "U",
-          "B",
-          "D",
-          "W",
-          "V",
-          "C",
-          "D",
-          "N"
-        ],
-        [
-          "I",
-          "Y",
-          "U",
           "R",
-          "Y",
+          "H",
+          "G",
+          "J",
+          "M",
+          "S",
           "K",
+          "P",
+          "L",
+          "Q"
+        ],
+        [
+          "B",
+          "A",
+          "R",
+          "R",
+          "I",
+          "C",
+          "A",
+          "D",
+          "E",
+          "F"
+        ],
+        [
           "O",
-          "F",
-          "F",
+          "J",
+          "V",
+          "A",
+          "L",
+          "J",
+          "E",
+          "A",
+          "N",
+          "U"
+        ],
+        [
+          "M",
+          "A",
+          "R",
+          "I",
+          "U",
+          "S",
+          "H",
+          "Z",
+          "E",
+          "S"
+        ],
+        [
+          "Z",
+          "V",
+          "P",
+          "R",
+          "I",
+          "S",
+          "O",
+          "N",
+          "N",
+          "I"
+        ],
+        [
+          "I",
+          "E",
+          "L",
+          "I",
+          "O",
+          "K",
+          "E",
+          "N",
+          "I",
+          "R"
+        ],
+        [
+          "A",
+          "R",
+          "Q",
+          "X",
+          "D",
+          "N",
+          "B",
+          "U",
+          "N",
           "A"
         ],
         [
-          "R",
-          "V",
-          "E",
+          "P",
           "T",
-          "X",
-          "S",
-          "A",
+          "Z",
+          "D",
+          "I",
+          "R",
+          "O",
           "N",
-          "A",
-          "E"
+          "O",
+          "P"
         ],
         [
-          "A",
-          "A",
-          "V",
+          "G",
           "R",
+          "D",
+          "T",
+          "Z",
+          "M",
           "E",
-          "N",
+          "E",
           "P",
-          "U",
-          "O",
           "J"
         ],
         [
-          "M",
-          "W",
-          "G",
-          "T",
-          "T",
-          "P",
-          "M",
-          "V",
-          "I",
-          "L"
+          "N",
+          "N",
+          "N",
+          "C",
+          "E",
+          "E",
+          "X",
+          "A",
+          "E",
+          "U"
         ],
         [
-          "B",
-          "O",
-          "T",
-          "I",
-          "G",
-          "P",
+          "R",
           "A",
-          "Q",
+          "R",
           "P",
-          "A"
+          "K",
+          "N",
+          "W",
+          "A",
+          "M",
+          "S"
         ],
         [
           "F",
           "E",
-          "N",
+          "E",
+          "T",
+          "T",
+          "E",
+          "S",
+          "O",
+          "C",
+          "T"
+        ],
+        [
+          "D",
+          "V",
+          "V",
+          "Z",
+          "L",
+          "M",
+          "E",
+          "I",
+          "F",
+          "I"
+        ],
+        [
+          "F",
+          "E",
+          "O",
+          "O",
+          "O",
+          "Z",
           "J",
+          "Y",
+          "B",
+          "C"
+        ],
+        [
+          "H",
+          "N",
           "A",
-          "V",
-          "E",
-          "R",
-          "T",
-          "V"
-        ],
-        [
-          "U",
-          "E",
           "I",
-          "G",
-          "W",
-          "N",
-          "E",
-          "K",
-          "I",
-          "S"
-        ],
-        [
+          "L",
           "X",
+          "Y",
+          "D",
+          "K",
+          "E"
+        ],
+        [
           "V",
-          "Z",
-          "G",
+          "X",
+          "L",
           "R",
-          "I",
-          "J",
+          "D",
           "T",
-          "Z",
-          "S"
+          "B",
+          "M",
+          "H",
+          "E"
         ]
       ],
       "placements": [
+        {
+          "label": "Barricade",
+          "value": "BARRICADE",
+          "word": "BARRICADE",
+          "clean": "BARRICADE",
+          "start": {
+            "row": 1,
+            "col": 0
+          },
+          "end": {
+            "row": 1,
+            "col": 8
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 1,
+              "col": 0
+            },
+            {
+              "row": 1,
+              "col": 1
+            },
+            {
+              "row": 1,
+              "col": 2
+            },
+            {
+              "row": 1,
+              "col": 3
+            },
+            {
+              "row": 1,
+              "col": 4
+            },
+            {
+              "row": 1,
+              "col": 5
+            },
+            {
+              "row": 1,
+              "col": 6
+            },
+            {
+              "row": 1,
+              "col": 7
+            },
+            {
+              "row": 1,
+              "col": 8
+            }
+          ]
+        },
         {
           "label": "Cosette",
           "value": "COSETTE",
           "word": "COSETTE",
           "clean": "COSETTE",
           "start": {
-            "row": 1,
-            "col": 7
+            "row": 11,
+            "col": 8
           },
           "end": {
-            "row": 7,
-            "col": 1
+            "row": 11,
+            "col": 2
           },
-          "direction": "SW",
+          "direction": "W",
           "path": [
             {
-              "row": 1,
+              "row": 11,
+              "col": 8
+            },
+            {
+              "row": 11,
               "col": 7
             },
             {
-              "row": 2,
+              "row": 11,
               "col": 6
             },
             {
-              "row": 3,
+              "row": 11,
               "col": 5
             },
             {
-              "row": 4,
+              "row": 11,
               "col": 4
             },
             {
-              "row": 5,
+              "row": 11,
               "col": 3
             },
             {
-              "row": 6,
+              "row": 11,
               "col": 2
-            },
-            {
-              "row": 7,
-              "col": 1
             }
           ]
         },
@@ -1218,34 +1887,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "DREAM",
           "clean": "DREAM",
           "start": {
-            "row": 1,
+            "row": 6,
             "col": 4
           },
           "end": {
-            "row": 5,
-            "col": 0
+            "row": 10,
+            "col": 8
           },
-          "direction": "SW",
+          "direction": "SE",
           "path": [
             {
-              "row": 1,
+              "row": 6,
               "col": 4
             },
             {
-              "row": 2,
-              "col": 3
+              "row": 7,
+              "col": 5
             },
             {
-              "row": 3,
-              "col": 2
+              "row": 8,
+              "col": 6
             },
             {
-              "row": 4,
-              "col": 1
+              "row": 9,
+              "col": 7
             },
             {
-              "row": 5,
-              "col": 0
+              "row": 10,
+              "col": 8
             }
           ]
         },
@@ -1255,42 +1924,42 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "EPONINE",
           "clean": "EPONINE",
           "start": {
-            "row": 0,
-            "col": 3
+            "row": 9,
+            "col": 8
           },
           "end": {
-            "row": 0,
-            "col": 9
+            "row": 3,
+            "col": 8
           },
-          "direction": "E",
+          "direction": "N",
           "path": [
             {
-              "row": 0,
-              "col": 3
-            },
-            {
-              "row": 0,
-              "col": 4
-            },
-            {
-              "row": 0,
-              "col": 5
-            },
-            {
-              "row": 0,
-              "col": 6
-            },
-            {
-              "row": 0,
-              "col": 7
-            },
-            {
-              "row": 0,
+              "row": 9,
               "col": 8
             },
             {
-              "row": 0,
-              "col": 9
+              "row": 8,
+              "col": 8
+            },
+            {
+              "row": 7,
+              "col": 8
+            },
+            {
+              "row": 6,
+              "col": 8
+            },
+            {
+              "row": 5,
+              "col": 8
+            },
+            {
+              "row": 4,
+              "col": 8
+            },
+            {
+              "row": 3,
+              "col": 8
             }
           ]
         },
@@ -1300,42 +1969,42 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "FANTINE",
           "clean": "FANTINE",
           "start": {
-            "row": 2,
-            "col": 7
+            "row": 11,
+            "col": 0
           },
           "end": {
-            "row": 8,
-            "col": 1
+            "row": 5,
+            "col": 6
           },
-          "direction": "SW",
+          "direction": "NE",
           "path": [
             {
-              "row": 2,
-              "col": 7
+              "row": 11,
+              "col": 0
             },
             {
-              "row": 3,
-              "col": 6
+              "row": 10,
+              "col": 1
             },
             {
-              "row": 4,
-              "col": 5
-            },
-            {
-              "row": 5,
-              "col": 4
-            },
-            {
-              "row": 6,
-              "col": 3
-            },
-            {
-              "row": 7,
+              "row": 9,
               "col": 2
             },
             {
               "row": 8,
-              "col": 1
+              "col": 3
+            },
+            {
+              "row": 7,
+              "col": 4
+            },
+            {
+              "row": 6,
+              "col": 5
+            },
+            {
+              "row": 5,
+              "col": 6
             }
           ]
         },
@@ -1345,38 +2014,83 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "JAVERT",
           "clean": "JAVERT",
           "start": {
-            "row": 7,
-            "col": 3
+            "row": 2,
+            "col": 1
           },
           "end": {
             "row": 7,
-            "col": 8
+            "col": 1
           },
-          "direction": "E",
+          "direction": "S",
           "path": [
             {
-              "row": 7,
-              "col": 3
+              "row": 2,
+              "col": 1
+            },
+            {
+              "row": 3,
+              "col": 1
+            },
+            {
+              "row": 4,
+              "col": 1
+            },
+            {
+              "row": 5,
+              "col": 1
+            },
+            {
+              "row": 6,
+              "col": 1
             },
             {
               "row": 7,
-              "col": 4
+              "col": 1
+            }
+          ]
+        },
+        {
+          "label": "Justice",
+          "value": "JUSTICE",
+          "word": "JUSTICE",
+          "clean": "JUSTICE",
+          "start": {
+            "row": 8,
+            "col": 9
+          },
+          "end": {
+            "row": 14,
+            "col": 9
+          },
+          "direction": "S",
+          "path": [
+            {
+              "row": 8,
+              "col": 9
             },
             {
-              "row": 7,
-              "col": 5
+              "row": 9,
+              "col": 9
             },
             {
-              "row": 7,
-              "col": 6
+              "row": 10,
+              "col": 9
             },
             {
-              "row": 7,
-              "col": 7
+              "row": 11,
+              "col": 9
             },
             {
-              "row": 7,
-              "col": 8
+              "row": 12,
+              "col": 9
+            },
+            {
+              "row": 13,
+              "col": 9
+            },
+            {
+              "row": 14,
+              "col": 9
             }
           ]
         },
@@ -1386,38 +2100,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "MARIUS",
           "clean": "MARIUS",
           "start": {
-            "row": 5,
+            "row": 3,
             "col": 0
           },
           "end": {
-            "row": 0,
-            "col": 0
+            "row": 3,
+            "col": 5
           },
-          "direction": "N",
+          "direction": "E",
           "path": [
-            {
-              "row": 5,
-              "col": 0
-            },
-            {
-              "row": 4,
-              "col": 0
-            },
             {
               "row": 3,
               "col": 0
             },
             {
-              "row": 2,
-              "col": 0
+              "row": 3,
+              "col": 1
             },
             {
-              "row": 1,
-              "col": 0
+              "row": 3,
+              "col": 2
             },
             {
-              "row": 0,
-              "col": 0
+              "row": 3,
+              "col": 3
+            },
+            {
+              "row": 3,
+              "col": 4
+            },
+            {
+              "row": 3,
+              "col": 5
             }
           ]
         },
@@ -1427,48 +2141,11 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "PARIS",
           "clean": "PARIS",
           "start": {
-            "row": 5,
-            "col": 5
-          },
-          "end": {
-            "row": 9,
-            "col": 9
-          },
-          "direction": "SE",
-          "path": [
-            {
-              "row": 5,
-              "col": 5
-            },
-            {
-              "row": 6,
-              "col": 6
-            },
-            {
-              "row": 7,
-              "col": 7
-            },
-            {
-              "row": 8,
-              "col": 8
-            },
-            {
-              "row": 9,
-              "col": 9
-            }
-          ]
-        },
-        {
-          "label": "Valjean",
-          "value": "VALJEAN",
-          "word": "VALJEAN",
-          "clean": "VALJEAN",
-          "start": {
             "row": 7,
             "col": 9
           },
           "end": {
-            "row": 1,
+            "row": 3,
             "col": 9
           },
           "direction": "N",
@@ -1492,14 +2169,133 @@ export const dailyPuzzles: DailyPuzzlesData = {
             {
               "row": 3,
               "col": 9
+            }
+          ]
+        },
+        {
+          "label": "Prison",
+          "value": "PRISON",
+          "word": "PRISON",
+          "clean": "PRISON",
+          "start": {
+            "row": 4,
+            "col": 2
+          },
+          "end": {
+            "row": 4,
+            "col": 7
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 4,
+              "col": 2
+            },
+            {
+              "row": 4,
+              "col": 3
+            },
+            {
+              "row": 4,
+              "col": 4
+            },
+            {
+              "row": 4,
+              "col": 5
+            },
+            {
+              "row": 4,
+              "col": 6
+            },
+            {
+              "row": 4,
+              "col": 7
+            }
+          ]
+        },
+        {
+          "label": "Revolt",
+          "value": "REVOLT",
+          "word": "REVOLT",
+          "clean": "REVOLT",
+          "start": {
+            "row": 10,
+            "col": 0
+          },
+          "end": {
+            "row": 15,
+            "col": 5
+          },
+          "direction": "SE",
+          "path": [
+            {
+              "row": 10,
+              "col": 0
+            },
+            {
+              "row": 11,
+              "col": 1
+            },
+            {
+              "row": 12,
+              "col": 2
+            },
+            {
+              "row": 13,
+              "col": 3
+            },
+            {
+              "row": 14,
+              "col": 4
+            },
+            {
+              "row": 15,
+              "col": 5
+            }
+          ]
+        },
+        {
+          "label": "Valjean",
+          "value": "VALJEAN",
+          "word": "VALJEAN",
+          "clean": "VALJEAN",
+          "start": {
+            "row": 2,
+            "col": 2
+          },
+          "end": {
+            "row": 2,
+            "col": 8
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 2,
+              "col": 2
             },
             {
               "row": 2,
-              "col": 9
+              "col": 3
             },
             {
-              "row": 1,
-              "col": 9
+              "row": 2,
+              "col": 4
+            },
+            {
+              "row": 2,
+              "col": 5
+            },
+            {
+              "row": 2,
+              "col": 6
+            },
+            {
+              "row": 2,
+              "col": 7
+            },
+            {
+              "row": 2,
+              "col": 8
             }
           ]
         }
@@ -1507,7 +2303,9 @@ export const dailyPuzzles: DailyPuzzlesData = {
     },
     {
       "id": 4,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "Phantom Of The Opera Musical",
       "words": [
         {
@@ -1541,161 +2339,302 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "Stage",
           "value": "STAGE"
+        },
+        {
+          "label": "Voice",
+          "value": "VOICE"
+        },
+        {
+          "label": "Theater",
+          "value": "THEATER"
+        },
+        {
+          "label": "Orchestra",
+          "value": "ORCHESTRA"
+        },
+        {
+          "label": "Christine",
+          "value": "CHRISTINE"
         }
       ],
       "grid": [
         [
-          "N",
-          "V",
-          "M",
+          "H",
+          "G",
+          "X",
+          "U",
+          "K",
+          "A",
+          "L",
+          "A",
           "E",
+          "R"
+        ],
+        [
+          "H",
           "N",
-          "F",
-          "Q",
+          "T",
+          "S",
+          "R",
           "E",
-          "Q",
-          "T"
+          "X",
+          "J",
+          "E",
+          "P"
         ],
         [
           "C",
-          "E",
           "Y",
-          "I",
+          "Q",
           "E",
-          "G",
-          "F",
           "S",
-          "J",
-          "E"
-        ],
-        [
-          "L",
-          "M",
-          "G",
           "M",
           "R",
-          "Y",
-          "F",
-          "O",
-          "X",
-          "U"
-        ],
-        [
-          "M",
-          "U",
-          "U",
-          "A",
-          "O",
-          "R",
-          "B",
-          "R",
-          "R",
-          "I"
-        ],
-        [
-          "D",
-          "O",
-          "O",
-          "S",
           "T",
+          "H",
+          "R"
+        ],
+        [
+          "H",
+          "O",
           "P",
           "O",
-          "L",
-          "F",
+          "U",
+          "Y",
+          "A",
+          "A",
+          "O",
+          "O"
+        ],
+        [
+          "R",
+          "O",
+          "R",
+          "S",
+          "B",
+          "E",
+          "N",
+          "R",
+          "Y",
+          "C"
+        ],
+        [
+          "I",
+          "W",
+          "I",
+          "C",
+          "H",
+          "T",
+          "R",
+          "Z",
+          "O",
+          "G"
+        ],
+        [
+          "S",
+          "C",
+          "P",
+          "T",
+          "O",
+          "I",
+          "J",
+          "X",
+          "M",
           "Z"
         ],
         [
-          "C",
-          "M",
           "T",
-          "A",
-          "I",
-          "S",
-          "E",
-          "R",
+          "V",
+          "M",
+          "M",
+          "M",
           "U",
-          "W"
-        ],
-        [
-          "S",
-          "A",
-          "Y",
-          "N",
           "R",
-          "C",
-          "X",
-          "R",
-          "X",
-          "N"
-        ],
-        [
-          "J",
-          "S",
-          "N",
-          "Y",
-          "A",
           "E",
+          "Y",
+          "U"
+        ],
+        [
+          "I",
+          "C",
+          "O",
+          "N",
+          "H",
+          "F",
+          "N",
+          "U",
+          "E",
+          "S"
+        ],
+        [
+          "N",
+          "M",
+          "N",
+          "I",
+          "C",
+          "O",
           "X",
+          "T",
+          "T",
+          "G"
+        ],
+        [
+          "E",
+          "P",
+          "A",
+          "D",
+          "C",
+          "T",
           "O",
           "A",
-          "N"
+          "W",
+          "P"
         ],
         [
-          "F",
+          "B",
+          "R",
+          "A",
+          "S",
+          "V",
+          "E",
+          "G",
+          "J",
+          "P",
+          "J"
+        ],
+        [
+          "M",
+          "P",
+          "L",
+          "A",
           "K",
-          "M",
-          "Q",
-          "M",
-          "H",
-          "D",
+          "E",
+          "Z",
+          "K",
           "U",
-          "F",
-          "T"
+          "J"
         ],
         [
-          "K",
+          "C",
+          "Y",
           "X",
+          "I",
+          "J",
+          "R",
+          "R",
+          "A",
+          "W",
+          "G"
+        ],
+        [
+          "A",
+          "R",
           "T",
+          "S",
+          "E",
+          "H",
+          "C",
+          "R",
+          "O",
+          "G"
+        ],
+        [
+          "R",
+          "A",
+          "O",
+          "U",
+          "L",
+          "C",
           "E",
           "B",
-          "G",
-          "P",
-          "T",
-          "Q",
-          "O"
+          "V",
+          "M"
         ]
       ],
       "placements": [
+        {
+          "label": "Christine",
+          "value": "CHRISTINE",
+          "word": "CHRISTINE",
+          "clean": "CHRISTINE",
+          "start": {
+            "row": 2,
+            "col": 0
+          },
+          "end": {
+            "row": 10,
+            "col": 0
+          },
+          "direction": "S",
+          "path": [
+            {
+              "row": 2,
+              "col": 0
+            },
+            {
+              "row": 3,
+              "col": 0
+            },
+            {
+              "row": 4,
+              "col": 0
+            },
+            {
+              "row": 5,
+              "col": 0
+            },
+            {
+              "row": 6,
+              "col": 0
+            },
+            {
+              "row": 7,
+              "col": 0
+            },
+            {
+              "row": 8,
+              "col": 0
+            },
+            {
+              "row": 9,
+              "col": 0
+            },
+            {
+              "row": 10,
+              "col": 0
+            }
+          ]
+        },
         {
           "label": "Mask",
           "value": "MASK",
           "word": "MASK",
           "clean": "MASK",
           "start": {
-            "row": 5,
+            "row": 9,
             "col": 1
           },
           "end": {
-            "row": 8,
-            "col": 1
+            "row": 12,
+            "col": 4
           },
-          "direction": "S",
+          "direction": "SE",
           "path": [
             {
-              "row": 5,
+              "row": 9,
               "col": 1
             },
             {
-              "row": 6,
-              "col": 1
+              "row": 10,
+              "col": 2
             },
             {
-              "row": 7,
-              "col": 1
+              "row": 11,
+              "col": 3
             },
             {
-              "row": 8,
-              "col": 1
+              "row": 12,
+              "col": 4
             }
           ]
         },
@@ -1705,38 +2644,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "MIRROR",
           "clean": "MIRROR",
           "start": {
-            "row": 0,
-            "col": 2
+            "row": 7,
+            "col": 4
           },
           "end": {
-            "row": 5,
-            "col": 7
+            "row": 2,
+            "col": 9
           },
-          "direction": "SE",
+          "direction": "NE",
           "path": [
             {
-              "row": 0,
-              "col": 2
-            },
-            {
-              "row": 1,
-              "col": 3
-            },
-            {
-              "row": 2,
+              "row": 7,
               "col": 4
             },
             {
-              "row": 3,
+              "row": 6,
               "col": 5
             },
             {
-              "row": 4,
+              "row": 5,
               "col": 6
             },
             {
-              "row": 5,
+              "row": 4,
               "col": 7
+            },
+            {
+              "row": 3,
+              "col": 8
+            },
+            {
+              "row": 2,
+              "col": 9
             }
           ]
         },
@@ -1747,21 +2686,21 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "clean": "MUSIC",
           "start": {
             "row": 2,
-            "col": 1
+            "col": 5
           },
           "end": {
             "row": 6,
-            "col": 5
+            "col": 1
           },
-          "direction": "SE",
+          "direction": "SW",
           "path": [
             {
               "row": 2,
-              "col": 1
+              "col": 5
             },
             {
               "row": 3,
-              "col": 2
+              "col": 4
             },
             {
               "row": 4,
@@ -1769,11 +2708,11 @@ export const dailyPuzzles: DailyPuzzlesData = {
             },
             {
               "row": 5,
-              "col": 4
+              "col": 2
             },
             {
               "row": 6,
-              "col": 5
+              "col": 1
             }
           ]
         },
@@ -1783,34 +2722,87 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "OPERA",
           "clean": "OPERA",
           "start": {
-            "row": 3,
-            "col": 4
+            "row": 4,
+            "col": 1
           },
           "end": {
-            "row": 7,
-            "col": 8
+            "row": 0,
+            "col": 5
           },
-          "direction": "SE",
+          "direction": "NE",
           "path": [
             {
+              "row": 4,
+              "col": 1
+            },
+            {
               "row": 3,
+              "col": 2
+            },
+            {
+              "row": 2,
+              "col": 3
+            },
+            {
+              "row": 1,
               "col": 4
             },
             {
-              "row": 4,
+              "row": 0,
               "col": 5
+            }
+          ]
+        },
+        {
+          "label": "Orchestra",
+          "value": "ORCHESTRA",
+          "word": "ORCHESTRA",
+          "clean": "ORCHESTRA",
+          "start": {
+            "row": 14,
+            "col": 8
+          },
+          "end": {
+            "row": 14,
+            "col": 0
+          },
+          "direction": "W",
+          "path": [
+            {
+              "row": 14,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 6
-            },
-            {
-              "row": 6,
+              "row": 14,
               "col": 7
             },
             {
-              "row": 7,
-              "col": 8
+              "row": 14,
+              "col": 6
+            },
+            {
+              "row": 14,
+              "col": 5
+            },
+            {
+              "row": 14,
+              "col": 4
+            },
+            {
+              "row": 14,
+              "col": 3
+            },
+            {
+              "row": 14,
+              "col": 2
+            },
+            {
+              "row": 14,
+              "col": 1
+            },
+            {
+              "row": 14,
+              "col": 0
             }
           ]
         },
@@ -1820,42 +2812,42 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "PHANTOM",
           "clean": "PHANTOM",
           "start": {
-            "row": 9,
-            "col": 6
+            "row": 1,
+            "col": 9
           },
           "end": {
-            "row": 3,
-            "col": 0
+            "row": 7,
+            "col": 3
           },
-          "direction": "NW",
+          "direction": "SW",
           "path": [
             {
-              "row": 9,
-              "col": 6
+              "row": 1,
+              "col": 9
             },
             {
-              "row": 8,
-              "col": 5
-            },
-            {
-              "row": 7,
-              "col": 4
-            },
-            {
-              "row": 6,
-              "col": 3
-            },
-            {
-              "row": 5,
-              "col": 2
-            },
-            {
-              "row": 4,
-              "col": 1
+              "row": 2,
+              "col": 8
             },
             {
               "row": 3,
-              "col": 0
+              "col": 7
+            },
+            {
+              "row": 4,
+              "col": 6
+            },
+            {
+              "row": 5,
+              "col": 5
+            },
+            {
+              "row": 6,
+              "col": 4
+            },
+            {
+              "row": 7,
+              "col": 3
             }
           ]
         },
@@ -1865,34 +2857,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "RAOUL",
           "clean": "RAOUL",
           "start": {
-            "row": 6,
-            "col": 4
-          },
-          "end": {
-            "row": 2,
+            "row": 15,
             "col": 0
           },
-          "direction": "NW",
+          "end": {
+            "row": 15,
+            "col": 4
+          },
+          "direction": "E",
           "path": [
             {
-              "row": 6,
-              "col": 4
+              "row": 15,
+              "col": 0
             },
             {
-              "row": 5,
-              "col": 3
-            },
-            {
-              "row": 4,
-              "col": 2
-            },
-            {
-              "row": 3,
+              "row": 15,
               "col": 1
             },
             {
-              "row": 2,
-              "col": 0
+              "row": 15,
+              "col": 2
+            },
+            {
+              "row": 15,
+              "col": 3
+            },
+            {
+              "row": 15,
+              "col": 4
             }
           ]
         },
@@ -1902,30 +2894,30 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "ROSE",
           "clean": "ROSE",
           "start": {
-            "row": 3,
-            "col": 7
+            "row": 4,
+            "col": 2
           },
           "end": {
-            "row": 0,
-            "col": 7
+            "row": 1,
+            "col": 5
           },
-          "direction": "N",
+          "direction": "NE",
           "path": [
             {
+              "row": 4,
+              "col": 2
+            },
+            {
               "row": 3,
-              "col": 7
+              "col": 3
             },
             {
               "row": 2,
-              "col": 7
+              "col": 4
             },
             {
               "row": 1,
-              "col": 7
-            },
-            {
-              "row": 0,
-              "col": 7
+              "col": 5
             }
           ]
         },
@@ -1935,34 +2927,116 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "STAGE",
           "clean": "STAGE",
           "start": {
-            "row": 5,
-            "col": 5
+            "row": 8,
+            "col": 9
           },
           "end": {
-            "row": 1,
-            "col": 1
+            "row": 12,
+            "col": 5
           },
-          "direction": "NW",
+          "direction": "SW",
           "path": [
             {
-              "row": 5,
+              "row": 8,
+              "col": 9
+            },
+            {
+              "row": 9,
+              "col": 8
+            },
+            {
+              "row": 10,
+              "col": 7
+            },
+            {
+              "row": 11,
+              "col": 6
+            },
+            {
+              "row": 12,
               "col": 5
-            },
+            }
+          ]
+        },
+        {
+          "label": "Theater",
+          "value": "THEATER",
+          "word": "THEATER",
+          "clean": "THEATER",
+          "start": {
+            "row": 6,
+            "col": 3
+          },
+          "end": {
+            "row": 0,
+            "col": 9
+          },
+          "direction": "NE",
+          "path": [
             {
-              "row": 4,
-              "col": 4
-            },
-            {
-              "row": 3,
+              "row": 6,
               "col": 3
             },
             {
+              "row": 5,
+              "col": 4
+            },
+            {
+              "row": 4,
+              "col": 5
+            },
+            {
+              "row": 3,
+              "col": 6
+            },
+            {
               "row": 2,
-              "col": 2
+              "col": 7
             },
             {
               "row": 1,
+              "col": 8
+            },
+            {
+              "row": 0,
+              "col": 9
+            }
+          ]
+        },
+        {
+          "label": "Voice",
+          "value": "VOICE",
+          "word": "VOICE",
+          "clean": "VOICE",
+          "start": {
+            "row": 7,
+            "col": 1
+          },
+          "end": {
+            "row": 11,
+            "col": 5
+          },
+          "direction": "SE",
+          "path": [
+            {
+              "row": 7,
               "col": 1
+            },
+            {
+              "row": 8,
+              "col": 2
+            },
+            {
+              "row": 9,
+              "col": 3
+            },
+            {
+              "row": 10,
+              "col": 4
+            },
+            {
+              "row": 11,
+              "col": 5
             }
           ]
         }
@@ -1970,7 +3044,9 @@ export const dailyPuzzles: DailyPuzzlesData = {
     },
     {
       "id": 5,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "Wicked Musical",
       "words": [
         {
@@ -2004,173 +3080,306 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "Green",
           "value": "GREEN"
+        },
+        {
+          "label": "Shiz",
+          "value": "SHIZ"
+        },
+        {
+          "label": "Flying",
+          "value": "FLYING"
+        },
+        {
+          "label": "Spell",
+          "value": "SPELL"
+        },
+        {
+          "label": "Destiny",
+          "value": "DESTINY"
         }
       ],
       "grid": [
         [
-          "A",
-          "B",
-          "A",
-          "H",
-          "P",
-          "L",
           "E",
-          "O",
-          "N",
-          "C"
-        ],
-        [
-          "W",
-          "R",
+          "V",
+          "A",
           "C",
-          "G",
-          "R",
-          "Y",
-          "L",
+          "C",
           "K",
-          "I",
-          "F"
-        ],
-        [
-          "O",
-          "Z",
+          "J",
+          "A",
           "Y",
-          "S",
-          "L",
-          "X",
-          "Q",
-          "G",
-          "Q",
-          "I"
+          "H"
         ],
         [
-          "X",
-          "S",
-          "X",
-          "O",
-          "G",
-          "I",
-          "A",
-          "D",
+          "E",
           "P",
-          "Y"
+          "X",
+          "R",
+          "I",
+          "I",
+          "A",
+          "N",
+          "I",
+          "Z"
         ],
         [
+          "W",
+          "G",
+          "D",
+          "J",
+          "I",
+          "G",
           "E",
-          "U",
-          "X",
-          "Q",
-          "R",
-          "M",
-          "N",
           "F",
-          "A",
-          "E"
-        ],
-        [
-          "N",
-          "W",
-          "I",
-          "Z",
-          "A",
-          "R",
-          "D",
-          "D",
-          "D",
-          "R"
-        ],
-        [
-          "L",
-          "E",
-          "X",
-          "W",
-          "I",
-          "T",
-          "C",
-          "H",
-          "A",
+          "O",
           "O"
         ],
         [
-          "T",
-          "F",
+          "Q",
           "E",
-          "U",
+          "E",
+          "D",
           "P",
+          "E",
+          "A",
+          "R",
+          "S",
+          "L"
+        ],
+        [
+          "B",
+          "N",
+          "S",
+          "I",
+          "R",
           "Y",
-          "V",
+          "E",
+          "M",
+          "J",
+          "M"
+        ],
+        [
+          "F",
+          "B",
+          "T",
+          "G",
+          "K",
           "Y",
-          "W",
-          "B"
+          "B",
+          "R",
+          "H",
+          "Y"
+        ],
+        [
+          "Z",
+          "Q",
+          "I",
+          "X",
+          "I",
+          "C",
+          "I",
+          "Q",
+          "N",
+          "M"
+        ],
+        [
+          "G",
+          "D",
+          "N",
+          "F",
+          "G",
+          "P",
+          "O",
+          "N",
+          "T",
+          "H"
+        ],
+        [
+          "G",
+          "E",
+          "Y",
+          "Z",
+          "A",
+          "S",
+          "P",
+          "E",
+          "L",
+          "L"
         ],
         [
           "I",
-          "M",
-          "V",
-          "R",
-          "U",
-          "M",
-          "S",
-          "T",
+          "N",
+          "I",
+          "F",
+          "C",
+          "O",
+          "Y",
+          "I",
+          "C",
+          "W"
+        ],
+        [
+          "B",
+          "H",
+          "I",
+          "P",
           "Q",
-          "K"
+          "L",
+          "Y",
+          "O",
+          "W",
+          "W"
+        ],
+        [
+          "S",
+          "F",
+          "G",
+          "Y",
+          "Q",
+          "B",
+          "O",
+          "W",
+          "I",
+          "I"
         ],
         [
           "V",
-          "V",
-          "W",
-          "Y",
           "G",
-          "H",
+          "G",
+          "S",
+          "L",
+          "Y",
+          "I",
           "U",
+          "Z",
+          "T"
+        ],
+        [
           "B",
+          "I",
+          "X",
+          "I",
+          "Q",
+          "F",
+          "U",
+          "V",
+          "A",
+          "C"
+        ],
+        [
+          "G",
+          "G",
+          "L",
+          "I",
+          "N",
+          "D",
+          "A",
+          "Y",
+          "R",
+          "H"
+        ],
+        [
+          "E",
+          "L",
           "P",
-          "W"
+          "H",
+          "A",
+          "B",
+          "A",
+          "J",
+          "D",
+          "I"
         ]
       ],
       "placements": [
+        {
+          "label": "Destiny",
+          "value": "DESTINY",
+          "word": "DESTINY",
+          "clean": "DESTINY",
+          "start": {
+            "row": 2,
+            "col": 2
+          },
+          "end": {
+            "row": 8,
+            "col": 2
+          },
+          "direction": "S",
+          "path": [
+            {
+              "row": 2,
+              "col": 2
+            },
+            {
+              "row": 3,
+              "col": 2
+            },
+            {
+              "row": 4,
+              "col": 2
+            },
+            {
+              "row": 5,
+              "col": 2
+            },
+            {
+              "row": 6,
+              "col": 2
+            },
+            {
+              "row": 7,
+              "col": 2
+            },
+            {
+              "row": 8,
+              "col": 2
+            }
+          ]
+        },
         {
           "label": "Elphaba",
           "value": "ELPHABA",
           "word": "ELPHABA",
           "clean": "ELPHABA",
           "start": {
-            "row": 0,
-            "col": 6
-          },
-          "end": {
-            "row": 0,
+            "row": 15,
             "col": 0
           },
-          "direction": "W",
+          "end": {
+            "row": 15,
+            "col": 6
+          },
+          "direction": "E",
           "path": [
             {
-              "row": 0,
-              "col": 6
+              "row": 15,
+              "col": 0
             },
             {
-              "row": 0,
-              "col": 5
-            },
-            {
-              "row": 0,
-              "col": 4
-            },
-            {
-              "row": 0,
-              "col": 3
-            },
-            {
-              "row": 0,
-              "col": 2
-            },
-            {
-              "row": 0,
+              "row": 15,
               "col": 1
             },
             {
-              "row": 0,
-              "col": 0
+              "row": 15,
+              "col": 2
+            },
+            {
+              "row": 15,
+              "col": 3
+            },
+            {
+              "row": 15,
+              "col": 4
+            },
+            {
+              "row": 15,
+              "col": 5
+            },
+            {
+              "row": 15,
+              "col": 6
             }
           ]
         },
@@ -2180,38 +3389,79 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "FIYERO",
           "clean": "FIYERO",
           "start": {
-            "row": 1,
-            "col": 9
+            "row": 7,
+            "col": 3
           },
           "end": {
-            "row": 6,
-            "col": 9
+            "row": 2,
+            "col": 8
           },
-          "direction": "S",
+          "direction": "NE",
           "path": [
             {
-              "row": 1,
-              "col": 9
-            },
-            {
-              "row": 2,
-              "col": 9
-            },
-            {
-              "row": 3,
-              "col": 9
-            },
-            {
-              "row": 4,
-              "col": 9
-            },
-            {
-              "row": 5,
-              "col": 9
+              "row": 7,
+              "col": 3
             },
             {
               "row": 6,
-              "col": 9
+              "col": 4
+            },
+            {
+              "row": 5,
+              "col": 5
+            },
+            {
+              "row": 4,
+              "col": 6
+            },
+            {
+              "row": 3,
+              "col": 7
+            },
+            {
+              "row": 2,
+              "col": 8
+            }
+          ]
+        },
+        {
+          "label": "Flying",
+          "value": "FLYING",
+          "word": "FLYING",
+          "clean": "FLYING",
+          "start": {
+            "row": 13,
+            "col": 5
+          },
+          "end": {
+            "row": 8,
+            "col": 0
+          },
+          "direction": "NW",
+          "path": [
+            {
+              "row": 13,
+              "col": 5
+            },
+            {
+              "row": 12,
+              "col": 4
+            },
+            {
+              "row": 11,
+              "col": 3
+            },
+            {
+              "row": 10,
+              "col": 2
+            },
+            {
+              "row": 9,
+              "col": 1
+            },
+            {
+              "row": 8,
+              "col": 0
             }
           ]
         },
@@ -2221,38 +3471,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "GLINDA",
           "clean": "GLINDA",
           "start": {
-            "row": 1,
-            "col": 3
+            "row": 14,
+            "col": 1
           },
           "end": {
-            "row": 6,
-            "col": 8
+            "row": 14,
+            "col": 6
           },
-          "direction": "SE",
+          "direction": "E",
           "path": [
             {
-              "row": 1,
+              "row": 14,
+              "col": 1
+            },
+            {
+              "row": 14,
+              "col": 2
+            },
+            {
+              "row": 14,
               "col": 3
             },
             {
-              "row": 2,
+              "row": 14,
               "col": 4
             },
             {
-              "row": 3,
+              "row": 14,
               "col": 5
             },
             {
-              "row": 4,
+              "row": 14,
               "col": 6
-            },
-            {
-              "row": 5,
-              "col": 7
-            },
-            {
-              "row": 6,
-              "col": 8
             }
           ]
         },
@@ -2262,34 +3512,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "GREEN",
           "clean": "GREEN",
           "start": {
-            "row": 9,
-            "col": 4
+            "row": 5,
+            "col": 3
           },
           "end": {
-            "row": 5,
-            "col": 0
+            "row": 1,
+            "col": 7
           },
-          "direction": "NW",
+          "direction": "NE",
           "path": [
             {
-              "row": 9,
-              "col": 4
-            },
-            {
-              "row": 8,
+              "row": 5,
               "col": 3
             },
             {
-              "row": 7,
-              "col": 2
+              "row": 4,
+              "col": 4
             },
             {
-              "row": 6,
-              "col": 1
+              "row": 3,
+              "col": 5
             },
             {
-              "row": 5,
-              "col": 0
+              "row": 2,
+              "col": 6
+            },
+            {
+              "row": 1,
+              "col": 7
             }
           ]
         },
@@ -2300,17 +3550,17 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "clean": "MAGIC",
           "start": {
             "row": 4,
-            "col": 5
+            "col": 7
           },
           "end": {
             "row": 0,
-            "col": 9
+            "col": 3
           },
-          "direction": "NE",
+          "direction": "NW",
           "path": [
             {
               "row": 4,
-              "col": 5
+              "col": 7
             },
             {
               "row": 3,
@@ -2318,15 +3568,15 @@ export const dailyPuzzles: DailyPuzzlesData = {
             },
             {
               "row": 2,
-              "col": 7
+              "col": 5
             },
             {
               "row": 1,
-              "col": 8
+              "col": 4
             },
             {
               "row": 0,
-              "col": 9
+              "col": 3
             }
           ]
         },
@@ -2337,21 +3587,91 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "clean": "OZ",
           "start": {
             "row": 2,
+            "col": 9
+          },
+          "end": {
+            "row": 1,
+            "col": 9
+          },
+          "direction": "N",
+          "path": [
+            {
+              "row": 2,
+              "col": 9
+            },
+            {
+              "row": 1,
+              "col": 9
+            }
+          ]
+        },
+        {
+          "label": "Shiz",
+          "value": "SHIZ",
+          "word": "SHIZ",
+          "clean": "SHIZ",
+          "start": {
+            "row": 11,
             "col": 0
           },
           "end": {
-            "row": 2,
-            "col": 1
+            "row": 8,
+            "col": 3
+          },
+          "direction": "NE",
+          "path": [
+            {
+              "row": 11,
+              "col": 0
+            },
+            {
+              "row": 10,
+              "col": 1
+            },
+            {
+              "row": 9,
+              "col": 2
+            },
+            {
+              "row": 8,
+              "col": 3
+            }
+          ]
+        },
+        {
+          "label": "Spell",
+          "value": "SPELL",
+          "word": "SPELL",
+          "clean": "SPELL",
+          "start": {
+            "row": 8,
+            "col": 5
+          },
+          "end": {
+            "row": 8,
+            "col": 9
           },
           "direction": "E",
           "path": [
             {
-              "row": 2,
-              "col": 0
+              "row": 8,
+              "col": 5
             },
             {
-              "row": 2,
-              "col": 1
+              "row": 8,
+              "col": 6
+            },
+            {
+              "row": 8,
+              "col": 7
+            },
+            {
+              "row": 8,
+              "col": 8
+            },
+            {
+              "row": 8,
+              "col": 9
             }
           ]
         },
@@ -2361,34 +3681,34 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "WITCH",
           "clean": "WITCH",
           "start": {
-            "row": 6,
-            "col": 3
+            "row": 10,
+            "col": 9
           },
           "end": {
-            "row": 6,
-            "col": 7
+            "row": 14,
+            "col": 9
           },
-          "direction": "E",
+          "direction": "S",
           "path": [
             {
-              "row": 6,
-              "col": 3
+              "row": 10,
+              "col": 9
             },
             {
-              "row": 6,
-              "col": 4
+              "row": 11,
+              "col": 9
             },
             {
-              "row": 6,
-              "col": 5
+              "row": 12,
+              "col": 9
             },
             {
-              "row": 6,
-              "col": 6
+              "row": 13,
+              "col": 9
             },
             {
-              "row": 6,
-              "col": 7
+              "row": 14,
+              "col": 9
             }
           ]
         },
@@ -2398,38 +3718,38 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "WIZARD",
           "clean": "WIZARD",
           "start": {
-            "row": 5,
-            "col": 1
+            "row": 10,
+            "col": 8
           },
           "end": {
-            "row": 5,
-            "col": 6
+            "row": 15,
+            "col": 8
           },
-          "direction": "E",
+          "direction": "S",
           "path": [
             {
-              "row": 5,
-              "col": 1
+              "row": 10,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 2
+              "row": 11,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 3
+              "row": 12,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 4
+              "row": 13,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 5
+              "row": 14,
+              "col": 8
             },
             {
-              "row": 5,
-              "col": 6
+              "row": 15,
+              "col": 8
             }
           ]
         }
@@ -2437,7 +3757,9 @@ export const dailyPuzzles: DailyPuzzlesData = {
     },
     {
       "id": 6,
-      "size": 10,
+      "size": 16,
+      "rows": 16,
+      "cols": 10,
       "topic": "Kpop Groups",
       "words": [
         {
@@ -2471,128 +3793,216 @@ export const dailyPuzzles: DailyPuzzlesData = {
         {
           "label": "있지",
           "value": "있지"
+        },
+        {
+          "label": "르세라핌",
+          "value": "르세라핌"
+        },
+        {
+          "label": "블랙핑크",
+          "value": "블랙핑크"
+        },
+        {
+          "label": "세븐틴",
+          "value": "세븐틴"
+        },
+        {
+          "label": "트레저",
+          "value": "트레저"
         }
       ],
       "grid": [
         [
-          "추",
-          "하",
-          "나",
-          "엔",
-          "후",
-          "니",
-          "소",
-          "소",
-          "어",
-          "조"
-        ],
-        [
-          "미",
-          "코",
+          "서",
+          "라",
+          "호",
+          "우",
+          "수",
+          "지",
+          "구",
+          "투",
           "바",
-          "믹",
-          "히",
-          "아",
-          "엑",
-          "라",
-          "라",
           "허"
         ],
         [
-          "디",
-          "파",
-          "탄",
-          "스",
-          "에",
-          "라",
-          "이",
-          "티",
-          "파",
-          "고"
+          "어",
+          "하",
+          "서",
+          "히",
+          "우",
+          "무",
+          "차",
+          "히",
+          "우",
+          "카"
         ],
         [
+          "다",
+          "더",
+          "우",
+          "니",
+          "세",
+          "븐",
+          "틴",
+          "타",
+          "엑",
+          "소"
+        ],
+        [
+          "저",
+          "레",
+          "트",
+          "머",
+          "호",
+          "누",
+          "너",
+          "시",
+          "퍼",
+          "러"
+        ],
+        [
+          "뉴",
           "서",
+          "쿠",
+          "차",
           "아",
-          "방",
-          "바",
-          "스",
-          "뱅",
-          "빅",
-          "브",
-          "터",
-          "커"
+          "비",
+          "주",
+          "조",
+          "저",
+          "도"
         ],
         [
           "소",
-          "터",
-          "어",
-          "보",
-          "파",
+          "진",
+          "치",
+          "추",
+          "가",
+          "르",
+          "세",
+          "라",
+          "핌",
+          "구"
+        ],
+        [
+          "시",
+          "도",
+          "스",
+          "기",
+          "피",
+          "모",
+          "키",
+          "호",
+          "타",
+          "리"
+        ],
+        [
+          "초",
+          "퍼",
           "히",
-          "처",
-          "히",
-          "두",
+          "무",
+          "라",
+          "시",
+          "지",
+          "피",
+          "우",
+          "구"
+        ],
+        [
+          "마",
+          "하",
+          "아",
+          "이",
+          "브",
+          "시",
+          "초",
+          "퍼",
+          "커",
+          "바"
+        ],
+        [
+          "로",
+          "허",
+          "모",
+          "나",
+          "모",
+          "이",
+          "고",
+          "지",
+          "저",
           "쿠"
         ],
         [
-          "버",
-          "스",
-          "부",
-          "고",
-          "카",
-          "디",
-          "비",
-          "푸",
-          "푸",
-          "나"
-        ],
-        [
-          "수",
-          "히",
-          "진",
-          "사",
-          "티",
-          "초",
-          "투",
-          "보",
-          "시",
-          "다"
-        ],
-        [
-          "리",
-          "수",
-          "주",
-          "뉴",
-          "주",
-          "서",
-          "있",
-          "거",
-          "어",
-          "추"
-        ],
-        [
-          "디",
-          "푸",
-          "카",
-          "더",
-          "코",
           "키",
-          "푸",
-          "지",
-          "나",
-          "미"
+          "거",
+          "머",
+          "타",
+          "보",
+          "토",
+          "엔",
+          "크",
+          "있",
+          "로"
+        ],
+        [
+          "이",
+          "서",
+          "카",
+          "어",
+          "두",
+          "키",
+          "핑",
+          "믹",
+          "비",
+          "키"
+        ],
+        [
+          "두",
+          "쿠",
+          "이",
+          "기",
+          "처",
+          "랙",
+          "루",
+          "루",
+          "스",
+          "카"
+        ],
+        [
+          "파",
+          "스",
+          "에",
+          "터",
+          "블",
+          "사",
+          "노",
+          "가",
+          "저",
+          "리"
         ],
         [
           "노",
-          "두",
-          "라",
-          "서",
-          "가",
-          "두",
+          "비",
           "치",
-          "기",
-          "고",
-          "차"
+          "보",
+          "탄",
+          "방",
+          "빅",
+          "뱅",
+          "리",
+          "보"
+        ],
+        [
+          "우",
+          "니",
+          "시",
+          "누",
+          "티",
+          "처",
+          "소",
+          "퍼",
+          "허",
+          "카"
         ]
       ],
       "placements": [
@@ -2602,26 +4012,59 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "뉴진스",
           "clean": "뉴진스",
           "start": {
-            "row": 7,
-            "col": 3
+            "row": 4,
+            "col": 0
           },
           "end": {
-            "row": 5,
-            "col": 1
+            "row": 6,
+            "col": 2
           },
-          "direction": "NW",
+          "direction": "SE",
           "path": [
             {
-              "row": 7,
-              "col": 3
-            },
-            {
-              "row": 6,
-              "col": 2
+              "row": 4,
+              "col": 0
             },
             {
               "row": 5,
               "col": 1
+            },
+            {
+              "row": 6,
+              "col": 2
+            }
+          ]
+        },
+        {
+          "label": "르세라핌",
+          "value": "르세라핌",
+          "word": "르세라핌",
+          "clean": "르세라핌",
+          "start": {
+            "row": 5,
+            "col": 5
+          },
+          "end": {
+            "row": 5,
+            "col": 8
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 5,
+              "col": 5
+            },
+            {
+              "row": 5,
+              "col": 6
+            },
+            {
+              "row": 5,
+              "col": 7
+            },
+            {
+              "row": 5,
+              "col": 8
             }
           ]
         },
@@ -2631,22 +4074,55 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "방탄",
           "clean": "방탄",
           "start": {
-            "row": 3,
-            "col": 2
+            "row": 14,
+            "col": 5
           },
           "end": {
-            "row": 2,
-            "col": 2
+            "row": 14,
+            "col": 4
           },
-          "direction": "N",
+          "direction": "W",
           "path": [
             {
-              "row": 3,
-              "col": 2
+              "row": 14,
+              "col": 5
             },
             {
-              "row": 2,
-              "col": 2
+              "row": 14,
+              "col": 4
+            }
+          ]
+        },
+        {
+          "label": "블랙핑크",
+          "value": "블랙핑크",
+          "word": "블랙핑크",
+          "clean": "블랙핑크",
+          "start": {
+            "row": 13,
+            "col": 4
+          },
+          "end": {
+            "row": 10,
+            "col": 7
+          },
+          "direction": "NE",
+          "path": [
+            {
+              "row": 13,
+              "col": 4
+            },
+            {
+              "row": 12,
+              "col": 5
+            },
+            {
+              "row": 11,
+              "col": 6
+            },
+            {
+              "row": 10,
+              "col": 7
             }
           ]
         },
@@ -2656,22 +4132,51 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "빅뱅",
           "clean": "빅뱅",
           "start": {
-            "row": 3,
+            "row": 14,
             "col": 6
           },
           "end": {
-            "row": 3,
-            "col": 5
+            "row": 14,
+            "col": 7
           },
-          "direction": "W",
+          "direction": "E",
           "path": [
             {
-              "row": 3,
+              "row": 14,
               "col": 6
             },
             {
-              "row": 3,
+              "row": 14,
+              "col": 7
+            }
+          ]
+        },
+        {
+          "label": "세븐틴",
+          "value": "세븐틴",
+          "word": "세븐틴",
+          "clean": "세븐틴",
+          "start": {
+            "row": 2,
+            "col": 4
+          },
+          "end": {
+            "row": 2,
+            "col": 6
+          },
+          "direction": "E",
+          "path": [
+            {
+              "row": 2,
+              "col": 4
+            },
+            {
+              "row": 2,
               "col": 5
+            },
+            {
+              "row": 2,
+              "col": 6
             }
           ]
         },
@@ -2681,26 +4186,26 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "아이브",
           "clean": "아이브",
           "start": {
-            "row": 1,
-            "col": 5
+            "row": 8,
+            "col": 2
           },
           "end": {
-            "row": 3,
-            "col": 7
+            "row": 8,
+            "col": 4
           },
-          "direction": "SE",
+          "direction": "E",
           "path": [
             {
-              "row": 1,
-              "col": 5
+              "row": 8,
+              "col": 2
             },
             {
-              "row": 2,
-              "col": 6
+              "row": 8,
+              "col": 3
             },
             {
-              "row": 3,
-              "col": 7
+              "row": 8,
+              "col": 4
             }
           ]
         },
@@ -2710,26 +4215,26 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "에스파",
           "clean": "에스파",
           "start": {
-            "row": 2,
-            "col": 4
+            "row": 13,
+            "col": 2
           },
           "end": {
-            "row": 4,
-            "col": 4
+            "row": 13,
+            "col": 0
           },
-          "direction": "S",
+          "direction": "W",
           "path": [
             {
-              "row": 2,
-              "col": 4
+              "row": 13,
+              "col": 2
             },
             {
-              "row": 3,
-              "col": 4
+              "row": 13,
+              "col": 1
             },
             {
-              "row": 4,
-              "col": 4
+              "row": 13,
+              "col": 0
             }
           ]
         },
@@ -2739,22 +4244,22 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "엑소",
           "clean": "엑소",
           "start": {
-            "row": 1,
-            "col": 6
+            "row": 2,
+            "col": 8
           },
           "end": {
-            "row": 0,
-            "col": 7
+            "row": 2,
+            "col": 9
           },
-          "direction": "NE",
+          "direction": "E",
           "path": [
             {
-              "row": 1,
-              "col": 6
+              "row": 2,
+              "col": 8
             },
             {
-              "row": 0,
-              "col": 7
+              "row": 2,
+              "col": 9
             }
           ]
         },
@@ -2764,26 +4269,26 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "엔믹스",
           "clean": "엔믹스",
           "start": {
-            "row": 0,
-            "col": 3
+            "row": 10,
+            "col": 6
           },
           "end": {
-            "row": 2,
-            "col": 3
+            "row": 12,
+            "col": 8
           },
-          "direction": "S",
+          "direction": "SE",
           "path": [
             {
-              "row": 0,
-              "col": 3
+              "row": 10,
+              "col": 6
             },
             {
-              "row": 1,
-              "col": 3
+              "row": 11,
+              "col": 7
             },
             {
-              "row": 2,
-              "col": 3
+              "row": 12,
+              "col": 8
             }
           ]
         },
@@ -2793,22 +4298,51 @@ export const dailyPuzzles: DailyPuzzlesData = {
           "word": "있지",
           "clean": "있지",
           "start": {
-            "row": 7,
-            "col": 6
+            "row": 10,
+            "col": 8
           },
           "end": {
-            "row": 8,
+            "row": 9,
             "col": 7
           },
-          "direction": "SE",
+          "direction": "NW",
           "path": [
             {
-              "row": 7,
-              "col": 6
+              "row": 10,
+              "col": 8
             },
             {
-              "row": 8,
+              "row": 9,
               "col": 7
+            }
+          ]
+        },
+        {
+          "label": "트레저",
+          "value": "트레저",
+          "word": "트레저",
+          "clean": "트레저",
+          "start": {
+            "row": 3,
+            "col": 2
+          },
+          "end": {
+            "row": 3,
+            "col": 0
+          },
+          "direction": "W",
+          "path": [
+            {
+              "row": 3,
+              "col": 2
+            },
+            {
+              "row": 3,
+              "col": 1
+            },
+            {
+              "row": 3,
+              "col": 0
             }
           ]
         }

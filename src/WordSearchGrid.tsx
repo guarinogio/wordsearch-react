@@ -17,7 +17,7 @@ const getViewportWidth = () =>
 const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));
 
-const getSnappedPath = (start: Cell, target: Cell, size: number) => {
+const getSnappedPath = (start: Cell, target: Cell, rows: number, cols: number) => {
   const rowDiff = target.row - start.row;
   const colDiff = target.col - start.col;
 
@@ -39,8 +39,8 @@ const getSnappedPath = (start: Cell, target: Cell, size: number) => {
   }
 
   const end = {
-    row: clamp(start.row + rowStep * length, 0, size - 1),
-    col: clamp(start.col + colStep * length, 0, size - 1),
+    row: clamp(start.row + rowStep * length, 0, rows - 1),
+    col: clamp(start.col + colStep * length, 0, cols - 1),
   };
 
   return getSelectionPath(start, end);
@@ -164,7 +164,7 @@ export function WordSearchGrid({
     const cell = getCellFromPoint(event.clientX, event.clientY);
     if (!cell) return;
 
-    const nextPath = getSnappedPath(dragStart, cell, puzzle.size);
+    const nextPath = getSnappedPath(dragStart, cell, puzzle.rows ?? puzzle.size, puzzle.cols ?? puzzle.size);
 
     if (nextPath.length < 2) return;
 
@@ -201,19 +201,25 @@ export function WordSearchGrid({
     setDragStart(null);
   };
 
+  const rows = puzzle.rows ?? puzzle.size;
+  const cols = puzzle.cols ?? puzzle.size;
+  const longestSide = Math.max(rows, cols);
+
   const availableWidth = Math.min(viewportWidth, 960) - 52;
-  const gap = puzzle.size >= 50 ? 1 : puzzle.size >= 25 ? 2 : 3;
-  const padding = puzzle.size >= 50 ? 5 : puzzle.size >= 25 ? 7 : 9;
+  const gap = longestSide >= 50 ? 1 : longestSide >= 25 ? 2 : 3;
+  const padding = longestSide >= 50 ? 5 : longestSide >= 25 ? 7 : 9;
   const rawCellSize = Math.floor(
-    (availableWidth - padding * 2 - gap * (puzzle.size - 1)) / puzzle.size
+    (availableWidth - padding * 2 - gap * (cols - 1)) / cols
   );
-  const cellSize = Math.max(6, Math.min(34, rawCellSize));
+  const cellSize = Math.max(22, Math.min(44, rawCellSize));
+  const boardWidth = cols * cellSize + gap * (cols - 1) + padding * 2;
 
   const gridStyle = {
-    gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))`,
+    gridTemplateColumns: `repeat(${cols}, var(--cell-size))`,
     "--cell-size": `${cellSize}px`,
     "--grid-gap": `${gap}px`,
     "--grid-padding": `${padding}px`,
+    "--board-width": `${boardWidth}px`,
   } as CSSProperties;
 
   return (

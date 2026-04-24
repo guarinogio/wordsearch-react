@@ -39,8 +39,8 @@ export type DailyPuzzlesData = {
 };
 
 export const dailyPuzzles: DailyPuzzlesData = {
-  "id": "2026-04-23",
-  "date": "2026-04-23",
+  "id": "2026-04-24",
+  "date": "2026-04-24",
   "topic": "Multi Topic",
   "hash": "839ef7dc5eca73497816f4cbca191874f0629e0c98c4b8a082816d2444d6e260",
   "puzzles": [

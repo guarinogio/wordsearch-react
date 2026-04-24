@@ -34,6 +34,9 @@ const loadPuzzleData = async (date: string) => {
   return mod.dailyPuzzles;
 };
 
+const getProgressKey = (date: string, hash: string, puzzleId: number) =>
+  `daily-word-soup:${date}:${hash}:puzzle:${puzzleId}:found`;
+
 function PuzzleBoard({
   puzzle,
   foundValues,
@@ -45,6 +48,7 @@ function PuzzleBoard({
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
   const [clearSignal, setClearSignal] = useState(0);
+  const [wordsOpen, setWordsOpen] = useState(false);
   const foundPercent = Math.round((foundValues.size / puzzle.words.length) * 100);
 
   return (
@@ -118,21 +122,29 @@ function PuzzleBoard({
       </TransformWrapper>
 
       <div className="words">
-        <div className="wordsHeader">
-          <h2>Words</h2>
-          <span>{foundPercent}%</span>
-        </div>
+        <button
+          type="button"
+          className="wordsToggle"
+          onClick={() => setWordsOpen((value) => !value)}
+          aria-expanded={wordsOpen}
+        >
+          <span>Words</span>
+          <strong>{foundPercent}%</strong>
+          <span>{wordsOpen ? "Hide" : "Show"}</span>
+        </button>
 
-        <div className="wordList">
-          {puzzle.words.map((word) => (
-            <span
-              key={word.value}
-              className={["word", foundValues.has(word.value) ? "foundWord" : ""].join(" ")}
-            >
-              {word.label}
-            </span>
-          ))}
-        </div>
+        {wordsOpen && (
+          <div className="wordList">
+            {puzzle.words.map((word) => (
+              <span
+                key={word.value}
+                className={["word", foundValues.has(word.value) ? "foundWord" : ""].join(" ")}
+              >
+                {word.label}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -145,6 +157,7 @@ function DailyPage() {
   const [data, setData] = useState<DailyPuzzlesData | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [foundByPuzzle, setFoundByPuzzle] = useState<Record<number, Set<string>>>({});
+  const [activePuzzleId, setActivePuzzleId] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
@@ -161,13 +174,14 @@ function DailyPage() {
 
       if (!loaded) {
         setFoundByPuzzle({});
+        setActivePuzzleId(null);
         return;
       }
 
       const restored: Record<number, Set<string>> = {};
 
       loaded.puzzles.forEach((puzzle) => {
-        const key = `daily-word-soup:${selectedDate}:puzzle:${puzzle.id}:found`;
+        const key = getProgressKey(selectedDate, loaded.hash, puzzle.id);
         const saved = localStorage.getItem(key);
 
         if (!saved) return;
@@ -187,6 +201,7 @@ function DailyPage() {
       });
 
       setFoundByPuzzle(restored);
+      setActivePuzzleId(loaded.puzzles[0]?.id ?? null);
     });
 
     return () => {
@@ -198,7 +213,7 @@ function DailyPage() {
     if (!data) return;
 
     data.puzzles.forEach((puzzle) => {
-      const key = `daily-word-soup:${selectedDate}:puzzle:${puzzle.id}:found`;
+      const key = getProgressKey(selectedDate, data.hash, puzzle.id);
       const values = [...(foundByPuzzle[puzzle.id] ?? new Set<string>())];
 
       if (values.length === 0) {
@@ -227,6 +242,19 @@ function DailyPage() {
       ),
     };
   }, [data, foundByPuzzle]);
+
+  const activePuzzle = data?.puzzles.find((puzzle) => puzzle.id === activePuzzleId) ?? data?.puzzles[0];
+
+  const resetProgress = () => {
+    if (!data) return;
+
+    data.puzzles.forEach((puzzle) => {
+      localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
+    });
+
+    setFoundByPuzzle({});
+    setToast("Progress reset");
+  };
 
   if (notFound) {
     return (
@@ -301,32 +329,49 @@ function DailyPage() {
       )}
 
       <section className="toolbar" aria-label="Controles">
-        <span className="hint">
-          Tap or drag to select · enable Move for pan/zoom
-        </span>
+        <span className="hint">Tap or drag to select · enable Move for pan/zoom</span>
+
+        <button type="button" className="resetProgress" onClick={resetProgress}>
+          Reset progress
+        </button>
       </section>
 
-      {data.puzzles.map((puzzle) => {
-        const foundValues = foundByPuzzle[puzzle.id] ?? new Set<string>();
+      <nav className="puzzleTabs" aria-label="Puzzles">
+        {data.puzzles.map((puzzle) => {
+          const found = foundByPuzzle[puzzle.id]?.size ?? 0;
+          const total = puzzle.words.length;
 
-        return (
-          <PuzzleBoard
-            key={puzzle.id}
-            puzzle={puzzle}
-            foundValues={foundValues}
-            onFound={(value) => {
-              const wordLabel = puzzle.words.find((word) => word.value === value)?.label ?? value;
+          return (
+            <button
+              key={puzzle.id}
+              type="button"
+              className={["puzzleTab", puzzle.id === activePuzzle?.id ? "active" : ""].join(" ")}
+              onClick={() => setActivePuzzleId(puzzle.id)}
+            >
+              <span>Puzzle {puzzle.id}</span>
+              <strong>{found}/{total}</strong>
+            </button>
+          );
+        })}
+      </nav>
 
-              setFoundByPuzzle((prev) => ({
-                ...prev,
-                [puzzle.id]: new Set(prev[puzzle.id] ?? []).add(value),
-              }));
+      {activePuzzle && (
+        <PuzzleBoard
+          key={activePuzzle.id}
+          puzzle={activePuzzle}
+          foundValues={foundByPuzzle[activePuzzle.id] ?? new Set<string>()}
+          onFound={(value) => {
+            const wordLabel = activePuzzle.words.find((word) => word.value === value)?.label ?? value;
 
-              setToast(`Found: ${wordLabel}`);
-            }}
-          />
-        );
-      })}
+            setFoundByPuzzle((prev) => ({
+              ...prev,
+              [activePuzzle.id]: new Set(prev[activePuzzle.id] ?? []).add(value),
+            }));
+
+            setToast(`Found: ${wordLabel}`);
+          }}
+        />
+      )}
 
       {toast && <div className="toast">{toast}</div>}
 

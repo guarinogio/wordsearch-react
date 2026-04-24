@@ -59,6 +59,7 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
   };
 
   const cellSize = Math.max(16, Math.min(36, Math.floor(520 / puzzle.size)));
+
   const gridStyle = {
     gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))`,
     "--cell-size": `${cellSize}px`,
@@ -66,15 +67,6 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
 
   return (
     <div className="wordSearchGrid">
-      <button
-        type="button"
-        className="__deleted__"
-        onClick={() => setManualPath([])}
-        disabled={manualPath.length === 0}
-      >
-        Limpiar
-      </button>
-
       <div className="gridShell" style={gridStyle}>
         {puzzle.grid.map((row, rowIndex) =>
           row.map((letter, colIndex) => {
@@ -100,5 +92,4 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
       </div>
     </div>
   );
-}      <div className="wordSearchGrid">
-
+}

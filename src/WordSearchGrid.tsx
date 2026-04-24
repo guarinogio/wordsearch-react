@@ -9,8 +9,6 @@ type Props = {
   selectionDisabled?: boolean;
   clearSignal?: number;
   vibrationEnabled?: boolean;
-  vibrationEnabled?: boolean;
-  vibrationEnabled?: boolean;
 };
 
 const getViewportWidth = () =>

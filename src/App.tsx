@@ -54,7 +54,7 @@ const getDayAchievementKey = (date: string) =>
 
 const SETTINGS_KEY = "daily-word-soup:settings";
 
-type ThemeName = "light" | "dark" | "pastel";
+type ThemeName = "light" | "dark" | "pastel" | "glinda" | "neyo";
 
 type AppSettings = {
   theme: ThemeName;
@@ -201,20 +201,16 @@ function PuzzleBoard({
       <div className="words">
         <button
           type="button"
-          className="wordsToggle"
+          className="wordsToggle" disabled={wordsOpen}
           onClick={() => {
-            setWordsOpen((value) => {
-              if (value) return false;
-
-              onWordsOpenRequest(() => setWordsOpen(true));
-              return false;
-            });
+            if (wordsOpen) return;
+            onWordsOpenRequest(() => setWordsOpen(true));
           }}
           aria-expanded={wordsOpen}
         >
           <span>Words</span>
           <strong>{foundPercent}%</strong>
-          <span>{wordsOpen ? "Hide" : "Show"}</span>
+          <span>{wordsOpen ? "Shown" : "Show"}</span>
         </button>
 
         {wordsOpen && (
@@ -868,10 +864,7 @@ function OptionsPage() {
       await Promise.all(registrations.map((registration) => registration.unregister()));
     }
 
-    setSettings(defaultSettings);
-    document.documentElement.dataset.theme = defaultSettings.theme;
-    document.documentElement.dataset.animations = defaultSettings.animations ? "on" : "off";
-    setToast({ message: "App reset complete" });
+    window.location.reload();
   };
 
   return (
@@ -888,14 +881,20 @@ function OptionsPage() {
         <div className="settingGroup">
           <strong>Theme</strong>
           <div className="themeOptions">
-            {(["light", "dark", "pastel"] as ThemeName[]).map((theme) => (
+            {(["light", "dark", "pastel", "glinda", "neyo"] as ThemeName[]).map((theme) => (
               <button
                 key={theme}
                 type="button"
                 className={settings.theme === theme ? "active" : ""}
                 onClick={() => updateSettings({ theme })}
               >
-                {theme === "light" ? "Current" : theme === "dark" ? "Dark" : "Pastel"}
+                {{
+                  light: "Light",
+                  dark: "Dark",
+                  pastel: "Pastel",
+                  glinda: "Glinda",
+                  neyo: "Ne-yo",
+                }[theme]}{settings.theme === theme ? " ✓" : ""}
               </button>
             ))}
           </div>

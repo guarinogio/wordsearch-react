@@ -615,29 +615,6 @@ h2 {
   }
 }
 
-.boardActionGroup {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.clearSelectionButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  min-width: 92px;
-  padding: 12px 16px;
-  border: 1px solid rgba(148,163,184,.38);
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef3fa 100%);
-  color: #334155;
-  font-weight: 950;
-  box-shadow:
-    0 10px 24px rgba(15,23,42,.14),
-    inset 0 1px 0 rgba(255,255,255,.85);
-}
-
 .clearSelectionButton:disabled {
   opacity: .45;
   box-shadow: none;
@@ -672,13 +649,4 @@ h2 {
 }
 
 @media (max-width: 520px) {
-  .boardActionGroup {
-    align-items: flex-start;
-    flex-direction: column;
   }
-
-  .clearSelectionButton {
-    width: fit-content;
-    min-width: 132px;
-  }
-}

@@ -161,7 +161,7 @@ h2 {
 .transformContent {
   width: max-content;
   height: max-content;
-  padding: 28px 24px 32px;
+  padding: 24px 0 28px;
 }
 
 .wordSearchGrid {
@@ -171,8 +171,8 @@ h2 {
 
 .gridShell {
   display: grid;
-  gap: max(1px, calc(var(--cell-size) * .12));
-  padding: max(4px, calc(var(--cell-size) * .3));
+  gap: var(--grid-gap);
+  padding: var(--grid-padding);
   border-radius: max(10px, calc(var(--cell-size) * .6));
   background: #e2e8f0;
   user-select: none;
@@ -299,8 +299,10 @@ h2 {
   }
 
   .transformContent {
-    padding: 24px 18px 28px;
-  }
+  width: max-content;
+  height: max-content;
+  padding: 24px 0 28px;
+}
 }
 
 .sidebarOverlay {

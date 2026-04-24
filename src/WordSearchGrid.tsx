@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import type { Cell, DailyPuzzle } from "./types";
 import { cellKey, findPlacementByPath, getSelectionPath, sameCell } from "./gameLogic";
 
@@ -20,8 +20,23 @@ const isNextValidCell = (path: Cell[], cell: Cell) => {
   );
 };
 
+const getViewportWidth = () =>
+  typeof window === "undefined" ? 390 : window.innerWidth;
+
 export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
   const [manualPath, setManualPath] = useState<Cell[]>([]);
+  const [viewportWidth, setViewportWidth] = useState(getViewportWidth);
+
+  useEffect(() => {
+    const update = () => setViewportWidth(getViewportWidth());
+    window.addEventListener("resize", update);
+    window.addEventListener("orientationchange", update);
+
+    return () => {
+      window.removeEventListener("resize", update);
+      window.removeEventListener("orientationchange", update);
+    };
+  }, []);
 
   const selectedCells = useMemo(() => new Set(manualPath.map(cellKey)), [manualPath]);
 
@@ -58,11 +73,17 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
     });
   };
 
-  const cellSize = Math.max(16, Math.min(36, Math.floor(520 / puzzle.size)));
+  const availableWidth = Math.min(viewportWidth, 960) - 56;
+  const gap = puzzle.size >= 60 ? 1 : puzzle.size >= 30 ? 2 : 4;
+  const padding = puzzle.size >= 60 ? 4 : puzzle.size >= 30 ? 6 : 10;
+  const rawCellSize = Math.floor((availableWidth - padding * 2 - gap * (puzzle.size - 1)) / puzzle.size);
+  const cellSize = Math.max(5, Math.min(36, rawCellSize));
 
   const gridStyle = {
     gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))`,
     "--cell-size": `${cellSize}px`,
+    "--grid-gap": `${gap}px`,
+    "--grid-padding": `${padding}px`,
   } as CSSProperties;
 
   return (

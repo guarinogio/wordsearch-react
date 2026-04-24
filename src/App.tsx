@@ -56,33 +56,16 @@ function PuzzleBoard({
       </div>
 
       <TransformWrapper
-        minScale={0.1}
-        maxScale={5}
+        minScale={0.25}
+        maxScale={8}
+        initialScale={1}
         centerOnInit
         doubleClick={{ disabled: true }}
         panning={{ disabled: !moveEnabled }}
         pinch={{ disabled: false }}
         wheel={{ disabled: false }}
       >
-        {({ zoomIn, zoomOut, resetTransform, setTransform, state }) => {
-
-          const handleInit = (wrapper: HTMLDivElement | null) => {
-            if (!wrapper) return;
-
-            const containerWidth = wrapper.clientWidth;
-            const containerHeight = wrapper.clientHeight;
-
-            const gridSizePx = 520; // mismo cálculo base que usas en WordSearchGrid
-
-            const scaleX = containerWidth / gridSizePx;
-            const scaleY = containerHeight / gridSizePx;
-
-            const scale = Math.min(scaleX, scaleY);
-
-            setTransform(0, 0, scale);
-          };
-
-          return (
+        {({ zoomIn, zoomOut, resetTransform }) => (
           <>
             <div className="boardControls">
               <div className="zoomControls">
@@ -101,17 +84,12 @@ function PuzzleBoard({
             </div>
 
             <div className="boardCard">
-              <TransformComponent
-              wrapperClass="transformWrapper"
-              contentClass="transformContent"
-              wrapperRef={handleInit}
-            >
+              <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
                 <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
               </TransformComponent>
             </div>
           </>
-          );
-        }}
+        )}
       </TransformWrapper>
 
       <div className="words">

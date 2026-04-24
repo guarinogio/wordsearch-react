@@ -678,16 +678,6 @@ h2 {
   gap: 10px;
 }
 
-.resetProgress {
-  flex: 0 0 auto;
-  border: 0;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #991b1b;
-  font-weight: 900;
-  padding: 8px 11px;
-}
-
 .puzzleTabs {
   position: sticky;
   top: 0;
@@ -779,10 +769,7 @@ h2 {
     flex-direction: column;
   }
 
-  .resetProgress {
-    align-self: flex-start;
   }
-}
 
 .puzzleTab.completeTab {
   border-color: rgba(22, 101, 52, .35);
@@ -1048,7 +1035,6 @@ body,
   color: var(--muted);
 }
 
-.resetProgress,
 .dangerButton {
   background: var(--danger-bg);
   color: var(--danger-text);
@@ -1481,11 +1467,6 @@ html[data-theme="dark"] .moveToggle.active {
   color: #0f172a;
 }
 
-html[data-theme="dark"] .resetProgress {
-  background: #7f1d1d;
-  color: #fee2e2;
-}
-
 /* Dark theme sidebar */
 html[data-theme="dark"] .sidebar {
   background: #172033;
@@ -1653,13 +1634,7 @@ html[data-theme="glinda"] .gridShell {
   background: linear-gradient(135deg, #f9a8d4, #f0abfc);
 }
 
-/* Ne-yo fixes: reset + counters */
-html[data-theme="neyo"] .resetProgress {
-  background: #1a0b12;
-  color: #fda4af;
-  border: 1px solid rgba(244, 63, 94, .35);
-}
-
+/* Ne-yo fixes: counters */
 html[data-theme="neyo"] .puzzleTab strong {
   background: rgba(255,255,255,.08);
   color: #cbd5e1;

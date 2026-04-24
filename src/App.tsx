@@ -258,6 +258,7 @@ function DailyPage() {
     )
   );
   const [activePuzzleId, setActivePuzzleId] = useState<number | null>(null);
+  const [hydratedStorageKey, setHydratedStorageKey] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string; tone?: "default" | "achievement" } | null>(null);
   const [confirmAction, setConfirmAction] = useState<{
@@ -285,6 +286,7 @@ function DailyPage() {
       if (cancelled) return;
 
       setData(loaded);
+      setHydratedStorageKey(null);
       setNotFound(!loaded);
       setMenuOpen(false);
       setToast(null);
@@ -294,6 +296,7 @@ function DailyPage() {
         setWordsOpenedByPuzzle({});
         setAchievementByPuzzle({});
         setActivePuzzleId(null);
+        setHydratedStorageKey(null);
         return;
       }
 
@@ -335,6 +338,7 @@ function DailyPage() {
       setWordsOpenedByPuzzle(restoredWordsOpened);
       setAchievementByPuzzle(restoredAchievements);
       setActivePuzzleId(hasSavedActivePuzzle ? savedActivePuzzleId : loaded.puzzles[0]?.id ?? null);
+      setHydratedStorageKey(`${selectedDate}:${loaded.hash}`);
     });
 
     return () => {
@@ -343,7 +347,7 @@ function DailyPage() {
   }, [selectedDate, isValidDateRoute]);
 
   useEffect(() => {
-    if (!data) return;
+    if (!data || hydratedStorageKey !== `${selectedDate}:${data.hash}`) return;
 
     data.puzzles.forEach((puzzle) => {
       const key = getProgressKey(selectedDate, data.hash, puzzle.id);
@@ -369,7 +373,7 @@ function DailyPage() {
         localStorage.removeItem(achievementKey);
       }
     });
-  }, [data, foundByPuzzle, wordsOpenedByPuzzle, achievementByPuzzle, selectedDate]);
+  }, [data, hydratedStorageKey, foundByPuzzle, wordsOpenedByPuzzle, achievementByPuzzle, selectedDate]);
 
   useEffect(() => {
     if (!toast) return;
@@ -438,36 +442,6 @@ function DailyPage() {
     Boolean(data) &&
     data.puzzles.length > 0 &&
     data.puzzles.every((puzzle) => achievementByPuzzle[puzzle.id]);
-
-  const resetProgress = () => {
-    if (!data) return;
-
-    setConfirmAction({
-      title: "Reset progress?",
-      message: "This will clear all progress, achievements and word-list state for this day.",
-      confirmLabel: "Reset",
-      tone: "danger",
-      onConfirm: () => {
-        data.puzzles.forEach((puzzle) => {
-          localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
-          localStorage.removeItem(getWordsOpenedKey(selectedDate, data.hash, puzzle.id));
-          localStorage.removeItem(getPuzzleAchievementKey(selectedDate, data.hash, puzzle.id));
-        });
-
-        localStorage.removeItem(getDayCompleteKey(selectedDate));
-        localStorage.removeItem(getDayAchievementKey(selectedDate));
-
-        setFoundByPuzzle({});
-        setWordsOpenedByPuzzle({});
-        setAchievementByPuzzle({});
-        setDayStatusByDate((prev) => ({
-          ...prev,
-          [selectedDate]: { complete: false, achievement: false },
-        }));
-        setToast({ message: "Progress reset" });
-      },
-    });
-  };
 
   useEffect(() => {
     if (!data) return;
@@ -581,10 +555,6 @@ function DailyPage() {
 
       <section className="toolbar" aria-label="Controles">
         <span className="hint">Tap or drag to select · enable Move for pan/zoom</span>
-
-        <button type="button" className="resetProgress" onClick={resetProgress}>
-          Reset progress
-        </button>
       </section>
 
       <nav className="puzzleTabs" aria-label="Puzzles">

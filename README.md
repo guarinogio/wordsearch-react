@@ -30,7 +30,7 @@ npm run build
 
 ## Dónde pegar tus puzzles
 
-Reemplaza el contenido de `src/puzzles.ts` por tu `dailyPuzzles` completo.
+Agrega puzzles diarios en `src/data/daily-puzzles-YYYY-MM-DD.ts` exportando `dailyPuzzles`.
 
 El componente espera esta forma:
 
@@ -38,7 +38,7 @@ El componente espera esta forma:
 const puzzle = dailyPuzzles.puzzles[0];
 ```
 
-Puedes cambiar esa selección en `src/App.tsx` si quieres elegir entre varios puzzles diarios.
+La app carga automáticamente los archivos diarios desde `src/data` usando `import.meta.glob`.
 
 ## Nota
 

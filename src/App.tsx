@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { WordSearchGrid } from "./WordSearchGrid";
 import type { DailyPuzzle, DailyPuzzlesData } from "./types";
@@ -55,40 +55,42 @@ function PuzzleBoard({
         <strong>{foundValues.size}/{puzzle.words.length}</strong>
       </div>
 
-      <div className="boardCard">
-        
-<div className="boardControls">
-  <div className="zoomControls">
-    <button type="button" onClick={() => zoomOut()}>−</button>
-    <button type="button" onClick={() => resetTransform()}>Reset</button>
-    <button type="button" onClick={() => zoomIn()}>+</button>
-  </div>
+      <TransformWrapper
+        minScale={0.25}
+        maxScale={5}
+        initialScale={1}
+        centerOnInit
+        doubleClick={{ disabled: true }}
+        panning={{ disabled: !moveEnabled }}
+        pinch={{ disabled: false }}
+        wheel={{ disabled: false }}
+      >
+        {({ zoomIn, zoomOut, resetTransform }) => (
+          <>
+            <div className="boardControls">
+              <div className="zoomControls">
+                <button type="button" onClick={() => zoomOut()}>−</button>
+                <button type="button" onClick={() => resetTransform()}>Reset</button>
+                <button type="button" onClick={() => zoomIn()}>+</button>
+              </div>
 
-  <button
-    type="button"
-    className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
-    onClick={() => setMoveEnabled((value) => !value)}
-  >
-    {moveEnabled ? "Mover ON" : "Mover OFF"}
-  </button>
-</div>
+              <button
+                type="button"
+                className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
+                onClick={() => setMoveEnabled((value) => !value)}
+              >
+                {moveEnabled ? "Mover ON" : "Mover OFF"}
+              </button>
+            </div>
 
-<TransformWrapper
-  minScale={0.25}
-  maxScale={5}
-  initialScale={1}
-  centerOnInit
-  doubleClick={{ disabled: true }}
-  panning={{ disabled: !moveEnabled }}
->
-  {({ zoomIn, zoomOut, resetTransform }) => (
-    <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
-      <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
-    </TransformComponent>
-  )}
-</TransformWrapper>
-
-      </div>
+            <div className="boardCard">
+              <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
+                <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
+              </TransformComponent>
+            </div>
+          </>
+        )}
+      </TransformWrapper>
 
       <div className="words">
         <div className="wordsHeader">
@@ -118,6 +120,7 @@ function DailyPage() {
   const [data, setData] = useState<DailyPuzzlesData | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [foundByPuzzle, setFoundByPuzzle] = useState<Record<number, Set<string>>>({});
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -127,6 +130,7 @@ function DailyPage() {
       setData(loaded);
       setNotFound(!loaded);
       setFoundByPuzzle({});
+      setMenuOpen(false);
     });
 
     return () => {
@@ -170,8 +174,34 @@ function DailyPage() {
           <p className="eyebrow">{data.date}</p>
           <h1>{data.topic}</h1>
         </div>
-        <div className="progress">{totals.found}/{totals.total}</div>
+
+        <div className="headerActions">
+          <button
+            type="button"
+            className="hamburger"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-label="Abrir menú de fechas"
+          >
+            ☰
+          </button>
+
+          <div className="progress">{totals.found}/{totals.total}</div>
+        </div>
       </header>
+
+      {menuOpen && (
+        <nav className="dateMenu">
+          {availableDates.map((availableDate) => (
+            <Link
+              key={availableDate}
+              to={`/${availableDate}`}
+              className={["dateMenuItem", availableDate === selectedDate ? "active" : ""].join(" ")}
+            >
+              {availableDate}
+            </Link>
+          ))}
+        </nav>
+      )}
 
       <section className="toolbar" aria-label="Controles">
         <span className="hint">
@@ -205,10 +235,7 @@ function DailyPage() {
 }
 
 export default function App() {
-  
-const [menuOpen, setMenuOpen] = useState(false);
-
-const nearestDate = getNearestDate();
+  const nearestDate = getNearestDate();
 
   return (
     <Routes>

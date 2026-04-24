@@ -100,4 +100,5 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
       </div>
     </div>
   );
-}
+}      <div className="wordSearchGrid">
+

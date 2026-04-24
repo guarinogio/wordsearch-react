@@ -3,7 +3,7 @@ import { Link, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { WordSearchGrid } from "./WordSearchGrid";
 import { InstallPrompt } from "./InstallPrompt";
-import type { DailyPuzzle, DailyPuzzlesData } from "./types";
+import type { Cell, DailyPuzzle, DailyPuzzlesData } from "./types";
 
 const puzzleModules = import.meta.glob("./data/daily-puzzles-*.ts");
 
@@ -44,6 +44,7 @@ function PuzzleBoard({
   onFound: (value: string) => void;
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
+  const [manualPath, setManualPath] = useState<Cell[]>([]);
   const foundPercent = Math.round((foundValues.size / puzzle.words.length) * 100);
 
   return (
@@ -75,13 +76,24 @@ function PuzzleBoard({
                 <button type="button" onClick={() => zoomIn()}>+</button>
               </div>
 
-              <button
-                type="button"
-                className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
-                onClick={() => setMoveEnabled((value) => !value)}
-              >
-                {moveEnabled ? "Move ON" : "Move OFF"}
-              </button>
+              <div className="boardActionGroup">
+                <button
+                  type="button"
+                  className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
+                  onClick={() => setMoveEnabled((value) => !value)}
+                >
+                  {moveEnabled ? "Move ON" : "Move OFF"}
+                </button>
+
+                <button
+                  type="button"
+                  className="clearSelectionButton"
+                  onClick={() => setManualPath([])}
+                  disabled={manualPath.length === 0}
+                >
+                  Clear
+                </button>
+              </div>
             </div>
 
             <div className="boardCard">

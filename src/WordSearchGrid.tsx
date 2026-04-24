@@ -5,6 +5,8 @@ import { cellKey, findPlacementByPath, getSelectionPath, sameCell } from "./game
 type Props = {
   puzzle: DailyPuzzle;
   foundValues: Set<string>;
+  manualPath: Cell[];
+  setManualPath: React.Dispatch<React.SetStateAction<Cell[]>>;
   onFound: (value: string) => void;
 };
 
@@ -23,9 +25,15 @@ const isNextValidCell = (path: Cell[], cell: Cell) => {
 const getViewportWidth = () =>
   typeof window === "undefined" ? 390 : window.innerWidth;
 
-export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
-  const [manualPath, setManualPath] = useState<Cell[]>([]);
+export function WordSearchGrid({
+  puzzle,
+  foundValues,
+  manualPath,
+  setManualPath,
+  onFound,
+}: Props) {
   const [viewportWidth, setViewportWidth] = useState(getViewportWidth);
+  const [pressedCellKey, setPressedCellKey] = useState<string | null>(null);
 
   useEffect(() => {
     const update = () => setViewportWidth(getViewportWidth());
@@ -53,7 +61,7 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
       const existingIndex = prev.findIndex((selected) => sameCell(selected, cell));
 
       if (existingIndex >= 0) {
-        return prev.slice(0, existingIndex + 1);
+        return prev.filter((_, index) => index !== existingIndex);
       }
 
       if (!isNextValidCell(prev, cell)) {
@@ -71,6 +79,13 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
 
       return nextPath;
     });
+  };
+
+  const showPressedCell = (key: string) => {
+    setPressedCellKey(key);
+    window.setTimeout(() => {
+      setPressedCellKey((current) => (current === key ? null : current));
+    }, 280);
   };
 
   const availableWidth = Math.min(viewportWidth, 960) - 52;
@@ -94,6 +109,7 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
             const key = `${rowIndex}:${colIndex}`;
             const isSelected = selectedCells.has(key);
             const isFound = foundCells.has(key);
+            const isPressed = pressedCellKey === key;
 
             return (
               <button
@@ -102,9 +118,16 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
                 data-cell="true"
                 data-row={rowIndex}
                 data-col={colIndex}
-                className={["cell", isSelected ? "selected" : "", isFound ? "found" : ""].join(" ")}
+                className={[
+                  "cell",
+                  isSelected ? "selected" : "",
+                  isFound ? "found" : "",
+                  isPressed ? "pressed" : "",
+                ].join(" ")}
+                onPointerDown={() => showPressedCell(key)}
                 onClick={() => selectCell({ row: rowIndex, col: colIndex })}
               >
+                <span className="cellPop" aria-hidden="true">{letter}</span>
                 {letter}
               </button>
             );

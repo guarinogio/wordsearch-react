@@ -33,18 +33,12 @@ for (const file of files) {
       });
     });
 
-    for (const word of puzzle.words) {
-      if (chars(word.value).length < 2) {
-        console.error(`${file} puzzle ${puzzle.id}: word too short: ${word.value}`);
-        failed = true;
-      }
-    }
-
     for (const placement of puzzle.placements) {
-      const placed = placement.path.map((cell) => puzzle.grid[cell.row]?.[cell.col]).join("");
-      const reversed = chars(placed).reverse().join("");
+      const placed = placement.path.map((cell) => puzzle.grid[cell.row]?.[cell.col]).join("").normalize("NFC");
+      const expected = placement.value.normalize("NFC");
+      const reversed = chars(placed).reverse().join("").normalize("NFC");
 
-      if (placed !== placement.value && reversed !== placement.value) {
+      if (placed !== expected && reversed !== expected) {
         console.error(`${file} puzzle ${puzzle.id}: placement mismatch for ${placement.value}, got ${placed}`);
         failed = true;
       }

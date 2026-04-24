@@ -1,9 +1,13 @@
 import { registerSW } from "virtual:pwa-register";
 
-registerSW({
+const updateSW = registerSW({
   immediate: true,
   onNeedRefresh() {
-    window.location.reload();
+    window.dispatchEvent(
+      new CustomEvent("daily-word-soup:update-ready", {
+        detail: { update: updateSW },
+      })
+    );
   },
   onRegisteredSW(_swUrl, registration) {
     if (!registration) return;

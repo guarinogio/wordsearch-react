@@ -37,6 +37,11 @@ const loadPuzzleData = async (date: string) => {
 const getProgressKey = (date: string, hash: string, puzzleId: number) =>
   `daily-word-soup:${date}:${hash}:puzzle:${puzzleId}:found`;
 
+const getActivePuzzleKey = (date: string, hash: string) =>
+  `daily-word-soup:${date}:${hash}:active-puzzle`;
+
+type UpdateReadyEvent = CustomEvent<{ update: () => Promise<void> }>;
+
 function PuzzleBoard({
   puzzle,
   foundValues,
@@ -160,6 +165,7 @@ function DailyPage() {
   const [activePuzzleId, setActivePuzzleId] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [updateApp, setUpdateApp] = useState<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -200,8 +206,12 @@ function DailyPage() {
         }
       });
 
+      const activeKey = getActivePuzzleKey(selectedDate, loaded.hash);
+      const savedActivePuzzleId = Number(localStorage.getItem(activeKey));
+      const hasSavedActivePuzzle = loaded.puzzles.some((puzzle) => puzzle.id === savedActivePuzzleId);
+
       setFoundByPuzzle(restored);
-      setActivePuzzleId(loaded.puzzles[0]?.id ?? null);
+      setActivePuzzleId(hasSavedActivePuzzle ? savedActivePuzzleId : loaded.puzzles[0]?.id ?? null);
     });
 
     return () => {
@@ -231,6 +241,24 @@ function DailyPage() {
     return () => window.clearTimeout(timeout);
   }, [toast]);
 
+  useEffect(() => {
+    if (!data || activePuzzleId === null) return;
+
+    localStorage.setItem(
+      getActivePuzzleKey(selectedDate, data.hash),
+      String(activePuzzleId)
+    );
+  }, [activePuzzleId, data, selectedDate]);
+
+  useEffect(() => {
+    const onUpdateReady = (event: Event) => {
+      setUpdateApp(() => (event as UpdateReadyEvent).detail.update);
+    };
+
+    window.addEventListener("daily-word-soup:update-ready", onUpdateReady);
+    return () => window.removeEventListener("daily-word-soup:update-ready", onUpdateReady);
+  }, []);
+
   const totals = useMemo(() => {
     if (!data) return { found: 0, total: 0 };
 
@@ -247,6 +275,7 @@ function DailyPage() {
 
   const resetProgress = () => {
     if (!data) return;
+    if (!window.confirm("Reset progress for this puzzle day?")) return;
 
     data.puzzles.forEach((puzzle) => {
       localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
@@ -345,10 +374,14 @@ function DailyPage() {
             <button
               key={puzzle.id}
               type="button"
-              className={["puzzleTab", puzzle.id === activePuzzle?.id ? "active" : ""].join(" ")}
+              className={[
+                "puzzleTab",
+                puzzle.id === activePuzzle?.id ? "active" : "",
+                found === total ? "completeTab" : "",
+              ].join(" ")}
               onClick={() => setActivePuzzleId(puzzle.id)}
             >
-              <span>Puzzle {puzzle.id}</span>
+              <span>{found === total ? "✓" : ""} Puzzle {puzzle.id}</span>
               <strong>{found}/{total}</strong>
             </button>
           );
@@ -362,22 +395,48 @@ function DailyPage() {
           foundValues={foundByPuzzle[activePuzzle.id] ?? new Set<string>()}
           onFound={(value) => {
             const wordLabel = activePuzzle.words.find((word) => word.value === value)?.label ?? value;
+            const nextFound = new Set(foundByPuzzle[activePuzzle.id] ?? []);
+            nextFound.add(value);
 
             setFoundByPuzzle((prev) => ({
               ...prev,
-              [activePuzzle.id]: new Set(prev[activePuzzle.id] ?? []).add(value),
+              [activePuzzle.id]: nextFound,
             }));
 
-            setToast(`Found: ${wordLabel}`);
+            if (nextFound.size === activePuzzle.words.length) {
+              setToast(`Puzzle ${activePuzzle.id} complete ✓`);
+
+              const currentIndex = data.puzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
+              const nextPuzzle = data.puzzles[currentIndex + 1];
+
+              if (nextPuzzle) {
+                window.setTimeout(() => setActivePuzzleId(nextPuzzle.id), 700);
+              }
+            } else {
+              setToast(`Found: ${wordLabel}`);
+            }
           }}
         />
       )}
 
       {toast && <div className="toast">{toast}</div>}
 
+      {updateApp && (
+        <div className="updatePrompt">
+          <span>New version available</span>
+          <button type="button" onClick={() => updateApp()}>
+            Update
+          </button>
+        </div>
+      )}
+
       {totals.total > 0 && totals.found === totals.total && (
         <div className="complete">You completed all puzzles 🎉</div>
       )}
+
+      <footer className="appFooter">
+        v{__APP_VERSION__} · hash {data.hash.slice(0, 8)}
+      </footer>
     </main>
   );
 }

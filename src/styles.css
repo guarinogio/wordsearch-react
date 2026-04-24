@@ -854,3 +854,48 @@ h2 {
     align-self: flex-start;
   }
 }
+
+.puzzleTab.completeTab {
+  border-color: rgba(22, 101, 52, .35);
+}
+
+.puzzleTab.completeTab:not(.active) {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.updatePrompt {
+  position: fixed;
+  left: 50%;
+  bottom: 78px;
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: #172033;
+  border: 1px solid rgba(148,163,184,.35);
+  border-radius: 999px;
+  padding: 9px 10px 9px 14px;
+  font-weight: 900;
+  box-shadow: 0 16px 44px rgba(15, 23, 42, .22);
+}
+
+.updatePrompt button {
+  border: 0;
+  border-radius: 999px;
+  background: #172033;
+  color: white;
+  font-weight: 900;
+  padding: 8px 12px;
+}
+
+.appFooter {
+  margin-top: 28px;
+  padding: 14px 0 4px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+}

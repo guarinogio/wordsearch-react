@@ -1496,3 +1496,163 @@ html[data-animations="off"] *::after {
     white-space: normal;
   }
 }
+
+/* Fun game feel */
+html[data-animations="on"] .cell.selected {
+  animation: cellSelectPop 140ms ease-out;
+}
+
+html[data-animations="on"] .cell.found {
+  animation: cellFoundPulse 360ms ease-out;
+}
+
+html[data-animations="on"] .puzzleTab.active {
+  animation: tabPop 180ms ease-out;
+}
+
+html[data-animations="on"] .puzzleAchievement .boardCard {
+  animation: achievementGlow 1.4s ease-in-out infinite alternate;
+}
+
+html[data-animations="on"] .achievementToast {
+  animation: achievementToastIn 420ms cubic-bezier(.2, 1.4, .4, 1);
+}
+
+html[data-animations="on"] .toast:not(.achievementToast) {
+  animation: toastBounceIn 260ms cubic-bezier(.2, 1.35, .4, 1);
+}
+
+html[data-animations="on"] .complete {
+  animation: completePop 520ms cubic-bezier(.2, 1.45, .4, 1);
+}
+
+html[data-animations="on"] .modalOverlay {
+  animation: overlayFadeIn 160ms ease-out;
+}
+
+html[data-animations="on"] .confirmModal {
+  animation: modalPopIn 220ms cubic-bezier(.2, 1.25, .4, 1);
+}
+
+html[data-animations="on"] .word.foundWord {
+  animation: wordFoundPop 260ms ease-out;
+}
+
+@keyframes cellSelectPop {
+  0% {
+    transform: scale(.82);
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes cellFoundPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  45% {
+    transform: scale(1.13);
+    filter: brightness(1.08);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+@keyframes tabPop {
+  from {
+    transform: scale(.96);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes achievementGlow {
+  from {
+    box-shadow: 0 16px 48px rgba(180, 83, 9, .16);
+  }
+  to {
+    box-shadow: 0 18px 58px rgba(245, 158, 11, .34);
+  }
+}
+
+@keyframes toastBounceIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px) scale(.9);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-3px) scale(1.04);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes achievementToastIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px) scale(.84) rotate(-1deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-5px) scale(1.08) rotate(1deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1) rotate(0);
+  }
+}
+
+@keyframes completePop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(.82);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.08);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes wordFoundPop {
+  0% {
+    transform: scale(.94);
+  }
+  70% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

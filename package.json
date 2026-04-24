@@ -1,8 +1,9 @@
 {
     "scripts": {
         "dev": "vite --host 0.0.0.0",
-        "build": "vite build",
-        "preview": "vite preview --host 0.0.0.0"
+        "build": "npm run validate:puzzles && vite build",
+        "preview": "vite preview --host 0.0.0.0",
+        "validate:puzzles": "node scripts/validate-puzzles.mjs"
     },
     "dependencies": {
         "@vitejs/plugin-react": "^5.2.0",
@@ -18,6 +19,6 @@
         "vite-plugin-pwa": "^1.2.0"
     },
     "name": "daily-word-soup",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "private": "true"
 }

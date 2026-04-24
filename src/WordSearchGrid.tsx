@@ -1,11 +1,47 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import type { Cell, DailyPuzzle } from "./types";
-import { cellKey, findPlacementByPath, getSelectionPath, sameCell } from "./gameLogic";
+import { cellKey, findPlacementByPath, getCellFromPoint, getSelectionPath, sameCell } from "./gameLogic";
 
 type Props = {
   puzzle: DailyPuzzle;
   foundValues: Set<string>;
   onFound: (value: string) => void;
+  selectionDisabled?: boolean;
+};
+
+const getViewportWidth = () =>
+  typeof window === "undefined" ? 390 : window.innerWidth;
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, value));
+
+const getSnappedPath = (start: Cell, target: Cell, size: number) => {
+  const rowDiff = target.row - start.row;
+  const colDiff = target.col - start.col;
+
+  if (rowDiff === 0 && colDiff === 0) return [start];
+
+  const absRow = Math.abs(rowDiff);
+  const absCol = Math.abs(colDiff);
+
+  let rowStep = Math.sign(rowDiff);
+  let colStep = Math.sign(colDiff);
+  let length = Math.max(absRow, absCol);
+
+  if (absRow <= absCol * 0.45) {
+    rowStep = 0;
+    length = absCol;
+  } else if (absCol <= absRow * 0.45) {
+    colStep = 0;
+    length = absRow;
+  }
+
+  const end = {
+    row: clamp(start.row + rowStep * length, 0, size - 1),
+    col: clamp(start.col + colStep * length, 0, size - 1),
+  };
+
+  return getSelectionPath(start, end);
 };
 
 const isNextValidCell = (path: Cell[], cell: Cell) => {
@@ -20,13 +56,12 @@ const isNextValidCell = (path: Cell[], cell: Cell) => {
   );
 };
 
-const getViewportWidth = () =>
-  typeof window === "undefined" ? 390 : window.innerWidth;
-
-export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
+export function WordSearchGrid({ puzzle, foundValues, onFound, selectionDisabled = false }: Props) {
   const [manualPath, setManualPath] = useState<Cell[]>([]);
+  const [dragStart, setDragStart] = useState<Cell | null>(null);
   const [viewportWidth, setViewportWidth] = useState(getViewportWidth);
   const [pressedCellKey, setPressedCellKey] = useState<string | null>(null);
+  const didDragRef = useRef(false);
 
   useEffect(() => {
     const update = () => setViewportWidth(getViewportWidth());
@@ -52,7 +87,19 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
     return keys;
   }, [puzzle.placements, foundValues]);
 
-  const selectCell = (cell: Cell) => {
+  const validatePath = (path: Cell[]) => {
+    const placement = findPlacementByPath(path, puzzle.placements);
+
+    if (placement && !foundValues.has(placement.value)) {
+      onFound(placement.value);
+      if ("vibrate" in navigator) navigator.vibrate(35);
+      return true;
+    }
+
+    return false;
+  };
+
+  const selectCellByTap = (cell: Cell) => {
     setManualPath((prev) => {
       const existingIndex = prev.findIndex((selected) => sameCell(selected, cell));
 
@@ -65,11 +112,8 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
       }
 
       const nextPath = [...prev, cell];
-      const placement = findPlacementByPath(nextPath, puzzle.placements);
 
-      if (placement && !foundValues.has(placement.value)) {
-        onFound(placement.value);
-        if ("vibrate" in navigator) navigator.vibrate(35);
+      if (validatePath(nextPath)) {
         return [];
       }
 
@@ -82,7 +126,64 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
 
     window.setTimeout(() => {
       setPressedCellKey((current) => (current === key ? null : current));
-    }, 280);
+    }, 220);
+  };
+
+  const handlePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (selectionDisabled) return;
+
+    const cell = getCellFromPoint(event.clientX, event.clientY);
+    if (!cell) return;
+
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+
+    didDragRef.current = false;
+    setDragStart(cell);
+    showPressedCell(cellKey(cell));
+  };
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (selectionDisabled || !dragStart) return;
+
+    const cell = getCellFromPoint(event.clientX, event.clientY);
+    if (!cell) return;
+
+    const nextPath = getSnappedPath(dragStart, cell, puzzle.size);
+
+    if (nextPath.length < 2) return;
+
+    event.preventDefault();
+    didDragRef.current = true;
+    setManualPath(nextPath);
+    showPressedCell(cellKey(cell));
+  };
+
+  const handlePointerUp = (event: PointerEvent<HTMLDivElement>) => {
+    if (selectionDisabled || !dragStart) return;
+
+    event.preventDefault();
+
+    const endCell = getCellFromPoint(event.clientX, event.clientY);
+    const wasDrag = didDragRef.current;
+
+    if (wasDrag) {
+      setManualPath((currentPath) => {
+        validatePath(currentPath);
+        return [];
+      });
+    } else if (endCell) {
+      selectCellByTap(endCell);
+    }
+
+    didDragRef.current = false;
+    setDragStart(null);
+  };
+
+  const handlePointerCancel = () => {
+    didDragRef.current = false;
+    setManualPath([]);
+    setDragStart(null);
   };
 
   const availableWidth = Math.min(viewportWidth, 960) - 52;
@@ -102,7 +203,14 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
 
   return (
     <div className="wordSearchGrid">
-      <div className="gridShell" style={gridStyle}>
+      <div
+        className="gridShell"
+        style={gridStyle}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+      >
         {puzzle.grid.map((row, rowIndex) =>
           row.map((letter, colIndex) => {
             const key = `${rowIndex}:${colIndex}`;
@@ -123,8 +231,6 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
                   isFound ? "found" : "",
                   isPressed ? "pressed" : "",
                 ].join(" ")}
-                onPointerDown={() => showPressedCell(key)}
-                onClick={() => selectCell({ row: rowIndex, col: colIndex })}
               >
                 <span className="cellPop" aria-hidden="true">{letter}</span>
                 {letter}

@@ -159,14 +159,18 @@ h2 {
 }
 
 .transformContent {
-  width: max-content;
+  width: 100%;
+  min-width: 100%;
   height: max-content;
   padding: 24px 0 28px;
+  display: flex;
+  justify-content: center;
 }
 
 .wordSearchGrid {
   position: relative;
   width: max-content;
+  margin: 0 auto;
 }
 
 .gridShell {
@@ -176,7 +180,7 @@ h2 {
   border-radius: max(10px, calc(var(--cell-size) * .6));
   background: #e2e8f0;
   user-select: none;
-  touch-action: manipulation;
+  touch-action: none;
 }
 
 .cell {

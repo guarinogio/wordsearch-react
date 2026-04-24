@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import type { Cell, DailyPuzzle } from "./types";
 import { cellKey, findPlacementByPath, getSelectionPath, sameCell } from "./gameLogic";
 
@@ -10,10 +10,14 @@ type Props = {
 
 const isNextValidCell = (path: Cell[], cell: Cell) => {
   if (path.length === 0) return true;
-  if (path.some((selected) => sameCell(selected, cell))) return true;
 
   const candidate = [...path, cell];
-  return getSelectionPath(candidate[0], cell).length === candidate.length;
+  const expectedPath = getSelectionPath(candidate[0], cell);
+
+  return (
+    expectedPath.length === candidate.length &&
+    expectedPath.every((expected, index) => sameCell(expected, candidate[index]))
+  );
 };
 
 export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
@@ -46,6 +50,7 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
 
       if (placement && !foundValues.has(placement.value)) {
         onFound(placement.value);
+        if ("vibrate" in navigator) navigator.vibrate(35);
         return [];
       }
 
@@ -53,22 +58,24 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
     });
   };
 
+  const cellSize = Math.max(16, Math.min(36, Math.floor(520 / puzzle.size)));
+  const gridStyle = {
+    gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))`,
+    "--cell-size": `${cellSize}px`,
+  } as CSSProperties;
+
   return (
     <div className="wordSearchGrid">
-      <div className="manualActions">
-        <button
-          type="button"
-          onClick={() => setManualPath([])}
-          disabled={manualPath.length === 0}
-        >
-          Limpiar selección
-        </button>
-      </div>
-
-      <div
-        className="gridShell"
-        style={{ gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))` }}
+      <button
+        type="button"
+        className="floatingClear"
+        onClick={() => setManualPath([])}
+        disabled={manualPath.length === 0}
       >
+        Limpiar
+      </button>
+
+      <div className="gridShell" style={gridStyle}>
         {puzzle.grid.map((row, rowIndex) =>
           row.map((letter, colIndex) => {
             const key = `${rowIndex}:${colIndex}`;

@@ -80,3 +80,32 @@ h2 { margin: 0; font-size: 18px; }
 .cell.pressed .cellPop {
   display: grid;
 }
+
+.wordSearchGrid {
+  display: grid;
+  gap: 10px;
+  width: max-content;
+}
+
+.manualActions {
+  display: flex;
+  justify-content: center;
+}
+
+.manualActions button {
+  border: 0;
+  border-radius: 999px;
+  background: #172033;
+  color: white;
+  padding: 9px 14px;
+  font-weight: 900;
+  box-shadow: 0 8px 22px rgba(15,23,42,.18);
+}
+
+.manualActions button:disabled {
+  opacity: .45;
+}
+
+.cell:active {
+  transform: scale(.92);
+}

@@ -1,25 +1,25 @@
 import { useMemo, useState } from "react";
 import type { Cell, DailyPuzzle } from "./types";
-import { cellKey, findPlacementByPath, getCellFromPoint, getSelectionPath } from "./gameLogic";
+import { cellKey, findPlacementByPath, getSelectionPath, sameCell } from "./gameLogic";
 
 type Props = {
   puzzle: DailyPuzzle;
-  mode: "select" | "move";
   foundValues: Set<string>;
   onFound: (value: string) => void;
 };
 
-export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
-  const [startCell, setStartCell] = useState<Cell | null>(null);
-  const [hoverCell, setHoverCell] = useState<Cell | null>(null);
-  const [pressedCell, setPressedCell] = useState<Cell | null>(null);
+const isNextValidCell = (path: Cell[], cell: Cell) => {
+  if (path.length === 0) return true;
+  if (path.some((selected) => sameCell(selected, cell))) return true;
 
-  const currentPath = useMemo(() => {
-    if (!startCell || !hoverCell) return [];
-    return getSelectionPath(startCell, hoverCell);
-  }, [startCell, hoverCell]);
+  const candidate = [...path, cell];
+  return getSelectionPath(candidate[0], cell).length === candidate.length;
+};
 
-  const selectedCells = useMemo(() => new Set(currentPath.map(cellKey)), [currentPath]);
+export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
+  const [manualPath, setManualPath] = useState<Cell[]>([]);
+
+  const selectedCells = useMemo(() => new Set(manualPath.map(cellKey)), [manualPath]);
 
   const foundCells = useMemo(() => {
     const keys = new Set<string>();
@@ -29,70 +29,68 @@ export function WordSearchGrid({ puzzle, mode, foundValues, onFound }: Props) {
     return keys;
   }, [puzzle.placements, foundValues]);
 
-  const finishSelection = () => {
-    if (!startCell || !hoverCell) return;
-    const path = getSelectionPath(startCell, hoverCell);
-    const placement = findPlacementByPath(path, puzzle.placements);
-    if (placement && !foundValues.has(placement.value)) onFound(placement.value);
-    setStartCell(null);
-    setHoverCell(null);
-    setPressedCell(null);
-  };
+  const selectCell = (cell: Cell) => {
+    setManualPath((prev) => {
+      const existingIndex = prev.findIndex((selected) => sameCell(selected, cell));
 
-  const startSelection = (cell: Cell) => {
-    if (mode !== "select") return;
-    setStartCell(cell);
-    setHoverCell(cell);
+      if (existingIndex >= 0) {
+        return prev.slice(0, existingIndex + 1);
+      }
+
+      if (!isNextValidCell(prev, cell)) {
+        return [cell];
+      }
+
+      const nextPath = [...prev, cell];
+      const placement = findPlacementByPath(nextPath, puzzle.placements);
+
+      if (placement && !foundValues.has(placement.value)) {
+        onFound(placement.value);
+        return [];
+      }
+
+      return nextPath;
+    });
   };
 
   return (
-    <div
-      className="gridShell"
-      onPointerMove={(event) => {
-        if (mode !== "select" || !startCell) return;
-        const nextCell = getCellFromPoint(event.clientX, event.clientY);
-        if (nextCell) {
-          setHoverCell(nextCell);
-          setPressedCell(nextCell);
-        }
-      }}
-      onPointerUp={finishSelection}
-      onPointerCancel={() => {
-        setStartCell(null);
-        setHoverCell(null);
-        setPressedCell(null);
-      }}
-      style={{ gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))` }}
-    >
-      {puzzle.grid.map((row, rowIndex) =>
-        row.map((letter, colIndex) => {
-          const key = `${rowIndex}:${colIndex}`;
-          const isSelected = selectedCells.has(key);
-          const isFound = foundCells.has(key);
-          const isPressed = pressedCell?.row === rowIndex && pressedCell?.col === colIndex;
-          return (
-            <button
-              key={key}
-              type="button"
-              data-cell="true"
-              data-row={rowIndex}
-              data-col={colIndex}
-              className={["cell", isSelected ? "selected" : "", isFound ? "found" : "", isPressed ? "pressed" : ""].join(" ")}
-              onPointerDown={(event) => {
-                if (mode !== "select") return;
-                event.preventDefault();
-                event.currentTarget.setPointerCapture(event.pointerId);
-                const cell = { row: rowIndex, col: colIndex };
-                setPressedCell(cell);
-                startSelection(cell);
-              }}
-            >
-              <span className="cellPop" aria-hidden="true">{letter}</span>
-              {letter}
-            </button>
-          );
-        })
-      )}
+    <div className="wordSearchGrid">
+      <div className="manualActions">
+        <button
+          type="button"
+          onClick={() => setManualPath([])}
+          disabled={manualPath.length === 0}
+        >
+          Limpiar selección
+        </button>
+      </div>
+
+      <div
+        className="gridShell"
+        style={{ gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))` }}
+      >
+        {puzzle.grid.map((row, rowIndex) =>
+          row.map((letter, colIndex) => {
+            const key = `${rowIndex}:${colIndex}`;
+            const isSelected = selectedCells.has(key);
+            const isFound = foundCells.has(key);
+
+            return (
+              <button
+                key={key}
+                type="button"
+                data-cell="true"
+                data-row={rowIndex}
+                data-col={colIndex}
+                className={["cell", isSelected ? "selected" : "", isFound ? "found" : ""].join(" ")}
+                onClick={() => selectCell({ row: rowIndex, col: colIndex })}
+              >
+                {letter}
+              </button>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

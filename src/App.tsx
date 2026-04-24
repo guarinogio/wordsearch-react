@@ -4,11 +4,8 @@ import dailyPuzzles from "./puzzles";
 import { WordSearchGrid } from "./WordSearchGrid";
 import "./styles.css";
 
-type Mode = "select" | "move";
-
 export default function App() {
   const puzzle = dailyPuzzles.puzzles[0];
-  const [mode, setMode] = useState<Mode>("select");
   const [foundValues, setFoundValues] = useState<Set<string>>(new Set());
 
   const completed = foundValues.size === puzzle.words.length;
@@ -25,11 +22,7 @@ export default function App() {
       </header>
 
       <section className="toolbar" aria-label="Controles">
-        <div className="segmented">
-          <button className={mode === "select" ? "active" : ""} onClick={() => setMode("select")}>Seleccionar</button>
-          <button className={mode === "move" ? "active" : ""} onClick={() => setMode("move")}>Mover</button>
-        </div>
-        <span className="hint">Pinch para zoom · modo Mover para pan</span>
+        <span className="hint">Toca letras para seleccionar · arrastra para mover · pinch para zoom</span>
       </section>
 
       <TransformWrapper
@@ -38,7 +31,7 @@ export default function App() {
         initialScale={1}
         centerOnInit
         doubleClick={{ disabled: true }}
-        panning={{ disabled: mode === "select" }}
+        panning={{ disabled: false }}
         pinch={{ disabled: false }}
         wheel={{ step: 0.12 }}
       >
@@ -55,7 +48,6 @@ export default function App() {
             >
               <WordSearchGrid
                 puzzle={puzzle}
-                mode={mode}
                 foundValues={foundValues}
                 onFound={(value) => setFoundValues((prev) => new Set(prev).add(value))}
               />

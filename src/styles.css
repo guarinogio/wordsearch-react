@@ -899,3 +899,127 @@ h2 {
   font-weight: 800;
   text-align: center;
 }
+
+.puzzleTabs {
+  overflow-x: visible;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.puzzleTab {
+  flex: 1 1 calc(33.333% - 8px);
+  justify-content: center;
+  min-width: 0;
+}
+
+.puzzleTab.achievementTab {
+  border-color: rgba(180, 83, 9, .45);
+}
+
+.puzzleTab.achievementTab:not(.active) {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.puzzleTab.active.achievementTab {
+  background: linear-gradient(135deg, #78350f, #d97706);
+  border-color: #f59e0b;
+  color: white;
+}
+
+.puzzleAchievement .puzzleHeader strong,
+.achievementComplete {
+  background: linear-gradient(135deg, #78350f, #d97706);
+  color: white;
+}
+
+.puzzleAchievement .boardCard,
+.puzzleAchievement .words {
+  border-color: rgba(245, 158, 11, .55);
+  box-shadow: 0 16px 48px rgba(180, 83, 9, .18);
+}
+
+.dateMenuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dateMenuItem.completeDate strong {
+  font-size: 14px;
+}
+
+.dateMenuItem.achievementDate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.dateMenuItem.active.achievementDate {
+  background: linear-gradient(135deg, #78350f, #d97706);
+  color: white;
+}
+
+@media (max-width: 520px) {
+  .puzzleTab {
+    flex-basis: calc(50% - 8px);
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.achievementToast {
+  background: linear-gradient(135deg, #78350f, #d97706);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(15, 23, 42, .42);
+  backdrop-filter: blur(8px);
+}
+
+.confirmModal {
+  width: min(420px, 100%);
+  background: white;
+  color: #172033;
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, .32);
+  border: 1px solid rgba(148,163,184,.35);
+}
+
+.confirmModal p {
+  color: #64748b;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.modalActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modalActions button {
+  flex: 1;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 14px;
+  font-weight: 950;
+}
+
+.modalSecondary {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.modalPrimary {
+  background: #172033;
+  color: white;
+}

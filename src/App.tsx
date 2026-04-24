@@ -40,16 +40,39 @@ const getProgressKey = (date: string, hash: string, puzzleId: number) =>
 const getActivePuzzleKey = (date: string, hash: string) =>
   `daily-word-soup:${date}:${hash}:active-puzzle`;
 
+const getWordsOpenedKey = (date: string, hash: string, puzzleId: number) =>
+  `daily-word-soup:${date}:${hash}:puzzle:${puzzleId}:words-opened`;
+
+const getPuzzleAchievementKey = (date: string, hash: string, puzzleId: number) =>
+  `daily-word-soup:${date}:${hash}:puzzle:${puzzleId}:blind-complete`;
+
+const getDayCompleteKey = (date: string) =>
+  `daily-word-soup:${date}:day-complete`;
+
+const getDayAchievementKey = (date: string) =>
+  `daily-word-soup:${date}:day-blind-complete`;
+
 type UpdateReadyEvent = CustomEvent<{ update: () => Promise<void> }>;
+
+type DayStatus = {
+  complete: boolean;
+  achievement: boolean;
+};
 
 function PuzzleBoard({
   puzzle,
   foundValues,
   onFound,
+  isComplete,
+  isAchievement,
+  onWordsOpenRequest,
 }: {
   puzzle: DailyPuzzle;
   foundValues: Set<string>;
   onFound: (value: string) => void;
+  isComplete: boolean;
+  isAchievement: boolean;
+  onWordsOpenRequest: (openWords: () => void) => void;
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
   const [clearSignal, setClearSignal] = useState(0);
@@ -57,10 +80,19 @@ function PuzzleBoard({
   const foundPercent = Math.round((foundValues.size / puzzle.words.length) * 100);
 
   return (
-    <section className="puzzleSection">
+    <section
+      className={[
+        "puzzleSection",
+        isComplete ? "puzzleComplete" : "",
+        isAchievement ? "puzzleAchievement" : "",
+      ].join(" ")}
+    >
       <div className="puzzleHeader">
         <div>
-          <p className="eyebrow">Puzzle {puzzle.id}</p>
+          <p className="eyebrow">
+            {isComplete ? "✓ " : ""}Puzzle {puzzle.id}
+            {isAchievement ? " · Achievement" : ""}
+          </p>
           <h2>{puzzle.topic}</h2>
         </div>
         <strong>{foundValues.size}/{puzzle.words.length}</strong>
@@ -130,7 +162,14 @@ function PuzzleBoard({
         <button
           type="button"
           className="wordsToggle"
-          onClick={() => setWordsOpen((value) => !value)}
+          onClick={() => {
+            setWordsOpen((value) => {
+              if (value) return false;
+
+              onWordsOpenRequest(() => setWordsOpen(true));
+              return false;
+            });
+          }}
           aria-expanded={wordsOpen}
         >
           <span>Words</span>
@@ -162,9 +201,23 @@ function DailyPage() {
   const [data, setData] = useState<DailyPuzzlesData | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [foundByPuzzle, setFoundByPuzzle] = useState<Record<number, Set<string>>>({});
+  const [wordsOpenedByPuzzle, setWordsOpenedByPuzzle] = useState<Record<number, boolean>>({});
+  const [achievementByPuzzle, setAchievementByPuzzle] = useState<Record<number, boolean>>({});
+  const [dayStatusByDate, setDayStatusByDate] = useState<Record<string, DayStatus>>(() =>
+    Object.fromEntries(
+      availableDates.map((availableDate) => [
+        availableDate,
+        {
+          complete: localStorage.getItem(getDayCompleteKey(availableDate)) === "true",
+          achievement: localStorage.getItem(getDayAchievementKey(availableDate)) === "true",
+        },
+      ])
+    )
+  );
   const [activePuzzleId, setActivePuzzleId] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; tone?: "default" | "achievement" } | null>(null);
+  const [pendingWordsOpen, setPendingWordsOpen] = useState<(() => void) | null>(null);
   const [updateApp, setUpdateApp] = useState<(() => Promise<void>) | null>(null);
 
   useEffect(() => {
@@ -180,15 +233,25 @@ function DailyPage() {
 
       if (!loaded) {
         setFoundByPuzzle({});
+        setWordsOpenedByPuzzle({});
+        setAchievementByPuzzle({});
         setActivePuzzleId(null);
         return;
       }
 
       const restored: Record<number, Set<string>> = {};
+      const restoredWordsOpened: Record<number, boolean> = {};
+      const restoredAchievements: Record<number, boolean> = {};
 
       loaded.puzzles.forEach((puzzle) => {
         const key = getProgressKey(selectedDate, loaded.hash, puzzle.id);
         const saved = localStorage.getItem(key);
+
+        restoredWordsOpened[puzzle.id] =
+          localStorage.getItem(getWordsOpenedKey(selectedDate, loaded.hash, puzzle.id)) === "true";
+
+        restoredAchievements[puzzle.id] =
+          localStorage.getItem(getPuzzleAchievementKey(selectedDate, loaded.hash, puzzle.id)) === "true";
 
         if (!saved) return;
 
@@ -211,6 +274,8 @@ function DailyPage() {
       const hasSavedActivePuzzle = loaded.puzzles.some((puzzle) => puzzle.id === savedActivePuzzleId);
 
       setFoundByPuzzle(restored);
+      setWordsOpenedByPuzzle(restoredWordsOpened);
+      setAchievementByPuzzle(restoredAchievements);
       setActivePuzzleId(hasSavedActivePuzzle ? savedActivePuzzleId : loaded.puzzles[0]?.id ?? null);
     });
 
@@ -231,8 +296,22 @@ function DailyPage() {
       } else {
         localStorage.setItem(key, JSON.stringify(values));
       }
+
+      const wordsOpenedKey = getWordsOpenedKey(selectedDate, data.hash, puzzle.id);
+      if (wordsOpenedByPuzzle[puzzle.id]) {
+        localStorage.setItem(wordsOpenedKey, "true");
+      } else {
+        localStorage.removeItem(wordsOpenedKey);
+      }
+
+      const achievementKey = getPuzzleAchievementKey(selectedDate, data.hash, puzzle.id);
+      if (achievementByPuzzle[puzzle.id]) {
+        localStorage.setItem(achievementKey, "true");
+      } else {
+        localStorage.removeItem(achievementKey);
+      }
     });
-  }, [data, foundByPuzzle, selectedDate]);
+  }, [data, foundByPuzzle, wordsOpenedByPuzzle, achievementByPuzzle, selectedDate]);
 
   useEffect(() => {
     if (!toast) return;
@@ -273,17 +352,61 @@ function DailyPage() {
 
   const activePuzzle = data?.puzzles.find((puzzle) => puzzle.id === activePuzzleId) ?? data?.puzzles[0];
 
+  const allPuzzlesComplete =
+    Boolean(data) &&
+    data.puzzles.every((puzzle) => (foundByPuzzle[puzzle.id]?.size ?? 0) === puzzle.words.length);
+
+  const allPuzzlesAchievement =
+    Boolean(data) &&
+    data.puzzles.length > 0 &&
+    data.puzzles.every((puzzle) => achievementByPuzzle[puzzle.id]);
+
   const resetProgress = () => {
     if (!data) return;
     if (!window.confirm("Reset progress for this puzzle day?")) return;
 
     data.puzzles.forEach((puzzle) => {
       localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
+      localStorage.removeItem(getWordsOpenedKey(selectedDate, data.hash, puzzle.id));
+      localStorage.removeItem(getPuzzleAchievementKey(selectedDate, data.hash, puzzle.id));
     });
 
+    localStorage.removeItem(getDayCompleteKey(selectedDate));
+    localStorage.removeItem(getDayAchievementKey(selectedDate));
+
     setFoundByPuzzle({});
+    setWordsOpenedByPuzzle({});
+    setAchievementByPuzzle({});
+    setDayStatusByDate((prev) => ({
+      ...prev,
+      [selectedDate]: { complete: false, achievement: false },
+    }));
     setToast("Progress reset");
   };
+
+  useEffect(() => {
+    if (!data) return;
+
+    if (allPuzzlesComplete) {
+      localStorage.setItem(getDayCompleteKey(selectedDate), "true");
+    } else {
+      localStorage.removeItem(getDayCompleteKey(selectedDate));
+    }
+
+    if (allPuzzlesAchievement) {
+      localStorage.setItem(getDayAchievementKey(selectedDate), "true");
+    } else {
+      localStorage.removeItem(getDayAchievementKey(selectedDate));
+    }
+
+    setDayStatusByDate((prev) => ({
+      ...prev,
+      [selectedDate]: {
+        complete: allPuzzlesComplete,
+        achievement: allPuzzlesAchievement,
+      },
+    }));
+  }, [allPuzzlesComplete, allPuzzlesAchievement, data, selectedDate]);
 
   if (notFound) {
     return (
@@ -342,16 +465,26 @@ function DailyPage() {
             </div>
 
             <nav className="dateMenu">
-              {availableDates.map((availableDate) => (
-                <Link
-                  key={availableDate}
-                  to={`/${availableDate}`}
-                  onClick={() => setMenuOpen(false)}
-                  className={["dateMenuItem", availableDate === selectedDate ? "active" : ""].join(" ")}
-                >
-                  {availableDate}
-                </Link>
-              ))}
+              {availableDates.map((availableDate) => {
+                const status = dayStatusByDate[availableDate];
+
+                return (
+                  <Link
+                    key={availableDate}
+                    to={`/${availableDate}`}
+                    onClick={() => setMenuOpen(false)}
+                    className={[
+                      "dateMenuItem",
+                      availableDate === selectedDate ? "active" : "",
+                      status?.complete ? "completeDate" : "",
+                      status?.achievement ? "achievementDate" : "",
+                    ].join(" ")}
+                  >
+                    <span>{availableDate}</span>
+                    {status?.complete && <strong>{status.achievement ? "🏆 ✓" : "✓"}</strong>}
+                  </Link>
+                );
+              })}
             </nav>
           </aside>
         </div>
@@ -378,10 +511,11 @@ function DailyPage() {
                 "puzzleTab",
                 puzzle.id === activePuzzle?.id ? "active" : "",
                 found === total ? "completeTab" : "",
+                achievementByPuzzle[puzzle.id] ? "achievementTab" : "",
               ].join(" ")}
               onClick={() => setActivePuzzleId(puzzle.id)}
             >
-              <span>{found === total ? "✓" : ""} Puzzle {puzzle.id}</span>
+              <span>{achievementByPuzzle[puzzle.id] ? "🏆 " : found === total ? "✓ " : ""}Puzzle {puzzle.id}</span>
               <strong>{found}/{total}</strong>
             </button>
           );
@@ -404,7 +538,21 @@ function DailyPage() {
             }));
 
             if (nextFound.size === activePuzzle.words.length) {
-              setToast(`Puzzle ${activePuzzle.id} complete ✓`);
+              const blindComplete = !wordsOpenedByPuzzle[activePuzzle.id];
+
+              if (blindComplete) {
+                setAchievementByPuzzle((prev) => ({
+                  ...prev,
+                  [activePuzzle.id]: true,
+                }));
+              }
+
+              setToast({
+                message: blindComplete
+                  ? `Achievement unlocked: Puzzle ${activePuzzle.id} 🏆`
+                  : `Puzzle ${activePuzzle.id} complete ✓`,
+                tone: blindComplete ? "achievement" : "default",
+              });
 
               const currentIndex = data.puzzles.findIndex((puzzle) => puzzle.id === activePuzzle.id);
               const nextPuzzle = data.puzzles[currentIndex + 1];
@@ -413,13 +561,67 @@ function DailyPage() {
                 window.setTimeout(() => setActivePuzzleId(nextPuzzle.id), 700);
               }
             } else {
-              setToast(`Found: ${wordLabel}`);
+              setToast({ message: `Found: ${wordLabel}` });
             }
+          }}
+          isComplete={(foundByPuzzle[activePuzzle.id]?.size ?? 0) === activePuzzle.words.length}
+          isAchievement={Boolean(achievementByPuzzle[activePuzzle.id])}
+          onWordsOpenRequest={(openWords) => {
+            if (achievementByPuzzle[activePuzzle.id]) {
+              openWords();
+              return;
+            }
+
+            setPendingWordsOpen(() => () => {
+              setWordsOpenedByPuzzle((prev) => ({
+                ...prev,
+                [activePuzzle.id]: true,
+              }));
+              openWords();
+            });
           }}
         />
       )}
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && (
+        <div className={["toast", toast.tone === "achievement" ? "achievementToast" : ""].join(" ")}>
+          {toast.message}
+        </div>
+      )}
+
+      {pendingWordsOpen && (
+        <div className="modalOverlay" role="presentation" onClick={() => setPendingWordsOpen(null)}>
+          <div
+            className="confirmModal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="words-confirm-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p className="eyebrow">Achievement warning</p>
+            <h2 id="words-confirm-title">Reveal word list?</h2>
+            <p>
+              Opening the word list disables the no-word-list achievement for this puzzle.
+            </p>
+
+            <div className="modalActions">
+              <button type="button" className="modalSecondary" onClick={() => setPendingWordsOpen(null)}>
+                Keep hidden
+              </button>
+              <button
+                type="button"
+                className="modalPrimary"
+                onClick={() => {
+                  pendingWordsOpen();
+                  setPendingWordsOpen(null);
+                }}
+              >
+                Reveal words
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {updateApp && (
         <div className="updatePrompt">
@@ -431,7 +633,11 @@ function DailyPage() {
       )}
 
       {totals.total > 0 && totals.found === totals.total && (
-        <div className="complete">You completed all puzzles 🎉</div>
+        <div className={["complete", allPuzzlesAchievement ? "achievementComplete" : ""].join(" ")}>
+          {allPuzzlesAchievement
+            ? "Perfect day completed 🏆"
+            : "You completed all puzzles 🎉"}
+        </div>
       )}
 
       <footer className="appFooter">

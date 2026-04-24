@@ -571,54 +571,6 @@ h2 {
   }
 }
 
-/* Make Move control look clearly tappable */
-.moveToggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 12px 18px;
-  border: 1px solid rgba(148,163,184,.38);
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffffff 0%, #eef3fa 100%);
-  color: #334155;
-  font-weight: 950;
-  box-shadow:
-    0 10px 24px rgba(15,23,42,.14),
-    inset 0 1px 0 rgba(255,255,255,.85);
-  cursor: pointer;
-}
-
-.moveToggle::before {
-  content: "✋";
-  margin-right: 8px;
-  font-size: 16px;
-}
-
-.moveToggle.active {
-  border-color: rgba(23,32,51,.85);
-  background: #172033;
-  color: white;
-  box-shadow:
-    0 12px 28px rgba(15,23,42,.22),
-    inset 0 1px 0 rgba(255,255,255,.12);
-}
-
-.moveToggle.active::before {
-  content: "↔";
-}
-
-.moveToggle:active {
-  transform: translateY(1px) scale(.98);
-}
-
-@media (max-width: 520px) {
-  .moveToggle {
-    width: fit-content;
-    min-width: 132px;
-  }
-}
-
 .clearSelectionButton:disabled {
   opacity: .45;
   box-shadow: none;
@@ -1192,197 +1144,6 @@ html[data-animations="off"] *::after {
   scroll-behavior: auto !important;
 }
 
-:root {
-  --app-bg: #f5f7fb;
-  --surface: #ffffff;
-  --surface-soft: #f1f5f9;
-  --text: #172033;
-  --muted: #64748b;
-  --primary: #172033;
-  --primary-text: #ffffff;
-  --border: rgba(148,163,184,.28);
-  --danger-bg: #fee2e2;
-  --danger-text: #991b1b;
-}
-
-html[data-theme="dark"] {
-  --app-bg: #0f172a;
-  --surface: #172033;
-  --surface-soft: #1e293b;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --primary: #e2e8f0;
-  --primary-text: #0f172a;
-  --border: rgba(148,163,184,.22);
-  --danger-bg: #7f1d1d;
-  --danger-text: #fee2e2;
-}
-
-html[data-theme="pastel"] {
-  --app-bg: #fff1f7;
-  --surface: #ffffff;
-  --surface-soft: #ffe4ef;
-  --text: #4a1832;
-  --muted: #9d5c78;
-  --primary: #be185d;
-  --primary-text: #ffffff;
-  --border: rgba(244,114,182,.25);
-  --danger-bg: #ffe4e6;
-  --danger-text: #9f1239;
-}
-
-html,
-body,
-#root {
-  background: var(--app-bg);
-  color: var(--text);
-}
-
-body,
-:root {
-  background: var(--app-bg);
-  color: var(--text);
-}
-
-.progress,
-.puzzleHeader strong,
-.moveToggle.active,
-.updatePrompt button,
-.modalPrimary {
-  background: var(--primary);
-  color: var(--primary-text);
-}
-
-.boardCard,
-.words,
-.confirmModal,
-.puzzleTab,
-.updatePrompt,
-.cell {
-  background: var(--surface);
-  color: var(--text);
-  border-color: var(--border);
-}
-
-.zoomControls button,
-.moveToggle,
-.clearSelection,
-.hamburger,
-.wordsToggle span:last-child,
-.modalSecondary,
-.puzzleTab strong,
-.sidebarTabs button,
-.themeOptions button {
-  background: var(--surface-soft);
-  color: var(--muted);
-}
-
-.eyebrow,
-.hint,
-.boardHint,
-.wordsHeader span,
-.wordsToggle strong,
-.confirmModal p,
-.appFooter {
-  color: var(--muted);
-}
-
-.resetProgress,
-.dangerButton {
-  background: var(--danger-bg);
-  color: var(--danger-text);
-}
-
-html[data-theme="dark"] .gridShell {
-  background: #334155;
-}
-
-html[data-theme="dark"] .cell {
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
-}
-
-html[data-theme="pastel"] .gridShell {
-  background: #fbcfe8;
-}
-
-.sidebarTabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.sidebarTabs button,
-.themeOptions button {
-  border: 0;
-  border-radius: 999px;
-  padding: 9px 10px;
-  font-weight: 950;
-}
-
-.sidebarTabs button.active,
-.themeOptions button.active {
-  background: var(--primary);
-  color: var(--primary-text);
-}
-
-.settingsPanel {
-  display: grid;
-  gap: 14px;
-}
-
-.settingGroup {
-  display: grid;
-  gap: 8px;
-}
-
-.themeOptions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
-
-.settingSwitch {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 12px;
-  border-radius: 18px;
-  background: var(--surface-soft);
-}
-
-.settingSwitch span {
-  display: grid;
-  gap: 2px;
-}
-
-.settingSwitch small {
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.settingSwitch input {
-  width: 22px;
-  height: 22px;
-  accent-color: var(--primary);
-}
-
-.dangerButton {
-  border: 0;
-  border-radius: 999px;
-  padding: 12px 14px;
-  font-weight: 950;
-}
-
-html[data-animations="off"] *,
-html[data-animations="off"] *::before,
-html[data-animations="off"] *::after {
-  animation: none !important;
-  transition: none !important;
-  scroll-behavior: auto !important;
-}
-
 .confirmModal h2 {
   font-size: 18px;
   margin: 8px 0 4px;
@@ -1631,36 +1392,6 @@ html[data-animations="on"] .word.foundWord {
   }
   100% {
     transform: scale(1);
-  }
-}
-
-/* Board final layout: centered, stable, no vertical drift */
-.boardCard {
-  height: auto;
-  min-height: 0;
-  padding: 14px;
-  display: grid;
-  place-items: center;
-}
-
-.transformWrapper {
-  width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-}
-
-.transformContent {
-  width: max-content;
-  height: max-content;
-  padding: 0;
-  margin: 0 auto;
-}
-
-@media (max-width: 520px) {
-  .boardCard {
-    height: auto;
-    min-height: 0;
-    padding: 10px;
   }
 }
 
@@ -2013,4 +1744,148 @@ html[data-theme="glinda"] .puzzleTab.active strong {
   .boardCard {
     padding: 8px;
   }
+}
+
+/* Ne-yo polish: depth + readability */
+html[data-theme="neyo"] .boardCard {
+  background: rgba(8, 8, 12, .96);
+  border-color: rgba(34, 211, 238, .22);
+}
+
+html[data-theme="neyo"] .gridShell {
+  background: linear-gradient(135deg, rgba(167,139,250,.22), rgba(34,211,238,.14));
+}
+
+html[data-theme="neyo"] .cell {
+  background: #070707;
+  color: #f8fafc;
+}
+
+html[data-theme="neyo"] .boardHint,
+html[data-theme="neyo"] .eyebrow {
+  color: #9ee7ff;
+}
+
+html[data-theme="neyo"] h1,
+html[data-theme="neyo"] h2 {
+  text-shadow: 0 0 18px rgba(34,211,238,.18);
+}
+
+/* Fix zoom leaking over UI */
+.boardCard {
+  overflow: hidden;
+}
+
+.transformWrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.transformContent {
+  transform-origin: center top;
+}
+
+.puzzleTabs {
+  z-index: 40;
+}
+
+.boardControls,
+.boardHint,
+.puzzleHeader {
+  position: relative;
+  z-index: 30;
+}
+
+/* Ne-yo: fix zoom control pill */
+html[data-theme="neyo"] .zoomControls {
+  background: #111111;
+  border-color: rgba(167,139,250,.42);
+  box-shadow: 0 10px 28px rgba(0,0,0,.55);
+}
+
+html[data-theme="neyo"] .zoomControls button {
+  background: #050505;
+  color: #f8fafc;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: none;
+}
+
+html[data-theme="neyo"] .zoomControls button:active {
+  background: #a78bfa;
+  color: #050505;
+}
+
+/* Ne-yo: words + title readability */
+html[data-theme="neyo"] h1,
+html[data-theme="neyo"] h2 {
+  color: #ffffff;
+}
+
+html[data-theme="neyo"] .words {
+  background: #050505;
+  border-color: rgba(167,139,250,.22);
+}
+
+html[data-theme="neyo"] .wordsHeader span {
+  color: #94a3b8;
+}
+
+html[data-theme="neyo"] .word {
+  background: #111111;
+  color: #e5e7eb;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+html[data-theme="neyo"] .foundWord {
+  background: linear-gradient(135deg, #a78bfa, #22d3ee);
+  color: #050505;
+}
+
+html[data-theme="neyo"] .wordsToggle {
+  color: #ffffff;
+}
+
+html[data-theme="neyo"] .wordsToggle strong {
+  color: #94a3b8;
+}
+
+/* Ne-yo: date / eyebrow text to white */
+html[data-theme="neyo"] .eyebrow,
+html[data-theme="neyo"] .puzzleHeader .eyebrow,
+html[data-theme="neyo"] .date,
+html[data-theme="neyo"] .dateLabel {
+  color: #ffffff;
+}
+
+/* Glinda sidebar polish */
+html[data-theme="glinda"] .sidebar {
+  background: linear-gradient(180deg, #fff7fc 0%, #ffe4f3 100%);
+  color: #4a1233;
+  border-right: 1px solid rgba(219,39,119,.18);
+}
+
+html[data-theme="glinda"] .sidebarHeader {
+  border-bottom-color: rgba(219,39,119,.18);
+}
+
+html[data-theme="glinda"] .sidebarClose {
+  background: #ffe4f3;
+  color: #4a1233;
+}
+
+html[data-theme="glinda"] .dateMenuItem.active {
+  background: linear-gradient(135deg, #ec4899, #f0abfc);
+  color: white;
+  box-shadow: 0 10px 24px rgba(219,39,119,.18);
+}
+
+html[data-theme="glinda"] .dateMenuItem:not(.active):hover {
+  background: #ffe4f3;
+}
+
+html[data-theme="glinda"] .sidebarFooter a {
+  background: #ffe4f3;
+  color: #4a1233;
+  box-shadow: 0 8px 22px rgba(219,39,119,.10);
 }

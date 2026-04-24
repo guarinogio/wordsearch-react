@@ -656,6 +656,7 @@ function DailyPage() {
           isComplete={(foundByPuzzle[activePuzzle.id]?.size ?? 0) === activePuzzle.words.length}
           isAchievement={Boolean(achievementByPuzzle[activePuzzle.id])}
           vibrationEnabled={settings.vibration}
+          wordsInitiallyOpen={Boolean(wordsOpenedByPuzzle[activePuzzle.id])}
           onWordsOpenRequest={(openWords) => {
             if (achievementByPuzzle[activePuzzle.id]) {
               setWordsOpenedByPuzzle((prev) => ({

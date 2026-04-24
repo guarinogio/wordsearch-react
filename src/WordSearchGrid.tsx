@@ -8,6 +8,9 @@ type Props = {
   onFound: (value: string) => void;
   selectionDisabled?: boolean;
   clearSignal?: number;
+  vibrationEnabled?: boolean;
+  vibrationEnabled?: boolean;
+  vibrationEnabled?: boolean;
 };
 
 const getViewportWidth = () =>
@@ -63,6 +66,7 @@ export function WordSearchGrid({
   onFound,
   selectionDisabled = false,
   clearSignal = 0,
+  vibrationEnabled = true,
 }: Props) {
   const [manualPath, setManualPath] = useState<Cell[]>([]);
   const [dragStart, setDragStart] = useState<Cell | null>(null);
@@ -105,7 +109,7 @@ export function WordSearchGrid({
 
     if (placement && !foundValues.has(placement.value)) {
       onFound(placement.value);
-      if ("vibrate" in navigator) navigator.vibrate(35);
+      if (vibrationEnabled && "vibrate" in navigator) navigator.vibrate(35);
       return true;
     }
 

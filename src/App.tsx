@@ -52,6 +52,43 @@ const getDayCompleteKey = (date: string) =>
 const getDayAchievementKey = (date: string) =>
   `daily-word-soup:${date}:day-blind-complete`;
 
+const SETTINGS_KEY = "daily-word-soup:settings";
+
+type ThemeName = "light" | "dark" | "pastel";
+
+type AppSettings = {
+  theme: ThemeName;
+  vibration: boolean;
+  animations: boolean;
+};
+
+const defaultSettings: AppSettings = {
+  theme: "light",
+  vibration: true,
+  animations: true,
+};
+
+const loadSettings = (): AppSettings => {
+  try {
+    const saved = localStorage.getItem(SETTINGS_KEY);
+    if (!saved) return defaultSettings;
+
+    return {
+      ...defaultSettings,
+      ...JSON.parse(saved),
+    };
+  } catch {
+    return defaultSettings;
+  }
+};
+
+const saveSettings = (settings: AppSettings) => {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+};
+
+const hasProgressForDate = (date: string) =>
+  Object.keys(localStorage).some((key) => key.startsWith(`daily-word-soup:${date}:`));
+
 type UpdateReadyEvent = CustomEvent<{ update: () => Promise<void> }>;
 
 type DayStatus = {
@@ -66,6 +103,7 @@ function PuzzleBoard({
   isComplete,
   isAchievement,
   onWordsOpenRequest,
+  vibrationEnabled,
 }: {
   puzzle: DailyPuzzle;
   foundValues: Set<string>;
@@ -73,6 +111,7 @@ function PuzzleBoard({
   isComplete: boolean;
   isAchievement: boolean;
   onWordsOpenRequest: (openWords: () => void) => void;
+  vibrationEnabled: boolean;
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
   const [clearSignal, setClearSignal] = useState(0);
@@ -151,6 +190,7 @@ function PuzzleBoard({
                   onFound={onFound}
                   selectionDisabled={moveEnabled}
                   clearSignal={clearSignal}
+                  vibrationEnabled={vibrationEnabled}
                 />
               </TransformComponent>
             </div>
@@ -197,6 +237,7 @@ function PuzzleBoard({
 function DailyPage() {
   const { date } = useParams();
   const selectedDate = date ?? getNearestDate();
+  const isValidDateRoute = /^\d{4}-\d{2}-\d{2}$/.test(selectedDate);
 
   const [data, setData] = useState<DailyPuzzlesData | null>(null);
   const [notFound, setNotFound] = useState(false);
@@ -217,10 +258,25 @@ function DailyPage() {
   const [activePuzzleId, setActivePuzzleId] = useState<number | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState<{ message: string; tone?: "default" | "achievement" } | null>(null);
-  const [pendingWordsOpen, setPendingWordsOpen] = useState<(() => void) | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{
+    title: string;
+    message: string;
+    eyebrow?: string;
+    cancelLabel?: string;
+    confirmLabel?: string;
+    tone?: "default" | "danger" | "achievement";
+    onConfirm: () => void;
+  } | null>(null);
   const [updateApp, setUpdateApp] = useState<(() => Promise<void>) | null>(null);
+  const [settings, setSettings] = useState<AppSettings>(loadSettings);
 
   useEffect(() => {
+    if (!isValidDateRoute) {
+      setData(null);
+      setNotFound(true);
+      return;
+    }
+
     let cancelled = false;
 
     loadPuzzleData(selectedDate).then((loaded) => {
@@ -282,7 +338,7 @@ function DailyPage() {
     return () => {
       cancelled = true;
     };
-  }, [selectedDate]);
+  }, [selectedDate, isValidDateRoute]);
 
   useEffect(() => {
     if (!data) return;
@@ -321,6 +377,12 @@ function DailyPage() {
   }, [toast]);
 
   useEffect(() => {
+    document.documentElement.dataset.theme = settings.theme;
+    document.documentElement.dataset.animations = settings.animations ? "on" : "off";
+    saveSettings(settings);
+  }, [settings]);
+
+  useEffect(() => {
     if (!data || activePuzzleId === null) return;
 
     localStorage.setItem(
@@ -337,6 +399,20 @@ function DailyPage() {
     window.addEventListener("daily-word-soup:update-ready", onUpdateReady);
     return () => window.removeEventListener("daily-word-soup:update-ready", onUpdateReady);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen && !confirmAction) return;
+
+    window.history.pushState({ overlay: true }, "");
+
+    const onPopState = () => {
+      setMenuOpen(false);
+      setConfirmAction(null);
+    };
+
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [menuOpen, confirmAction]);
 
   const totals = useMemo(() => {
     if (!data) return { found: 0, total: 0 };
@@ -363,25 +439,32 @@ function DailyPage() {
 
   const resetProgress = () => {
     if (!data) return;
-    if (!window.confirm("Reset progress for this puzzle day?")) return;
 
-    data.puzzles.forEach((puzzle) => {
-      localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
-      localStorage.removeItem(getWordsOpenedKey(selectedDate, data.hash, puzzle.id));
-      localStorage.removeItem(getPuzzleAchievementKey(selectedDate, data.hash, puzzle.id));
+    setConfirmAction({
+      title: "Reset progress?",
+      message: "This will clear all progress, achievements and word-list state for this day.",
+      confirmLabel: "Reset",
+      tone: "danger",
+      onConfirm: () => {
+        data.puzzles.forEach((puzzle) => {
+          localStorage.removeItem(getProgressKey(selectedDate, data.hash, puzzle.id));
+          localStorage.removeItem(getWordsOpenedKey(selectedDate, data.hash, puzzle.id));
+          localStorage.removeItem(getPuzzleAchievementKey(selectedDate, data.hash, puzzle.id));
+        });
+
+        localStorage.removeItem(getDayCompleteKey(selectedDate));
+        localStorage.removeItem(getDayAchievementKey(selectedDate));
+
+        setFoundByPuzzle({});
+        setWordsOpenedByPuzzle({});
+        setAchievementByPuzzle({});
+        setDayStatusByDate((prev) => ({
+          ...prev,
+          [selectedDate]: { complete: false, achievement: false },
+        }));
+        setToast({ message: "Progress reset" });
+      },
     });
-
-    localStorage.removeItem(getDayCompleteKey(selectedDate));
-    localStorage.removeItem(getDayAchievementKey(selectedDate));
-
-    setFoundByPuzzle({});
-    setWordsOpenedByPuzzle({});
-    setAchievementByPuzzle({});
-    setDayStatusByDate((prev) => ({
-      ...prev,
-      [selectedDate]: { complete: false, achievement: false },
-    }));
-    setToast("Progress reset");
   };
 
   useEffect(() => {
@@ -463,7 +546,6 @@ function DailyPage() {
                 ×
               </button>
             </div>
-
             <nav className="dateMenu">
               {availableDates.map((availableDate) => {
                 const status = dayStatusByDate[availableDate];
@@ -486,6 +568,11 @@ function DailyPage() {
                 );
               })}
             </nav>
+
+            <div className="sidebarFooter">
+              <Link to="/history" onClick={() => setMenuOpen(false)}>History</Link>
+              <Link to="/options" onClick={() => setMenuOpen(false)}>Options</Link>
+            </div>
           </aside>
         </div>
       )}
@@ -566,18 +653,27 @@ function DailyPage() {
           }}
           isComplete={(foundByPuzzle[activePuzzle.id]?.size ?? 0) === activePuzzle.words.length}
           isAchievement={Boolean(achievementByPuzzle[activePuzzle.id])}
+          vibrationEnabled={settings.vibration}
           onWordsOpenRequest={(openWords) => {
             if (achievementByPuzzle[activePuzzle.id]) {
               openWords();
               return;
             }
 
-            setPendingWordsOpen(() => () => {
-              setWordsOpenedByPuzzle((prev) => ({
-                ...prev,
-                [activePuzzle.id]: true,
-              }));
-              openWords();
+            setConfirmAction({
+              eyebrow: "Achievement warning",
+              title: "Reveal word list?",
+              message: "Opening the word list disables the no-word-list achievement for this puzzle.",
+              cancelLabel: "Keep hidden",
+              confirmLabel: "Reveal words",
+              tone: "achievement",
+              onConfirm: () => {
+                setWordsOpenedByPuzzle((prev) => ({
+                  ...prev,
+                  [activePuzzle.id]: true,
+                }));
+                openWords();
+              },
             });
           }}
         />
@@ -588,41 +684,6 @@ function DailyPage() {
           {toast.message}
         </div>
       )}
-
-      {pendingWordsOpen && (
-        <div className="modalOverlay" role="presentation" onClick={() => setPendingWordsOpen(null)}>
-          <div
-            className="confirmModal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="words-confirm-title"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <p className="eyebrow">Achievement warning</p>
-            <h2 id="words-confirm-title">Reveal word list?</h2>
-            <p>
-              Opening the word list disables the no-word-list achievement for this puzzle.
-            </p>
-
-            <div className="modalActions">
-              <button type="button" className="modalSecondary" onClick={() => setPendingWordsOpen(null)}>
-                Keep hidden
-              </button>
-              <button
-                type="button"
-                className="modalPrimary"
-                onClick={() => {
-                  pendingWordsOpen();
-                  setPendingWordsOpen(null);
-                }}
-              >
-                Reveal words
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {updateApp && (
         <div className="updatePrompt">
           <span>New version available</span>
@@ -639,6 +700,46 @@ function DailyPage() {
             : "You completed all puzzles 🎉"}
         </div>
       )}
+      {confirmAction && (
+        <div className="modalOverlay" role="presentation" onClick={() => setConfirmAction(null)}>
+          <div
+            className={["confirmModal", confirmAction.tone ? `modal-${confirmAction.tone}` : ""].join(" ")}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="confirm-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p className="eyebrow">{confirmAction.eyebrow ?? "Confirm action"}</p>
+            <h2 id="confirm-modal-title">{confirmAction.title}</h2>
+            <p>{confirmAction.message}</p>
+
+            <div className="modalActions">
+              <button
+                type="button"
+                className="modalSecondary"
+                onClick={() => setConfirmAction(null)}
+              >
+                {confirmAction.cancelLabel ?? "Cancel"}
+              </button>
+
+              <button
+                type="button"
+                className={[
+                  "modalPrimary",
+                  confirmAction.tone === "danger" ? "modalDangerButton" : "",
+                  confirmAction.tone === "achievement" ? "modalAchievementButton" : "",
+                ].join(" ")}
+                onClick={() => {
+                  confirmAction.onConfirm();
+                  setConfirmAction(null);
+                }}
+              >
+                {confirmAction.confirmLabel ?? "Confirm"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <footer className="appFooter">
         v{__APP_VERSION__} · hash {data.hash.slice(0, 8)}
@@ -647,12 +748,234 @@ function DailyPage() {
   );
 }
 
+
+function HistoryPage() {
+  const [rows, setRows] = useState<
+    Array<{
+      date: string;
+      found: number;
+      total: number;
+      percent: number;
+      status: string;
+    }>
+  >([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    Promise.all(
+      availableDates.map(async (date) => {
+        const loaded = await loadPuzzleData(date);
+        const complete = localStorage.getItem(getDayCompleteKey(date)) === "true";
+        const achievement = localStorage.getItem(getDayAchievementKey(date)) === "true";
+
+        if (!loaded) {
+          return {
+            date,
+            found: 0,
+            total: 0,
+            percent: 0,
+            status: "Unavailable",
+          };
+        }
+
+        const total = loaded.puzzles.reduce((sum, puzzle) => sum + puzzle.words.length, 0);
+        const found = loaded.puzzles.reduce((sum, puzzle) => {
+          const saved = localStorage.getItem(getProgressKey(date, loaded.hash, puzzle.id));
+
+          if (!saved) return sum;
+
+          try {
+            const values = JSON.parse(saved);
+            return sum + (Array.isArray(values) ? values.length : 0);
+          } catch {
+            return sum;
+          }
+        }, 0);
+
+        const percent = total > 0 ? Math.round((found / total) * 100) : 0;
+
+        return {
+          date,
+          found,
+          total,
+          percent,
+          status: achievement ? "🏆 Perfect" : complete ? "✓ Complete" : found > 0 ? "Started" : "New",
+        };
+      })
+    ).then((nextRows) => {
+      if (!cancelled) setRows(nextRows);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <main className="app">
+      <header className="header">
+        <div>
+          <p className="eyebrow">Progress</p>
+          <h1>History</h1>
+        </div>
+        <Link className="pageLink" to="/">Game</Link>
+      </header>
+
+      <div className="historyTable">
+        {rows.map((row) => (
+          <Link key={row.date} to={`/${row.date}`} className="historyRow">
+            <span>{row.date}</span>
+            <strong>{row.found}/{row.total} · {row.percent}% · {row.status}</strong>
+          </Link>
+        ))}
+      </div>
+    </main>
+  );
+}
+
+function OptionsPage() {
+  const [settings, setSettings] = useState<AppSettings>(loadSettings);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [toast, setToast] = useState<{ message: string } | null>(null);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = settings.theme;
+    document.documentElement.dataset.animations = settings.animations ? "on" : "off";
+    saveSettings(settings);
+  }, [settings]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timeout = window.setTimeout(() => setToast(null), 1500);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
+
+  const updateSettings = (next: Partial<AppSettings>) => {
+    setSettings((current) => ({ ...current, ...next }));
+  };
+
+  const resetWholeApp = async () => {
+    localStorage.clear();
+
+    if ("caches" in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+    }
+
+    if ("serviceWorker" in navigator) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
+    }
+
+    setSettings(defaultSettings);
+    document.documentElement.dataset.theme = defaultSettings.theme;
+    document.documentElement.dataset.animations = defaultSettings.animations ? "on" : "off";
+    setToast({ message: "App reset complete" });
+  };
+
+  return (
+    <main className="app">
+      <header className="header">
+        <div>
+          <p className="eyebrow">Preferences</p>
+          <h1>Options</h1>
+        </div>
+        <Link className="pageLink" to="/">Game</Link>
+      </header>
+
+      <section className="settingsPage">
+        <div className="settingGroup">
+          <strong>Theme</strong>
+          <div className="themeOptions">
+            {(["light", "dark", "pastel"] as ThemeName[]).map((theme) => (
+              <button
+                key={theme}
+                type="button"
+                className={settings.theme === theme ? "active" : ""}
+                onClick={() => updateSettings({ theme })}
+              >
+                {theme === "light" ? "Current" : theme === "dark" ? "Dark" : "Pastel"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <label className="settingSwitch">
+          <span>
+            <strong>Vibration</strong>
+            <small>Haptic feedback when finding words</small>
+          </span>
+          <input
+            type="checkbox"
+            checked={settings.vibration}
+            onChange={(event) => updateSettings({ vibration: event.target.checked })}
+          />
+        </label>
+
+        <label className="settingSwitch">
+          <span>
+            <strong>Animations</strong>
+            <small>Disable for older phones</small>
+          </span>
+          <input
+            type="checkbox"
+            checked={settings.animations}
+            onChange={(event) => updateSettings({ animations: event.target.checked })}
+          />
+        </label>
+
+        <button type="button" className="dangerButton" onClick={() => setConfirmOpen(true)}>
+          Reset whole app
+        </button>
+      </section>
+
+      {confirmOpen && (
+        <div className="modalOverlay" role="presentation" onClick={() => setConfirmOpen(false)}>
+          <div
+            className="confirmModal modal-danger"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="reset-app-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <p className="eyebrow">Danger zone</p>
+            <h2 id="reset-app-title">Reset whole app?</h2>
+            <p>This deletes all progress, achievements, options and local app data. This cannot be undone.</p>
+
+            <div className="modalActions">
+              <button type="button" className="modalSecondary" onClick={() => setConfirmOpen(false)}>
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="modalPrimary modalDangerButton"
+                onClick={() => {
+                  void resetWholeApp();
+                  setConfirmOpen(false);
+                }}
+              >
+                Reset app
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {toast && <div className="toast">{toast.message}</div>}
+    </main>
+  );
+}
+
+
 export default function App() {
   const nearestDate = getNearestDate();
 
   return (
     <Routes>
       <Route path="/" element={<Navigate to={`/${nearestDate}`} replace />} />
+      <Route path="/history" element={<HistoryPage />} />
+      <Route path="/options" element={<OptionsPage />} />
       <Route path="/:date" element={<DailyPage />} />
     </Routes>
   );

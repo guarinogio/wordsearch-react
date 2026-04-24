@@ -604,10 +604,6 @@ h2 {
   display: grid;
 }
 
-@media (max-width: 520px) {
-  }
-
-
 .boardModeControls {
   display: flex;
   align-items: center;
@@ -768,8 +764,7 @@ h2 {
     align-items: flex-start;
     flex-direction: column;
   }
-
-  }
+}
 
 .puzzleTab.completeTab {
   border-color: rgba(22, 101, 52, .35);

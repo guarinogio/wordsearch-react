@@ -86,13 +86,7 @@ function PuzzleBoard({
 
             <div className="boardCard">
               <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
-                <WordSearchGrid
-                    puzzle={puzzle}
-                    foundValues={foundValues}
-                    manualPath={manualPath}
-                    setManualPath={setManualPath}
-                    onFound={onFound}
-                  />
+                <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} />
               </TransformComponent>
             </div>
           </>

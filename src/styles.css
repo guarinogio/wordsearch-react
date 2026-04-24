@@ -650,3 +650,27 @@ h2 {
 
 @media (max-width: 520px) {
   }
+
+/* Center board properly */
+.transformWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transformContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boardCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure grid itself is centered */
+.wordSearchGrid {
+  margin: 0 auto;
+}

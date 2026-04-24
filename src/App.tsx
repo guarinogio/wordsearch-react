@@ -282,6 +282,10 @@ function DailyPage() {
 
     let cancelled = false;
 
+    setData(null);
+    setNotFound(false);
+    setHydratedStorageKey(null);
+
     loadPuzzleData(selectedDate).then((loaded) => {
       if (cancelled) return;
 
@@ -546,6 +550,7 @@ function DailyPage() {
             </nav>
 
             <div className="sidebarFooter">
+              <Link to={`/${availableDates[0]}`} onClick={() => setMenuOpen(false)}>Latest</Link>
               <Link to="/history" onClick={() => setMenuOpen(false)}>History</Link>
               <Link to="/options" onClick={() => setMenuOpen(false)}>Options</Link>
             </div>
@@ -733,6 +738,8 @@ function HistoryPage() {
       found: number;
       total: number;
       percent: number;
+      perfectPuzzles: number;
+      totalPuzzles: number;
       status: string;
     }>
   >([]);
@@ -752,6 +759,8 @@ function HistoryPage() {
             found: 0,
             total: 0,
             percent: 0,
+            perfectPuzzles: 0,
+            totalPuzzles: 0,
             status: "Unavailable",
           };
         }
@@ -771,13 +780,25 @@ function HistoryPage() {
         }, 0);
 
         const percent = total > 0 ? Math.round((found / total) * 100) : 0;
+        const totalPuzzles = loaded.puzzles.length;
+        const perfectPuzzles = loaded.puzzles.filter((puzzle) =>
+          localStorage.getItem(getPuzzleAchievementKey(date, loaded.hash, puzzle.id)) === "true"
+        ).length;
 
         return {
           date,
           found,
           total,
           percent,
-          status: achievement ? "🏆 Perfect" : complete ? "✓ Complete" : found > 0 ? "Started" : "New",
+          perfectPuzzles,
+          totalPuzzles,
+          status: achievement
+            ? `🏆 Perfect · ${perfectPuzzles}/${totalPuzzles} puzzles`
+            : complete
+              ? `✓ Complete · ${perfectPuzzles}/${totalPuzzles} perfect`
+              : found > 0
+                ? `Started · ${perfectPuzzles}/${totalPuzzles} perfect`
+                : `New · ${perfectPuzzles}/${totalPuzzles} perfect`,
         };
       })
     ).then((nextRows) => {
@@ -796,7 +817,10 @@ function HistoryPage() {
           <p className="eyebrow">Progress</p>
           <h1>History</h1>
         </div>
-        <Link className="pageLink" to="/">Game</Link>
+        <div className="headerActions">
+          <Link className="pageLink" to={`/${availableDates[0]}`}>Latest</Link>
+          <Link className="pageLink" to="/">Game</Link>
+        </div>
       </header>
 
       <div className="historyTable">
@@ -855,7 +879,10 @@ function OptionsPage() {
           <p className="eyebrow">Preferences</p>
           <h1>Options</h1>
         </div>
-        <Link className="pageLink" to="/">Game</Link>
+        <div className="headerActions">
+          <Link className="pageLink" to={`/${availableDates[0]}`}>Latest</Link>
+          <Link className="pageLink" to="/">Game</Link>
+        </div>
       </header>
 
       <section className="settingsPage">

@@ -7,6 +7,7 @@ type Props = {
   foundValues: Set<string>;
   onFound: (value: string) => void;
   selectionDisabled?: boolean;
+  clearSignal?: number;
 };
 
 const getViewportWidth = () =>
@@ -56,7 +57,13 @@ const isNextValidCell = (path: Cell[], cell: Cell) => {
   );
 };
 
-export function WordSearchGrid({ puzzle, foundValues, onFound, selectionDisabled = false }: Props) {
+export function WordSearchGrid({
+  puzzle,
+  foundValues,
+  onFound,
+  selectionDisabled = false,
+  clearSignal = 0,
+}: Props) {
   const [manualPath, setManualPath] = useState<Cell[]>([]);
   const [dragStart, setDragStart] = useState<Cell | null>(null);
   const [viewportWidth, setViewportWidth] = useState(getViewportWidth);
@@ -74,6 +81,12 @@ export function WordSearchGrid({ puzzle, foundValues, onFound, selectionDisabled
       window.removeEventListener("orientationchange", update);
     };
   }, []);
+
+  useEffect(() => {
+    setManualPath([]);
+    setDragStart(null);
+    didDragRef.current = false;
+  }, [clearSignal]);
 
   const selectedCells = useMemo(() => new Set(manualPath.map(cellKey)), [manualPath]);
 

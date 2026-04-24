@@ -44,6 +44,7 @@ function PuzzleBoard({
   onFound: (value: string) => void;
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
+  const [clearSignal, setClearSignal] = useState(0);
   const foundPercent = Math.round((foundValues.size / puzzle.words.length) * 100);
 
   return (
@@ -75,18 +76,41 @@ function PuzzleBoard({
                 <button type="button" onClick={() => zoomIn()}>+</button>
               </div>
 
-              <button
-                type="button"
-                className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
-                onClick={() => setMoveEnabled((value) => !value)}
-              >
-                {moveEnabled ? "Move ON" : "Move OFF"}
-              </button>
+              <div className="boardModeControls">
+                <button
+                  type="button"
+                  className="clearSelection"
+                  onClick={() => setClearSignal((value) => value + 1)}
+                  disabled={moveEnabled}
+                >
+                  Clear
+                </button>
+
+                <button
+                  type="button"
+                  className={["moveToggle", moveEnabled ? "active" : ""].join(" ")}
+                  onClick={() => setMoveEnabled((value) => !value)}
+                >
+                  {moveEnabled ? "Move ON" : "Move OFF"}
+                </button>
+              </div>
             </div>
+
+            <p className={["boardHint", moveEnabled ? "active" : ""].join(" ")}>
+              {moveEnabled
+                ? "Move mode active · drag to pan · pinch to zoom"
+                : "Tap letters or drag across a word · diagonals snap automatically"}
+            </p>
 
             <div className="boardCard">
               <TransformComponent wrapperClass="transformWrapper" contentClass="transformContent">
-                <WordSearchGrid puzzle={puzzle} foundValues={foundValues} onFound={onFound} selectionDisabled={moveEnabled} />
+                <WordSearchGrid
+                  puzzle={puzzle}
+                  foundValues={foundValues}
+                  onFound={onFound}
+                  selectionDisabled={moveEnabled}
+                  clearSignal={clearSignal}
+                />
               </TransformComponent>
             </div>
           </>
@@ -122,22 +146,75 @@ function DailyPage() {
   const [notFound, setNotFound] = useState(false);
   const [foundByPuzzle, setFoundByPuzzle] = useState<Record<number, Set<string>>>({});
   const [menuOpen, setMenuOpen] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     loadPuzzleData(selectedDate).then((loaded) => {
       if (cancelled) return;
+
       setData(loaded);
       setNotFound(!loaded);
-      setFoundByPuzzle({});
       setMenuOpen(false);
+      setToast(null);
+
+      if (!loaded) {
+        setFoundByPuzzle({});
+        return;
+      }
+
+      const restored: Record<number, Set<string>> = {};
+
+      loaded.puzzles.forEach((puzzle) => {
+        const key = `daily-word-soup:${selectedDate}:puzzle:${puzzle.id}:found`;
+        const saved = localStorage.getItem(key);
+
+        if (!saved) return;
+
+        try {
+          const values = JSON.parse(saved);
+          if (Array.isArray(values)) {
+            restored[puzzle.id] = new Set(
+              values.filter((value) =>
+                puzzle.words.some((word) => word.value === value)
+              )
+            );
+          }
+        } catch {
+          localStorage.removeItem(key);
+        }
+      });
+
+      setFoundByPuzzle(restored);
     });
 
     return () => {
       cancelled = true;
     };
   }, [selectedDate]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    data.puzzles.forEach((puzzle) => {
+      const key = `daily-word-soup:${selectedDate}:puzzle:${puzzle.id}:found`;
+      const values = [...(foundByPuzzle[puzzle.id] ?? new Set<string>())];
+
+      if (values.length === 0) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(values));
+      }
+    });
+  }, [data, foundByPuzzle, selectedDate]);
+
+  useEffect(() => {
+    if (!toast) return;
+
+    const timeout = window.setTimeout(() => setToast(null), 1500);
+    return () => window.clearTimeout(timeout);
+  }, [toast]);
 
   const totals = useMemo(() => {
     if (!data) return { found: 0, total: 0 };
@@ -225,7 +302,7 @@ function DailyPage() {
 
       <section className="toolbar" aria-label="Controles">
         <span className="hint">
-          Tap letters to select · enable Move to pan · pinch to zoom
+          Tap or drag to select · enable Move for pan/zoom
         </span>
       </section>
 
@@ -238,14 +315,20 @@ function DailyPage() {
             puzzle={puzzle}
             foundValues={foundValues}
             onFound={(value) => {
+              const wordLabel = puzzle.words.find((word) => word.value === value)?.label ?? value;
+
               setFoundByPuzzle((prev) => ({
                 ...prev,
                 [puzzle.id]: new Set(prev[puzzle.id] ?? []).add(value),
               }));
+
+              setToast(`Found: ${wordLabel}`);
             }}
           />
         );
       })}
+
+      {toast && <div className="toast">{toast}</div>}
 
       {totals.total > 0 && totals.found === totals.total && (
         <div className="complete">You completed all puzzles 🎉</div>

@@ -9,7 +9,7 @@ const puzzleModules = import.meta.glob("./data/daily-puzzles-*.ts");
 const availableDates = Object.keys(puzzleModules)
   .map((path) => path.match(/daily-puzzles-(\d{4}-\d{2}-\d{2})\.ts$/)?.[1])
   .filter((date): date is string => Boolean(date))
-  .sort();
+  .sort((a, b) => b.localeCompare(a));
 
 const getNearestDate = () => {
   const today = new Date();
@@ -190,17 +190,34 @@ function DailyPage() {
       </header>
 
       {menuOpen && (
-        <nav className="dateMenu">
-          {availableDates.map((availableDate) => (
-            <Link
-              key={availableDate}
-              to={`/${availableDate}`}
-              className={["dateMenuItem", availableDate === selectedDate ? "active" : ""].join(" ")}
-            >
-              {availableDate}
-            </Link>
-          ))}
-        </nav>
+        <div className="sidebarOverlay" onClick={() => setMenuOpen(false)}>
+          <aside className="sidebar" onClick={(event) => event.stopPropagation()}>
+            <div className="sidebarHeader">
+              <strong>Fechas</strong>
+              <button
+                type="button"
+                className="sidebarClose"
+                onClick={() => setMenuOpen(false)}
+                aria-label="Cerrar menú"
+              >
+                ×
+              </button>
+            </div>
+
+            <nav className="dateMenu">
+              {availableDates.map((availableDate) => (
+                <Link
+                  key={availableDate}
+                  to={`/${availableDate}`}
+                  onClick={() => setMenuOpen(false)}
+                  className={["dateMenuItem", availableDate === selectedDate ? "active" : ""].join(" ")}
+                >
+                  {availableDate}
+                </Link>
+              ))}
+            </nav>
+          </aside>
+        </div>
       )}
 
       <section className="toolbar" aria-label="Controles">

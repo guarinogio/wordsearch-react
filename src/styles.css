@@ -295,3 +295,35 @@ h2 {
     top: -50px;
   }
 }
+
+/* Fix mobile controls layout */
+.boardCard {
+  overflow: hidden;
+}
+
+.transformContent {
+  padding-top: 132px;
+}
+
+.moveToggle {
+  left: 12px;
+  right: auto;
+  top: 68px;
+}
+
+@media (max-width: 520px) {
+  .transformContent {
+    padding-top: 138px;
+  }
+
+  .zoomControls {
+    left: 12px;
+    top: 12px;
+  }
+
+  .moveToggle {
+    left: 12px;
+    right: auto;
+    top: 70px;
+  }
+}

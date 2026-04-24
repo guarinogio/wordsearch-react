@@ -73,11 +73,11 @@ export function WordSearchGrid({ puzzle, foundValues, onFound }: Props) {
     });
   };
 
-  const availableWidth = Math.min(viewportWidth, 960) - 56;
-  const gap = puzzle.size >= 60 ? 1 : puzzle.size >= 30 ? 2 : 4;
-  const padding = puzzle.size >= 60 ? 4 : puzzle.size >= 30 ? 6 : 10;
+  const availableWidth = Math.min(viewportWidth, 960) - 52;
+  const gap = puzzle.size >= 50 ? 1 : puzzle.size >= 25 ? 2 : 3;
+  const padding = puzzle.size >= 50 ? 5 : puzzle.size >= 25 ? 7 : 9;
   const rawCellSize = Math.floor((availableWidth - padding * 2 - gap * (puzzle.size - 1)) / puzzle.size);
-  const cellSize = Math.max(5, Math.min(36, rawCellSize));
+  const cellSize = Math.max(6, Math.min(34, rawCellSize));
 
   const gridStyle = {
     gridTemplateColumns: `repeat(${puzzle.size}, var(--cell-size))`,

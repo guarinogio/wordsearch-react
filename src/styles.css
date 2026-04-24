@@ -387,3 +387,69 @@ h2 {
 .dateMenuItem:not(.active):hover {
   background: #f1f5f9;
 }
+
+/* Board visual refinement */
+.boardCard {
+  height: auto;
+  min-height: 0;
+  padding: 14px;
+  display: grid;
+  place-items: center;
+}
+
+.transformWrapper {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.transformContent {
+  width: max-content;
+  height: max-content;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.gridShell {
+  gap: var(--grid-gap);
+  padding: var(--grid-padding);
+  border-radius: max(12px, calc(var(--cell-size) * .7));
+  background: #dfe7f1;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .04);
+}
+
+.cell {
+  padding: 0;
+  border-radius: max(4px, calc(var(--cell-size) * .26));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: max(8px, calc(var(--cell-size) * .5));
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  box-shadow:
+    inset 0 0 0 1px rgba(15,23,42,.045),
+    0 1px 2px rgba(15,23,42,.04);
+}
+
+.cell.selected {
+  outline: none;
+  background: #bfdbfe;
+  box-shadow:
+    inset 0 0 0 max(1px, calc(var(--cell-size) * .08)) #2563eb,
+    0 1px 2px rgba(15,23,42,.06);
+}
+
+@media (max-width: 520px) {
+  .boardCard {
+    height: auto;
+    min-height: 0;
+    padding: 10px;
+  }
+
+  .transformContent {
+    padding: 0;
+  }
+}

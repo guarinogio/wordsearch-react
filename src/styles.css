@@ -1889,3 +1889,17 @@ html[data-theme="glinda"] .sidebarFooter a {
   color: #4a1233;
   box-shadow: 0 8px 22px rgba(219,39,119,.10);
 }
+
+/* Ne-yo sidebar: readable inactive dates */
+html[data-theme="neyo"] .dateMenuItem {
+  color: #ffffff;
+}
+
+html[data-theme="neyo"] .dateMenuItem:not(.active) {
+  color: #ffffff;
+}
+
+html[data-theme="neyo"] .dateMenuItem:not(.active):hover {
+  background: #111111;
+  color: #ffffff;
+}

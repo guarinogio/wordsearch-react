@@ -104,6 +104,7 @@ function PuzzleBoard({
   isAchievement,
   onWordsOpenRequest,
   vibrationEnabled,
+  wordsInitiallyOpen,
 }: {
   puzzle: DailyPuzzle;
   foundValues: Set<string>;
@@ -112,11 +113,16 @@ function PuzzleBoard({
   isAchievement: boolean;
   onWordsOpenRequest: (openWords: () => void) => void;
   vibrationEnabled: boolean;
+  wordsInitiallyOpen: boolean;
 }) {
   const [moveEnabled, setMoveEnabled] = useState(false);
   const [clearSignal, setClearSignal] = useState(0);
-  const [wordsOpen, setWordsOpen] = useState(false);
+  const [wordsOpen, setWordsOpen] = useState(wordsInitiallyOpen);
   const foundPercent = Math.round((foundValues.size / puzzle.words.length) * 100);
+
+  useEffect(() => {
+    setWordsOpen(wordsInitiallyOpen);
+  }, [puzzle.id, wordsInitiallyOpen]);
 
   return (
     <section
@@ -652,6 +658,10 @@ function DailyPage() {
           vibrationEnabled={settings.vibration}
           onWordsOpenRequest={(openWords) => {
             if (achievementByPuzzle[activePuzzle.id]) {
+              setWordsOpenedByPuzzle((prev) => ({
+                ...prev,
+                [activePuzzle.id]: true,
+              }));
               openWords();
               return;
             }

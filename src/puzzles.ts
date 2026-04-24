@@ -1,8 +1,8 @@
 import type { DailyPuzzlesData } from "./types";
 
 export const dailyPuzzles: DailyPuzzlesData = {
-  id: "2026-04-05",
-  date: "2026-04-05",
+  id: "2026-04-25",
+  date: "2026-04-25",
   topic: "Coffee Shop",
   hash: "demo",
   puzzles: [

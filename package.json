@@ -19,6 +19,6 @@
         "vite-plugin-pwa": "^1.2.0"
     },
     "name": "daily-word-soup",
-    "version": "1.20.0",
+    "version": "1.21.0",
     "private": "true"
 }
